@@ -22,22 +22,15 @@
         <x-layouts.messages />
         <x-layouts.backend.sidebar />
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
-
         <!-- Page Content -->
         <main class="p-2">
             {{ $slot }}
         </main>
+
         <footer class="bg-slate text-center text-sm mt-auto p-4">
             Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
         </footer>
+        
         @livewireScripts
         @stack('scripts')
     </body>

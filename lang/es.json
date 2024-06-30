@@ -42,7 +42,7 @@
     "click here to request another": "pulsa aquí para que te enviemos otro",
     "All rights reserved.":  "Todos los derechos reservados.",
     "Whoops! Something went wrong.":  "Whoops! Algo salio mal.",
-    "Log In":  "Acceder",
+    "Log in":  "Acceder",
     "User email":  "Correo Usuario",
     "New Password":  "Nueva Contraseña",
     "Password Confirmation":  "Confirmar Contraseña",
@@ -50,5 +50,10 @@
     "yes": "Si",
     "not": "No",
     "next-step": "siguiente paso",
-    "before-step": "paso anterior"
+    "before-step": "paso anterior",
+    "Already registered?": "¿Ya estas registrado?",
+    "Forgot your password?": "¿Olvidaste tu contraseña?",
+    "Remember me": "Recordame",
+    "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "¿Olvidaste tu contraseña? No hay problema. Solo dinos tu dirección de correo electrónico y te enviaremos un enlace para restablecer tu contraseña que te permitirá elegir una nueva.",
+    "Email Password Reset Link": "Enviar restablecimiento de contraseña"
 }

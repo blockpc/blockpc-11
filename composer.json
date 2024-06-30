@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "blade-ui-kit/blade-heroicons": "^2.3",
+        "christophrumpel/missing-livewire-assertions": "^2.8",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
@@ -32,7 +33,10 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Packages\\": "Packages/"
-        }
+        },
+        "files": [
+            "Blockpc/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

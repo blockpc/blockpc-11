@@ -22,15 +22,22 @@
 
     <x-links.sidebar-menu :href="route('users.table')" :active="request()->routeIs('users.*')">
         <div class="flex space-x-2 items-center">
-            <x-bx-layout class="w-5 h-5" />
-            <span>{{__('Usuarios')}}</span>
+            <x-heroicon-s-users class="w-5 h-5" />
+            <span>{{__('pages.users.titles.link')}}</span>
         </div>
     </x-links.sidebar-menu>
 
     <x-links.sidebar-menu href="#">
         <div class="flex space-x-2 items-center">
             <x-bx-layout class="w-5 h-5" />
-            <span>{{__('Dos')}}</span>
+            <span>{{__('pages.roles.titles.link')}}</span>
+        </div>
+    </x-links.sidebar-menu>
+
+    <x-links.sidebar-menu href="#">
+        <div class="flex space-x-2 items-center">
+            <x-bx-layout class="w-5 h-5" />
+            <span>{{__('pages.permissions.titles.link')}}</span>
         </div>
     </x-links.sidebar-menu>
 </div>

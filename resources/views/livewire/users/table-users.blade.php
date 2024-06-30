@@ -12,27 +12,43 @@
             @endif
         </x-slot>
     </x-page-header>
-    <section class="mx-auto w-full">
+
+    <section class="mt-2 mx-auto w-full">
+
         <table class="table">
             <thead class="thead">
-                <tr class="uppercase">
+                <tr>
                     <th class="td">{{ __('name') }}</th>
-                    <th class="td">{{ __('fullname') }}</th>
                     <th class="td">{{ __('email') }}</th>
+                    <th class="td"></th>
                 </tr>
             </thead>
             <tbody class="tbody">
                 <tr class="tr-hover">
                     <td class="td">jhon</td>
-                    <td class="td">John Doe</td>
                     <td class="td">jhon@mail.com</td>
+                    <td class="td"></td>
                 </tr>
                 <tr class="tr-hover">
                     <td class="td">jane</td>
-                    <td class="td">Jane Doe</td>
                     <td class="td">jane@mail.com</td>
+                    <td class="td"></td>
                 </tr>
+                @forelse ($this->users as $user)
+                    <tr class="tr-hover">
+                        <td class="td">{{ $user->name }}</td>
+                        <td class="td">{{ $user->email }}</td>
+                        <td class="td"></td>
+                    </tr>
+                @empty
+                    <tr class="tr-hover">
+                        <td class="td" colspan="3">{{ __('pages.users.messages.empty') }}</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
+
+        <x-pagination :model="$this->users" />
+
     </section>
 </div>

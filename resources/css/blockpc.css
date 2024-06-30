@@ -113,7 +113,7 @@
         @apply focus:ring-gray-500 border-gray-500 focus:border-gray-400 border-transparent bg-transparent dark:text-gray-200 text-gray-700 dark:bg-gray-600 text-xs h-8 rounded-md;
     }
     .input {
-        @apply block rounded-md shadow-md border-gray-300 dark:border-gray-500 bg-transparent;
+        @apply block rounded-md shadow-md border-gray-300 dark:border-gray-500 bg-transparent w-full mt-1;
     }
     .input-sm {
         @apply text-xs h-8;
@@ -122,10 +122,10 @@
         @apply text-sm h-10;
     }
     .select {
-        @apply text-dark bg-dark w-full rounded-md border-gray-500 py-0;
+        @apply text-dark bg-dark w-full rounded-md border-gray-500 py-0 h-8;
     }
     .select-sm {
-        @apply text-dark bg-dark w-full rounded-md border-gray-500 py-0 h-8;
+        @apply text-dark bg-dark w-full rounded-md border-gray-500 py-0 h-10;
     }
     .textarea {
         @apply block p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg border dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white;
@@ -139,10 +139,10 @@
 
     /* tablas */
     .table {
-        @apply w-full rounded-lg divide-y divide-gray-400 dark:divide-gray-500 overflow-hidden bg-gray-400 text-gray-900 dark:bg-gray-800 dark:text-gray-200 mb-1 text-xs md:text-sm;
+        @apply w-full rounded-lg overflow-hidden bg-gray-400 text-gray-900 dark:bg-gray-900 dark:text-gray-200 text-xs md:text-sm;
     }
     .thead {
-        @apply text-left;
+        @apply text-left uppercase;
     }
     .tbody {
         @apply bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-200 divide-y divide-gray-400 dark:divide-gray-500;
