@@ -42,7 +42,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function new_user()
 {
-    // ..
+    return \App\Models\User::factory()->create();
 }

@@ -1,0 +1,11 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Packages\$PACKAGE$\App\Livewire\$PACKAGE$;
+
+Route::middleware([
+    'web',
+])->prefix('sistema')->group(function () {
+
+    Route::get('/$NAME$', $PACKAGE$::class)->name('$NAME$.index');
+});
