@@ -4,12 +4,12 @@
             <x-links.href class="btn-sm btn-default" href="{{ route('dashboard') }}">
                 <span>{{__('pages.dashboard.titles.link')}}</span>
             </x-links.href>
-            @if ( auth()->user()->can('user create') )
-            <a  class="btn-sm btn-info space-x-2" href="{{ route('users.create') }}">
+            @can('user create')
+            @endcan
+            <x-links.href class="btn-sm btn-info space-x-2" href="{{ route('users.create') }}">
                 <x-bx-plus class="w-4 h-4" />
                 <span>{{ __('pages.users.titles.user') }}</span>
-            </a>
-            @endif
+            </x-links.href>
         </x-slot>
     </x-page-header>
 

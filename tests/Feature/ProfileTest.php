@@ -13,7 +13,7 @@ beforeEach(function () {
 test('profile page is displayed', function () {
     $this->actingAs($this->user);
 
-    $response = $this->get('/profile');
+    $response = $this->get('/perfil-usuario');
 
     $response->assertOk();
 });
@@ -50,7 +50,7 @@ test('profile information can be updated', function () {
 
     $this->user->refresh();
 
-    $this->assertSame('Test User', $this->user->name);
+    $this->assertSame('Test User', $this->user->fullname);
     $this->assertSame('test@example.com', $this->user->email);
     $this->assertNull($this->user->email_verified_at);
 });

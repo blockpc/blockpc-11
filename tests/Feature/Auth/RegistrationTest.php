@@ -17,6 +17,7 @@ test('registration screen can be rendered', function () {
 
 test('new users can register', function () {
     $component = Volt::test('pages.auth.register')
+        ->set('name', 'test')
         ->set('firstname', 'Test')
         ->set('lastname', 'User')
         ->set('email', 'test@example.com')
@@ -31,5 +32,6 @@ test('new users can register', function () {
 
     $user = User::with('profile')->where('email', 'test@example.com')->first();
     expect($user)->not->toBeNull();
-    expect($user->name)->toBe('Test User');
+    expect($user->name)->toBe('test');
+    expect($user->fullname)->toBe('Test User');
 });

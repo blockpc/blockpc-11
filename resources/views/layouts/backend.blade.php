@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
 
-        <title>{{ $title . ' | ' . config('app.name', 'Laravel') }}</title>
+        <title>{{ __($title) . ' | ' . config('app.name', 'Laravel') }}</title>
 
         <style>
             [x-cloak] {
@@ -30,7 +30,7 @@
         <footer class="bg-slate text-center text-sm mt-auto p-4">
             Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
         </footer>
-        
+
         @livewireScripts
         @stack('scripts')
     </body>

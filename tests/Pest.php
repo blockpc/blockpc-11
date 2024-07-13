@@ -49,6 +49,7 @@ function new_user(array $user = [], array $profile = [], string $role = '')
     if ($role) {
         $user->assignRole($role);
     }
+    $user->refresh();
 
     return $user;
 }

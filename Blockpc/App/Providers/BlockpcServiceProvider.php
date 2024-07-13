@@ -19,7 +19,7 @@ final class BlockpcServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->register(BlockpcAuthServiceProvider::class);
     }
 
     /**

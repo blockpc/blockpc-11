@@ -29,10 +29,22 @@ return [
     'users' => [
         'titles' => [
             'table' => 'Tabla de Usuarios',
+            'create' => 'Crear Usuario',
             'link' => 'Usuarios',
             'user' => 'Usuario',
             'profile' => 'Perfil Usuario',
         ],
+        'create' => [
+            'form' => [
+                'name' => 'Alias',
+                'email' => 'Correo',
+                'firstname' => 'Nombre',
+                'lastname' => 'Apellido',
+                'password' => 'Clave',
+                'confirmed_password' => 'Confirmar Clave',
+                'role_id' => 'Cargos',
+            ],
+        ]
     ],
     'roles' => [
         'titles' => [

@@ -33,6 +33,8 @@ final class Profile extends Component
         $this->user_id = auth()->id();
 
         $this->email = current_user()->email;
+        $this->firstname = current_user()->profile->firstname;
+        $this->lastname = current_user()->profile->lastname;
     }
 
     #[Layout('layouts.backend')]

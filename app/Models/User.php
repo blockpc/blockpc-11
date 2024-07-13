@@ -49,6 +49,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's full name.
+     * @return string
+     */
+    public function getFullnameAttribute(): string
+    {
+        return $this->profile->firstname . ' ' . $this->profile->lastname;
+    }
+
+    /**
      * Get the profile associated with the user.
      */
     public function profile()
