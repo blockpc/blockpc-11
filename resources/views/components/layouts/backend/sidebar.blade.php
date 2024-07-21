@@ -27,7 +27,7 @@
         </div>
     </x-links.sidebar-menu>
 
-    <x-links.sidebar-menu href="#">
+    <x-links.sidebar-menu :href="route('roles.table')" :active="request()->routeIs('roles.*')">
         <div class="flex space-x-2 items-center">
             <x-bx-layout class="w-5 h-5" />
             <span>{{__('pages.roles.titles.link')}}</span>

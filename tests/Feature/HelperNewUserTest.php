@@ -59,8 +59,7 @@ test('profile timestamps are disabled', function () {
     $this->assertFalse($profile->timestamps);
 });
 
-it('check if new user is created with new_user', function ()
-{
+it('check if new user is created with new_user', function () {
     $user = new_user(user: [
         'name' => 'xxx',
         'email' => 'jhondoe@mail.com',

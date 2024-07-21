@@ -30,6 +30,12 @@ return [
 
     'disks' => [
 
+        'tmp-for-tests' => [
+            'driver' => 'local',
+            'root' => storage_path('app'),
+            'visibility' => 'public',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

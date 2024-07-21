@@ -14,24 +14,38 @@ use Illuminate\Support\Str;
 final class CreateModuleCommand extends Command
 {
     protected $module;
+
     protected $name;
+
     protected $camel_name;
+
     protected $plural_name;
+
     protected $snake_name;
+
     protected $date;
 
     protected $controller_name;
+
     protected $view_name;
+
     protected $route_name;
+
     protected $migration_name;
+
     protected $lang_name;
+
     protected $model_name;
+
     protected $serviceprovider_name;
+
     protected $config_name;
+
     protected $factory_name;
 
     /**
      * Filesystem instance
+     *
      * @var Filesystem
      */
     protected $files;
@@ -52,7 +66,6 @@ final class CreateModuleCommand extends Command
 
     /**
      * Create a new command instance.
-     * @param Filesystem $files
      */
     public function __construct(Filesystem $files)
     {
@@ -76,18 +89,19 @@ final class CreateModuleCommand extends Command
             $this->name = strtolower($this->package);               // FooBar -> foobar
             $this->date = Carbon::now()->format('Y_m_d_Hmi');       // 2021_01_01_000000
 
-            $this->info('Creating package: ' . $this->package);
+            $this->info('Creating package: '.$this->package);
 
             $paths = $this->getSourceFilePath();
 
-            $this->info("The following files will be created:");
+            $this->info('The following files will be created:');
             foreach ($paths as $key => $path) {
                 $this->info("File: {$path}");
             }
 
-            # ask if the user wants to create the files, if not, exit
-            if ( ! $this->confirm('Do you want to create the files?') ) {
+            // ask if the user wants to create the files, if not, exit
+            if (! $this->confirm('Do you want to create the files?')) {
                 $this->info('The command was canceled!');
+
                 return;
             }
 
@@ -106,8 +120,8 @@ final class CreateModuleCommand extends Command
 
             $this->error('Something went wrong!');
 
-            if ( $this->files->isDirectory(base_path('Packages/'.$this->package)) ) {
-                if ( $this->files->deleteDirectory(base_path('Packages/'.$this->package)) ) {
+            if ($this->files->isDirectory(base_path('Packages/'.$this->package))) {
+                if ($this->files->deleteDirectory(base_path('Packages/'.$this->package))) {
                     $this->info("Delete: Packages/{$this->package}");
                 } else {
                     $this->info("Something went wrong at delete: Packages/{$this->package}");
@@ -129,32 +143,28 @@ final class CreateModuleCommand extends Command
     /**
      **
      * Map the stub variables present in stub to its value
-     *
-     * @return array
      */
-    public function getStubVariables() : array
+    public function getStubVariables(): array
     {
         return [
-            'PACKAGE'   => $this->package,
-            'NAME'      => $this->name,
-            'TABLE'     => $this->snake_name,
+            'PACKAGE' => $this->package,
+            'NAME' => $this->name,
+            'TABLE' => $this->snake_name,
         ];
     }
 
     /**
      * Replace the stub variables(key) with the desire value
      *
-     * @param $stub
-     * @param array $stubVariables
+     * @param  array  $stubVariables
      * @return bool|mixed|string
      */
-    public function getStubContents($stub , $stubVariables = [])
+    public function getStubContents($stub, $stubVariables = [])
     {
         $contents = file_get_contents($stub);
 
-        foreach ($stubVariables as $search => $replace)
-        {
-            $contents = str_replace('$'.$search.'$' , $replace, $contents);
+        foreach ($stubVariables as $search => $replace) {
+            $contents = str_replace('$'.$search.'$', $replace, $contents);
         }
 
         return $contents;
@@ -164,58 +174,55 @@ final class CreateModuleCommand extends Command
      * Build the directory for the class if necessary.
      *
      * @param  string  $path
-     *
-     * @return bool
      */
-    protected function makeDirectory($path) : bool
+    protected function makeDirectory($path): bool
     {
-        if (!$this->files->isDirectory($path)) {
+        if (! $this->files->isDirectory($path)) {
             return $this->files->makeDirectory($path, 0777, true, true);
         }
+
         return false;
     }
 
     /**
      * Get the full path of generate class
-     *
-     * @return array
      */
-    private function getSourceFilePath() : array
+    private function getSourceFilePath(): array
     {
         $base = "Packages/{$this->package}";
+
         return [
             'serviceprovider' => "{$base}/App/Providers/{$this->package}ServiceProvider.php",
-            'config'          => "{$base}/config/config.php",
-            'route'           => "{$base}/routes/web.php",
-            'lang'            => "{$base}/lang/en/{$this->name}.php",
-            'livewire'        => "{$base}/App/Livewire/{$this->package}.php",
-            'view'            => "{$base}/resources/views/livewire/{$this->name}.blade.php",
-            'migration'       => "{$base}/database/migrations/{$this->date}_create_{$this->snake_name}_table.php",
-            'model'           => "{$base}/App/Models/{$this->package}.php",
-            'factory'         => "{$base}/database/factories/{$this->package}Factory.php",
-            'test'            => "tests/Feature/Packages/{$this->package}/{$this->package}RouteTest.php",
+            'config' => "{$base}/config/config.php",
+            'route' => "{$base}/routes/web.php",
+            'lang' => "{$base}/lang/en/{$this->name}.php",
+            'livewire' => "{$base}/App/Livewire/{$this->package}.php",
+            'view' => "{$base}/resources/views/livewire/{$this->name}.blade.php",
+            'migration' => "{$base}/database/migrations/{$this->date}_create_{$this->snake_name}_table.php",
+            'model' => "{$base}/App/Models/{$this->package}.php",
+            'factory' => "{$base}/database/factories/{$this->package}Factory.php",
+            'test' => "tests/Feature/Packages/{$this->package}/{$this->package}RouteTest.php",
         ];
     }
 
     /**
      * Return the stub file path
-     *
-     * @return string
      */
-    public function getStubPath($key) : string
+    public function getStubPath($key): string
     {
         $stubs = [
             'serviceprovider' => base_path('Blockpc/stubs/serviceprovider.stub'),
-            'config'          => base_path('Blockpc/stubs/config.stub'),
-            'route'           => base_path('Blockpc/stubs/route.stub'),
-            'lang'            => base_path('Blockpc/stubs/lang.stub'),
-            'livewire'        => base_path('Blockpc/stubs/livewire.stub'),
-            'view'            => base_path('Blockpc/stubs/view.stub'),
-            'migration'       => base_path('Blockpc/stubs/migration.stub'),
-            'model'           => base_path('Blockpc/stubs/model.stub'),
-            'factory'         => base_path('Blockpc/stubs/factory.stub'),
-            'test'            => base_path('Blockpc/stubs/test.stub'),
+            'config' => base_path('Blockpc/stubs/config.stub'),
+            'route' => base_path('Blockpc/stubs/route.stub'),
+            'lang' => base_path('Blockpc/stubs/lang.stub'),
+            'livewire' => base_path('Blockpc/stubs/livewire.stub'),
+            'view' => base_path('Blockpc/stubs/view.stub'),
+            'migration' => base_path('Blockpc/stubs/migration.stub'),
+            'model' => base_path('Blockpc/stubs/model.stub'),
+            'factory' => base_path('Blockpc/stubs/factory.stub'),
+            'test' => base_path('Blockpc/stubs/test.stub'),
         ];
+
         return $stubs[$key];
     }
 }

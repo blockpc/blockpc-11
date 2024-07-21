@@ -25,6 +25,7 @@ final class AreEqualsRule implements ValidationRule
     {
         if (is_null($this->text)) {
             $fail('The text to compare is null.');
+
             return;
         }
 

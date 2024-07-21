@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="col-span-2">
-                        <x-inputs.select name="role" title="{{ __('pages.users.create.form.role_id') }}" :options="$this->roles" wire:model="role_id" />
+                        <x-inputs.select name="role" label="{{ __('pages.users.create.form.role_id') }}" :options="$this->roles" wire:model="role_id" />
                     </div>
                 </div>
                 <div class="flex justify-end mt-4">

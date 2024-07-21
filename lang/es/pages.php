@@ -24,15 +24,25 @@ return [
             'update' => 'Actualizar Perfil',
             'update-password' => 'Actualizar Clave',
             'delete' => 'Eliminar',
+            'delete-account' => 'Eliminar Cuenta',
         ],
     ],
     'users' => [
         'titles' => [
             'table' => 'Tabla de Usuarios',
+            'empty' => 'Sin usuarios encontrados',
             'create' => 'Crear Usuario',
             'link' => 'Usuarios',
             'user' => 'Usuario',
             'profile' => 'Perfil Usuario',
+        ],
+        'table' => [
+            'name' => 'Nombre',
+            'email' => 'Correo',
+            'firstname' => 'Nombre',
+            'lastname' => 'Apellido',
+            'role' => 'Cargo',
+            'actions' => 'Acciones',
         ],
         'create' => [
             'form' => [
@@ -44,18 +54,50 @@ return [
                 'confirmed_password' => 'Confirmar Clave',
                 'role_id' => 'Cargos',
             ],
-        ]
+        ],
     ],
     'roles' => [
         'titles' => [
             'table' => 'Tabla de Cargos',
+            'empty' => 'Sin cargos encontrados',
+            'create' => 'Crear Cargo',
+            'edit' => 'Editar Cargo',
+            'delete' => 'Eliminar Cargo',
+            'restore' => 'Restaurar Cargo',
             'link' => 'Cargos',
+        ],
+        'table' => [
+            'name' => 'Nombre',
+            'description' => 'Descripción',
+            'permissions' => 'Permisos',
+            'actions' => 'Acciones',
+        ],
+        'attributes' => [
+            'form' => [
+                'name' => 'Nombre',
+                'display_name' => 'Nombre a Mostrar',
+                'description' => 'Descripción',
+                'permissions' => 'Permisos',
+            ],
         ],
     ],
     'permissions' => [
         'titles' => [
             'table' => 'Tabla de Permisos',
+            'edit' => 'Editar Permiso',
             'link' => 'Permisos',
+        ],
+        'table' => [
+            'name' => 'Nombre',
+            'display_name' => 'Nombre a Mostrar',
+            'description' => 'Descripción',
+            'actions' => 'Acciones',
+        ],
+        'edit' => [
+            'form' => [
+                'display_name' => 'Nombre a Mostrar',
+                'description' => 'Descripción',
+            ],
         ],
     ],
     'register' => [

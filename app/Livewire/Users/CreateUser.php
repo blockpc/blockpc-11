@@ -24,10 +24,15 @@ final class CreateUser extends Component
     use WithFileUploads;
 
     public $photo;
+
     public string $name;
+
     public string $email;
+
     public string $firstname;
+
     public string $lastname;
+
     public int $role_id;
 
     public function mount()
@@ -52,26 +57,26 @@ final class CreateUser extends Component
         DB::beginTransaction();
         try {
 
-            # Crear el usuario en la base de datos con la propiedad mail y un name falso
+            // Crear el usuario en la base de datos con la propiedad mail y un name falso
             $user = User::create([
                 'email' => $this->email,
                 'name' => $this->name,
-                'password' => bcrypt('password')
+                'password' => bcrypt('password'),
             ]);
 
-            # crear el perfil del usuario
+            // crear el perfil del usuario
             $user->profile()->create([
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
-                'image' => $this->photo ? $this->savePhoto() : null
+                'image' => $this->photo ? $this->savePhoto() : null,
             ]);
 
-            # Asignar el rol al usuario
+            // Asignar el rol al usuario
             $user->assignRole($this->role_id);
 
             DB::commit();
             $message = 'Usuario creado correctamente';
-        } catch(\Throwable $th) {
+        } catch (\Throwable $th) {
             Log::error("Error al crear un nuevo usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -89,7 +94,7 @@ final class CreateUser extends Component
             'firstname' => 'required|string',
             'lastname' => 'required|string',
             'role_id' => ['required', new OnlyKeysFromCollectionRule($this->roles)],
-            'photo' => 'nullable|image|max:1024'
+            'photo' => 'nullable|image|max:1024',
         ];
     }
 
@@ -97,7 +102,7 @@ final class CreateUser extends Component
     public function roles()
     {
         return Role::query()
-            ->when(!current_user()->hasRole('sudo'), function($query) {
+            ->when(! current_user()->hasRole('sudo'), function ($query) {
                 return $query->where('name', '!=', 'sudo');
             })
             ->pluck('display_name', 'id');
@@ -108,6 +113,4 @@ final class CreateUser extends Component
         // Guarda la foto en el almacenamiento público
         return $this->photo->store('photos', 'public');
     }
-
-
 }

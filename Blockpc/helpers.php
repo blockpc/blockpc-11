@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 if (! function_exists('current_user')) {
-    function current_user() : ?Authenticatable
+    function current_user(): ?Authenticatable
     {
         if (Auth::check()) {
             return Auth::user()->loadMissing('profile', 'permissions');

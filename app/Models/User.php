@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -50,11 +50,10 @@ class User extends Authenticatable
 
     /**
      * Get the user's full name.
-     * @return string
      */
     public function getFullnameAttribute(): string
     {
-        return $this->profile->firstname . ' ' . $this->profile->lastname;
+        return $this->profile->firstname.' '.$this->profile->lastname;
     }
 
     /**

@@ -23,12 +23,12 @@
         <x-layouts.backend.sidebar />
 
         <!-- Page Content -->
-        <main class="p-2">
+        <main class="p-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700">
             {{ $slot }}
         </main>
 
         <footer class="bg-slate text-center text-sm mt-auto p-4">
-            Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+            Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) | @ {{ now()->year }}
         </footer>
 
         @livewireScripts

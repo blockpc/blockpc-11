@@ -41,7 +41,6 @@ it('will return true if key in collection', function () {
     expect($validator->passes())->toBeTrue();
 });
 
-
 it('will return false if key not in array', function () {
     $array = [
         1 => 'uno',

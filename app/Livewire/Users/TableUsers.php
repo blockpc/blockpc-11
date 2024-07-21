@@ -17,7 +17,7 @@ final class TableUsers extends Component
 
     public function mount()
     {
-        //
+        $this->authorize('user list');
     }
 
     #[Layout('layouts.backend')]

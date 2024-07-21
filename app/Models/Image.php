@@ -27,7 +27,7 @@ final class Image extends Model
     //     });
     // }
 
-    public function imageable() : MorphTo
+    public function imageable(): MorphTo
     {
         return $this->morphTo();
     }

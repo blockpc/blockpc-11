@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 trait HasPackageFactory
 {
-
     use HasFactory;
 
     protected static function newFactory()
@@ -20,5 +19,4 @@ trait HasPackageFactory
 
         return $path::new();
     }
-
 }

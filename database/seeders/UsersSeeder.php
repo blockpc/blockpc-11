@@ -60,5 +60,4 @@ final class UsersSeeder extends Seeder
             $user->profile()->save($phone); // phone() is hasOne ralationship in User.php
         });
     }
-
 }

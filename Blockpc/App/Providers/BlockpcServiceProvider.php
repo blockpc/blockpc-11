@@ -44,6 +44,7 @@ final class BlockpcServiceProvider extends ServiceProvider
             return Cache::rememberForever('ordered_menus', function () {
                 return $this->reorderMenus();
             });
+
             return $this->menus;
         });
     }
@@ -63,7 +64,7 @@ final class BlockpcServiceProvider extends ServiceProvider
             $customServiceProvider = "Packages\\{$directoryName}\\App\\Providers\\{$directoryName}ServiceProvider";
             $pathServiceProvider = base_path("Packages/{$directoryName}/App/Providers/{$directoryName}ServiceProvider.php");
 
-            if ( $files->exists($pathServiceProvider) ) {
+            if ($files->exists($pathServiceProvider)) {
                 $app = $this->app->register($customServiceProvider);
                 $this->menus = array_merge($app->menus, $this->menus);
             }

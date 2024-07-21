@@ -6,23 +6,21 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
-uses()->group('users');
+uses()->group('sistema', 'users');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 
 // CreateUserTest
 
-it('no puedo acceder a la tabla de usuarios si no estoy autenticado', function ()
-{
+it('no puedo acceder a la tabla de usuarios si no estoy autenticado', function () {
     $response = $this->actingAs($this->user)->get('/sistema/usuarios/crear');
 
     $response->assertStatus(403);
 });
 
-it('puedo acceder a la tabla de usuarios', function ()
-{
+it('puedo acceder a la tabla de usuarios', function () {
     $this->user->givePermissionTo('user create');
 
     $response = $this->actingAs($this->user)->get('/sistema/usuarios/crear');
@@ -30,8 +28,7 @@ it('puedo acceder a la tabla de usuarios', function ()
     $response->assertStatus(200);
 });
 
-it('users without role sudo cannot create new users sudo', function ()
-{
+it('users without role sudo cannot create new users sudo', function () {
     $this->user->givePermissionTo('user create');
     $this->user->assignRole('admin');
 
@@ -40,13 +37,13 @@ it('users without role sudo cannot create new users sudo', function ()
     $role_sudo = Role::where('name', 'sudo')->first();
 
     $component = Livewire::test(CreateUser::class)
-                ->set('name', 'name')
-                ->set('firstname', 'Nombre')
-                ->set('lastname', 'Apellido')
-                ->set('email', 'mail@mail.com')
-                ->set('role_id', $role_sudo->id)
-                ->call('save')
-                ->assertHasErrors(['role_id']);
+        ->set('name', 'name')
+        ->set('firstname', 'Nombre')
+        ->set('lastname', 'Apellido')
+        ->set('email', 'mail@mail.com')
+        ->set('role_id', $role_sudo->id)
+        ->call('save')
+        ->assertHasErrors(['role_id']);
 });
 
 it('checks if photo exists in storage', function () {
@@ -67,12 +64,11 @@ it('checks if photo exists in storage', function () {
     $component->call('savePhoto');
 
     // Verifica que la foto existe en el storage
-    $path = 'photos/' . $fakePhoto->hashName();
+    $path = 'photos/'.$fakePhoto->hashName();
     Storage::disk('public')->assertExists($path);
 });
 
-it('check if user is created', function ()
-{
+it('check if user is created', function () {
     $this->user->givePermissionTo('user create');
     $this->actingAs($this->user);
 
@@ -98,13 +94,13 @@ it('check if user is created', function ()
     // Verifica que el usuario fue creado
     $this->assertDatabaseHas('users', [
         'email' => 'mail@mail.com',
-        'name' => 'name'
+        'name' => 'name',
     ]);
 
     // Verifica que el perfil del usuario fue creado
     $this->assertDatabaseHas('profiles', [
         'firstname' => 'Nombre',
         'lastname' => 'Apellido',
-        'image' => 'photos/' . $fakePhoto->hashName()
+        'image' => 'photos/'.$fakePhoto->hashName(),
     ]);
 });

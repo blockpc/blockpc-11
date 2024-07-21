@@ -2,7 +2,6 @@
 
 use App\Livewire\Profile;
 use Livewire\Livewire;
-use Livewire\Volt\Volt;
 
 beforeEach(function () {
     $this->user = new_user();
@@ -18,8 +17,7 @@ test('profile page is displayed', function () {
     $response->assertOk();
 });
 
-it('profile page contains properties and methods', function ()
-{
+it('profile page contains properties and methods', function () {
     $this->actingAs($this->user);
 
     Livewire::test(Profile::class)
@@ -76,9 +74,10 @@ test('user can delete their account', function () {
 
     $this->actingAs($this->user);
 
-    $component = Volt::test('profile.delete-user-form')
-        ->set('password', 'password')
-        ->call('deleteUser');
+    $component = Livewire::test(Profile::class)
+        ->set('delete_email', $this->user->email)
+        ->set('delete_current_password', 'password')
+        ->call('deleteAccount');
 
     $component
         ->assertHasNoErrors()
@@ -86,19 +85,20 @@ test('user can delete their account', function () {
 
     $this->assertGuest();
     $this->assertNull($this->user->fresh());
-})->skip(message: 'un usuario no debe eliminar su cuenta');
+});
 
 test('correct password must be provided to delete account', function () {
 
     $this->actingAs($this->user);
 
-    $component = Volt::test('profile.delete-user-form')
-        ->set('password', 'wrong-password')
-        ->call('deleteUser');
+    $component = Livewire::test(Profile::class)
+        ->set('delete_email', $this->user->email)
+        ->set('delete_current_password', 'wrong-password')
+        ->call('deleteAccount');
 
     $component
-        ->assertHasErrors('password')
+        ->assertHasErrors('delete_current_password')
         ->assertNoRedirect();
 
     $this->assertNotNull($this->user->fresh());
-})->skip(message: 'un usuario no debe eliminar su cuenta');
+});

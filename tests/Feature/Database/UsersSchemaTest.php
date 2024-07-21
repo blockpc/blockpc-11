@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\DB;
 
 uses()->group('database');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 

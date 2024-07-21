@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Validator;
 
 uses()->group('rules');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 

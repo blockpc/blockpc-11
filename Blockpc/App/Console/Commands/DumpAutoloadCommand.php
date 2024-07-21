@@ -33,7 +33,6 @@ final class DumpAutoloadCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param Composer $composer
      * @return void
      */
     public function __construct(Composer $composer)

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Livewire\Actions\Logout;
 use App\Models\User;
+use Blockpc\App\Rules\AreEqualsRule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -17,13 +19,22 @@ use Livewire\Component;
 final class Profile extends Component
 {
     public $firstname;
+
     public $lastname;
+
     public $email;
+
     public $photo;
 
     public $password;
+
     public $current_password;
+
     public $password_confirmation;
+
+    public $delete_email;
+
+    public $delete_current_password;
 
     #[Locked]
     public $user_id;
@@ -63,6 +74,11 @@ final class Profile extends Component
         $user->save();
 
         $user->profile->fill($validated);
+
+        if ($this->photo) {
+            $user->profile->image = $this->savePhoto();
+        }
+
         $user->profile->save();
     }
 
@@ -78,5 +94,23 @@ final class Profile extends Component
         ]);
 
         $this->reset('current_password', 'password', 'password_confirmation');
+    }
+
+    public function deleteAccount(Logout $logout)
+    {
+        $validated = $this->validate([
+            'delete_email' => ['required', 'string', (new AreEqualsRule(current_user()->email))],
+            'delete_current_password' => ['required', 'string', 'current_password'],
+        ]);
+
+        tap(Auth::user(), $logout(...))->delete();
+
+        $this->redirect('/', navigate: true);
+    }
+
+    public function savePhoto()
+    {
+        // Guarda la foto en el almacenamiento público
+        return $this->photo->store('photos', 'public');
     }
 }

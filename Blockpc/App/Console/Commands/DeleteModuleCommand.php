@@ -13,6 +13,7 @@ final class DeleteModuleCommand extends Command
 {
     /**
      * Filesystem instance
+     *
      * @var Filesystem
      */
     protected $files;
@@ -33,7 +34,6 @@ final class DeleteModuleCommand extends Command
 
     /**
      * Create a new command instance.
-     * @param Filesystem $files
      */
     public function __construct(Filesystem $files)
     {
@@ -58,14 +58,15 @@ final class DeleteModuleCommand extends Command
 
         $paths = $this->getSourceFilePath();
 
-        $this->info("The following files will be deleted:");
+        $this->info('The following files will be deleted:');
         foreach ($paths as $key => $path) {
             $this->info("Directory: {$path}");
         }
 
-        # ask if the user wants to delete the package, if not, exit
-        if ( ! $this->confirm('Do you want to delete the package?') ) {
+        // ask if the user wants to delete the package, if not, exit
+        if (! $this->confirm('Do you want to delete the package?')) {
             $this->info('The command was canceled!');
+
             return;
         }
 
@@ -75,7 +76,6 @@ final class DeleteModuleCommand extends Command
     private function deletePackage($paths): void
     {
         $this->info('Deleting package...');
-
 
         foreach ($paths as $key => $path) {
             $this->info("Deleting directory: {$path}");
@@ -93,21 +93,22 @@ final class DeleteModuleCommand extends Command
     {
         $files = glob($package);
 
-        foreach($files as $file) {
+        foreach ($files as $file) {
 
-            if( is_file($file) ) {
+            if (is_file($file)) {
                 $this->info("File: {$file} deleted!");
+
                 return unlink($file);
             }
 
-            if ( is_dir($file) ) {
+            if (is_dir($file)) {
                 $this->info("Directory: {$file}");
 
                 // Get the list of the files in this directory
                 $scan = glob(rtrim($file, '/').'/*');
 
                 // Loop through the list of files
-                foreach($scan as $index => $path) {
+                foreach ($scan as $index => $path) {
 
                     // Call recursive function
                     $this->deleteFiles($path);
@@ -121,14 +122,12 @@ final class DeleteModuleCommand extends Command
 
     /**
      * Get the full path of generate class
-     *
-     * @return array
      */
-    private function getSourceFilePath() : array
+    private function getSourceFilePath(): array
     {
         return [
             'package' => "Packages/{$this->package}",
-            'test'    => "tests/Feature/Packages/{$this->package}",
+            'test' => "tests/Feature/Packages/{$this->package}",
         ];
     }
 }
