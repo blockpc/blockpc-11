@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Users\CreateUser;
-use Blockpc\App\Models\Role;
+use App\Models\Role;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;

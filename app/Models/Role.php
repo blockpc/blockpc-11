@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Blockpc\App\Models;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Models\Role as ModelsRole;
 
 final class Role extends ModelsRole
 {
     use SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'name',

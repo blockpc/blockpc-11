@@ -5,14 +5,14 @@
                 <span>{{__('pages.dashboard.titles.link')}}</span>
             </x-links.href>
             <x-links.href class="btn-sm btn-default" href="{{ route('roles.table') }}">
-                <span>{{__('pages.roles.titles.link')}}</span>
+                <span>{{__('pages.dashboard.titles.link')}}</span>
             </x-links.href>
         </x-slot>
     </x-page-header>
 
     <section class="mt-2 mx-auto w-full">
-        <form wire:submit.prevent="save">
-            <div class="grid grid-cols-2 gap-4 mt-4">
+        <form class="w-full" wire:submit.prevent="save">
+            <div class="grid gap-4">
 
                 <x-fieldset title="Sobre el Cargo">
                     <div class="grid gap-4">
@@ -36,14 +36,17 @@
                     </div>
                 </x-fieldset>
 
-
                 <div class="col-span-2">
+                    <x-fieldset>
                     <div class="flex justify-end space-x-2">
-                        <x-buttons.cancel wire:click="hide" />
+                        <x-links.href class="btn-sm btn-cancel" href="{{ route('roles.table') }}">
+                            <span>{{ __('common.cancel') }}</span>
+                        </x-links.href>
                         <x-buttons.submit class="btn-primary">
                             {{ __('pages.roles.titles.create') }}
                         </x-buttons.submit>
                     </div>
+                    </x-fieldset>
                 </div>
             </div>
         </form>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LogoutController;
+use App\Livewire\Permissions\TablePermissions;
 use App\Livewire\Roles\CreateRole;
 use App\Livewire\Roles\TableRoles;
 use App\Livewire\Users\CreateUser;
@@ -23,6 +24,10 @@ Route::middleware(['auth'])
         Route::prefix('sistema')->group(function () {
             Route::get('/cargos', TableRoles::class)->name('roles.table');
             Route::get('/cargos/crear', CreateRole::class)->name('roles.create');
+        });
+
+        Route::prefix('sistema')->group(function () {
+            Route::get('/permisos', TablePermissions::class)->name('permissions.table');
         });
     });
 

@@ -86,6 +86,7 @@ return [
             'table' => 'Tabla de Permisos',
             'edit' => 'Editar Permiso',
             'link' => 'Permisos',
+            'keys' => 'Grupo',
         ],
         'table' => [
             'name' => 'Nombre',
@@ -98,6 +99,12 @@ return [
                 'display_name' => 'Nombre a Mostrar',
                 'description' => 'Descripción',
             ],
+        ],
+        'keys' => [
+            'sudo' => 'Super Usuario',
+            'users' => 'Usuarios',
+            'roles' => 'Cargos',
+            'permissions' => 'Permisos',
         ],
     ],
     'register' => [

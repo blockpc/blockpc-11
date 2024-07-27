@@ -20,21 +20,21 @@
 
     <hr class="hr-xs">
 
-    <x-links.sidebar-menu :href="route('users.table')" :active="request()->routeIs('users.*')">
+    <x-links.sidebar-menu :href="route('users.table')" :active="request()->routeIs('users.*')" permission="user list">
         <div class="flex space-x-2 items-center">
             <x-heroicon-s-users class="w-5 h-5" />
             <span>{{__('pages.users.titles.link')}}</span>
         </div>
     </x-links.sidebar-menu>
 
-    <x-links.sidebar-menu :href="route('roles.table')" :active="request()->routeIs('roles.*')">
+    <x-links.sidebar-menu :href="route('roles.table')" :active="request()->routeIs('roles.*')" permission="role list">
         <div class="flex space-x-2 items-center">
             <x-bx-layout class="w-5 h-5" />
             <span>{{__('pages.roles.titles.link')}}</span>
         </div>
     </x-links.sidebar-menu>
 
-    <x-links.sidebar-menu href="#">
+    <x-links.sidebar-menu :href="route('permissions.table')" :active="request()->routeIs('permissions.*')" permission="permission list">
         <div class="flex space-x-2 items-center">
             <x-bx-layout class="w-5 h-5" />
             <span>{{__('pages.permissions.titles.link')}}</span>

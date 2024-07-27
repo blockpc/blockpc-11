@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Livewire\Roles;
 
-use Blockpc\App\Models\Role;
+use App\Models\Role;
+use Blockpc\App\Traits\CustomPaginationTrait;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 final class TableRoles extends Component
 {
-    use WithPagination;
+    use CustomPaginationTrait;
 
     public function mount()
     {
@@ -30,7 +30,8 @@ final class TableRoles extends Component
     #[Computed()]
     public function roles()
     {
-        return Role::paginate(10);
+        return Role::whereLike(['display_name', 'description'], $this->search)
+            ->paginate($this->paginate);
     }
 
     public function create_role()

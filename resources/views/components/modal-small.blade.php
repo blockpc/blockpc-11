@@ -1,4 +1,4 @@
-@props(['base' => 'modal-base-10'])
+@props(['base' => 'modal-base-20'])
 
 <div class="" x-data="{ showModal : @entangle('show') }">
     <div x-show="showModal" class="{{ $base }}"

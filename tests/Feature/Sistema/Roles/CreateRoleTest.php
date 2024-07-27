@@ -11,21 +11,21 @@ beforeEach(function () {
 
 // CreateRoleTest
 
-it('no puedo crear un nuevo cargo si no estoy autenticado', function () {
+it('I cant create a new position if Im not authenticated', function () {
     $this->get(route('roles.create'))->assertRedirect(route('login'));
 });
 
-it('no puedo crear un nuevo cargo si no tengo permiso', function () {
+it('I cant create a new position if I dont have permission', function () {
     $this->actingAs($this->user)->get(route('roles.create'))->assertStatus(403);
 });
 
-it('puedo crear un nuevo cargo si tengo permiso', function () {
+it('I can create a new position if I have permission', function () {
     $this->user->givePermissionTo('role create');
 
     $this->actingAs($this->user)->get(route('roles.create'))->assertOk();
 });
 
-it('verificar si las propiedades existen en la vista', function () {
+it('checking properties on view', function () {
     $this->user->givePermissionTo('role create');
 
     Livewire::actingAs($this->user)

@@ -7,8 +7,15 @@ namespace Blockpc\App\Providers;
 use Blockpc\App\Console\Commands\CreateModuleCommand;
 use Blockpc\App\Console\Commands\DeleteModuleCommand;
 use Blockpc\App\Console\Commands\DumpAutoloadCommand;
+use Blockpc\App\Livewire\MessageAlerts;
+use Blockpc\App\Mixins\QuerySearchMixin;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
+use Livewire\Livewire;
 
 final class BlockpcServiceProvider extends ServiceProvider
 {
@@ -20,6 +27,8 @@ final class BlockpcServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(BlockpcAuthServiceProvider::class);
+
+        Builder::mixin(new QuerySearchMixin());
     }
 
     /**
@@ -27,6 +36,20 @@ final class BlockpcServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $blockpc_dir = base_path('Blockpc/');
+
+        Model::preventLazyLoading(! app()->isProduction());
+
+        Carbon::setLocale(config('app.locale'));
+
+        Password::defaults(function () {
+            $rule = Password::min(8);
+
+            return $this->app->isProduction()
+                        ? $rule->mixedCase()->uncompromised()
+                        : $rule;
+        });
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 DumpAutoloadCommand::class,
@@ -38,6 +61,12 @@ final class BlockpcServiceProvider extends ServiceProvider
         // Load Service Providers from packages
         $this->loadServiceProviders();
 
+        // Load Views
+        $this->loadViewsFrom($blockpc_dir.'resources/views', 'blockpc');
+
+        // Load Livewire Components
+        $this->loadWireComponents();
+
         $this->app->singleton('menus', function () {
             $this->checkHashMenus();
 
@@ -47,6 +76,11 @@ final class BlockpcServiceProvider extends ServiceProvider
 
             return $this->menus;
         });
+    }
+
+    protected function loadWireComponents()
+    {
+        Livewire::component('message-alerts', MessageAlerts::class);
     }
 
     /**

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\seeders;
 
-use Blockpc\App\Models\Permission;
-use Blockpc\App\Models\Role;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 final class RoleAndPermissionSeeder extends Seeder

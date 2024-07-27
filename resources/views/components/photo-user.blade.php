@@ -26,7 +26,7 @@
                         @endif
                     </div>
                 </button>
-                <input class="cursor-pointer absolute block py-2 px-4 w-full opacity-0 top-0 h-8" type="file" wire:model="{{ $attributes->wire('model')->value() }}" accept="image/*">
+                <input class="cursor-pointer absolute block py-2 px-4 w-full opacity-0 top-0 h-8" type="file" wire:model="{{ $attributes->wire('model')->value() }}" id="{{ $name }}" accept="image/*">
                 <!-- Progress Bar -->
                 <div class="px-2 pt-2" x-show="isUploading">
                     <progress class="w-full rounded" max="100" x-bind:value="progress"></progress>

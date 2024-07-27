@@ -14,43 +14,45 @@
 
     <section class="mt-2 mx-auto w-full">
 
-        <table class="table">
-            <thead class="thead">
-                <tr>
-                    <th class="td">{{ __('pages.roles.table.name') }}</th>
-                    <th class="td">{{ __('pages.roles.table.description') }}</th>
-                    <th class="td"></th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
-                @forelse ($this->roles as $role)
-                    <tr class="tr-hover">
-                        <td class="td">{{ $role->display_name }}</td>
-                        <td class="td">{{ $role->description }}</td>
-                        <td class="td">
-                            <div class="flex justify-end space-x-2">
-                                @can('role edit')
-                                <x-buttons.btn class="btn-info">
-                                    <x-bx-edit class="w-4 h-4" />
-                                </x-buttons.btn>
-                                @endcan
-                                @can('role delete')
-                                <x-buttons.btn class="btn-info">
-                                    <x-bx-trash class="w-4 h-4" />
-                                </x-buttons.btn>
-                                @endcan
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr class="tr-hover">
-                        <td class="td" colspan="3">{{ __('pages.roles.titles.empty') }}</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+        <div class="content-table">
+            <x-tables.search :search="$search" :paginate="$paginate" :clean="true" name="permissions" />
 
-        <x-pagination :model="$this->roles" />
+            <x-tables.table>
+                <x-slot name="thead">
+                    <tr>
+                        <th class="td">{{ __('pages.roles.table.name') }}</th>
+                        <th class="td">{{ __('pages.roles.table.description') }}</th>
+                        <th class="td text-right">{{ __('common.actions') }}</th>
+                    </tr>
+                </x-slot>
+                <x-slot name="tbody">
+                    @forelse ($this->roles as $role)
+                        <tr class="tr tr-hover">
+                            <td class="td">{{ $role->display_name }}</td>
+                            <td class="td">{{ $role->description }}</td>
+                            <td class="td">
+                                <div class="flex justify-end space-x-2">
+                                    @can('role edit')
+                                    <x-buttons.btn class="btn-success">
+                                        <x-bx-edit class="w-4 h-4" />
+                                    </x-buttons.btn>
+                                    @endcan
+                                    @can('role delete')
+                                    <x-buttons.btn class="btn-danger">
+                                        <x-bx-trash class="w-4 h-4" />
+                                    </x-buttons.btn>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <x-tables.no-records colspan="3" :search="$search" />
+                    @endforelse
+                </x-slot>
+            </x-tables.table>
+
+            <x-pagination :model="$this->roles" />
+        </div>
 
     </section>
 </div>

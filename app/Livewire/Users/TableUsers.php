@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Livewire\Users;
 
 use App\Models\User;
+use Blockpc\App\Traits\CustomPaginationTrait;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 final class TableUsers extends Component
 {
-    use WithPagination;
+    use CustomPaginationTrait;
 
     public function mount()
     {
@@ -30,6 +30,8 @@ final class TableUsers extends Component
     #[Computed()]
     public function users()
     {
-        return User::with('profile')->paginate(10);
+        return User::with('profile')
+            ->whereLike(['name', 'email', 'profile.firstname', 'profile.lastname'], $this->search)
+            ->paginate($this->paginate);
     }
 }

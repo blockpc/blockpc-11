@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Roles;
 
-use Blockpc\App\Models\Role;
+use App\Models\Role;
 use Blockpc\App\Traits\AlertBrowserEvent;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;

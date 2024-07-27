@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Users;
 
 use App\Models\User;
-use Blockpc\App\Models\Role;
+use App\Models\Role;
 use Blockpc\App\Rules\OnlyKeysFromCollectionRule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

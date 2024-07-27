@@ -8,19 +8,19 @@ beforeEach(function () {
 
 // UsersTableTest
 
-it('no puedo acceder a la tabla de usuarios si no estoy autenticado', function () {
+it('I cant access the users table if Im not authenticated', function () {
     $response = $this->get('/sistema/usuarios');
 
     $response->assertStatus(302);
 });
 
-it('no puedo acceder a la tabla de usuarios si no tengo permiso', function () {
+it('I cant access the users table if I dont have permission', function () {
     $response = $this->actingAs($this->user)->get('/sistema/usuarios');
 
     $response->assertStatus(403);
 });
 
-it('puedo acceder a la tabla de usuarios autenticado y con permiso', function () {
+it('I can access the users table authenticated and with permission', function () {
     $this->user->givePermissionTo('user list');
 
     $response = $this->actingAs($this->user)->get('/sistema/usuarios');

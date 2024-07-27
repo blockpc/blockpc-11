@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="nav-dark w-full">
+<nav x-data="{ open: false }" class="nav-dark w-full sticky top-0 z-10">
     {{-- Primary Navigation Menu --}}
     <div class="mx-2 h-16 flex">
         <div class="flex items-center space-x-4 w-64">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,13 +17,15 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
     </head>
-    <body class="font-sans antialiased body-dark flex flex-col h-full" x-data="{sidebar: false}">
+    <body class="font-sans antialiased body-dark" x-data="{sidebar: false}">
         <x-layouts.backend.navigation />
         <x-layouts.messages />
         <x-layouts.backend.sidebar />
 
+        <livewire:message-alerts />
+
         <!-- Page Content -->
-        <main class="p-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700">
+        <main class="p-2">
             {{ $slot }}
         </main>
 
