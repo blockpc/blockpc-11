@@ -18,7 +18,7 @@
 
         @stack('styles')
     </head>
-    <body class="font-sans antialiased body-dark flex flex-col h-full">
+    <body class="font-sans antialiased dark-mode flex flex-col h-full">
         <x-layouts.frontend.navigation />
         <x-layouts.messages />
 

@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace App\Livewire\Users;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Blockpc\App\Rules\OnlyKeysFromCollectionRule;
+use Blockpc\App\Traits\AlertBrowserEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-/**
- * /sistema/usuarios/crear
- * create-user
- */
 final class CreateUser extends Component
 {
+    use AlertBrowserEvent;
     use WithFileUploads;
+
+    protected $listeners = [
+        'show'
+    ];
+
+    public $show = false;
 
     public $photo;
 
@@ -37,11 +39,9 @@ final class CreateUser extends Component
 
     public function mount()
     {
-        $this->authorize('user create');
+        $this->hide();
     }
 
-    #[Layout('layouts.backend')]
-    #[Title('pages.users.titles.create')]
     public function render()
     {
         return view('livewire.users.create-user');
@@ -103,14 +103,25 @@ final class CreateUser extends Component
     {
         return Role::query()
             ->when(! current_user()->hasRole('sudo'), function ($query) {
-                return $query->where('name', '!=', 'sudo');
+                return $query->whereNotIn('name', ['sudo']);
             })
             ->pluck('display_name', 'id');
     }
 
     public function savePhoto()
     {
-        // Guarda la foto en el almacenamiento público
         return $this->photo->store('photos', 'public');
     }
+
+    public function show()
+    {
+        $this->show = true;
+    }
+
+    public function hide()
+    {
+        $this->clearValidation();
+        $this->reset();
+    }
+
 }

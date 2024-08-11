@@ -17,7 +17,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
     </head>
-    <body class="font-sans antialiased body-dark" x-data="{sidebar: false}">
+    <body class="font-sans antialiased dark-mode flex flex-col h-full" x-data="{sidebar: false}">
         <x-layouts.backend.navigation />
         <x-layouts.messages />
         <x-layouts.backend.sidebar />
@@ -29,7 +29,7 @@
             {{ $slot }}
         </main>
 
-        <footer class="bg-slate text-center text-sm mt-auto p-4">
+        <footer class="text-center text-sm mt-auto p-4">
             Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) | @ {{ now()->year }}
         </footer>
 

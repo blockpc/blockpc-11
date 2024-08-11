@@ -31,4 +31,9 @@ final class Role extends ModelsRole
         self::ADMIN,
         self::USER,
     ];
+
+    public function getCanDeleteAttribute() : bool
+    {
+        return !in_array($this->name, self::ROLES_NOT_DELETES);
+    }
 }

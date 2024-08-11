@@ -2,9 +2,8 @@
 
 use App\Http\Controllers\Auth\LogoutController;
 use App\Livewire\Permissions\TablePermissions;
-use App\Livewire\Roles\CreateRole;
 use App\Livewire\Roles\TableRoles;
-use App\Livewire\Users\CreateUser;
+use App\Livewire\Roles\UpdateRole;
 use App\Livewire\Users\TableUsers;
 use Illuminate\Support\Facades\Route;
 
@@ -18,12 +17,11 @@ Route::middleware(['auth'])
 
         Route::prefix('sistema')->group(function () {
             Route::get('/usuarios', TableUsers::class)->name('users.table');
-            Route::get('/usuarios/crear', CreateUser::class)->name('users.create');
         });
 
         Route::prefix('sistema')->group(function () {
             Route::get('/cargos', TableRoles::class)->name('roles.table');
-            Route::get('/cargos/crear', CreateRole::class)->name('roles.create');
+            Route::get('/cargos/editar/{role}', UpdateRole::class)->name('roles.update');
         });
 
         Route::prefix('sistema')->group(function () {

@@ -14,29 +14,59 @@ beforeEach(function () {
 
 // CreateUserTest
 
-it('no puedo acceder a la tabla de usuarios si no estoy autenticado', function () {
-    $response = $this->actingAs($this->user)->get('/sistema/usuarios/crear');
-
-    $response->assertStatus(403);
-});
-
-it('puedo acceder a la tabla de usuarios', function () {
+it('checking properties on view', function () {
     $this->user->givePermissionTo('user create');
 
-    $response = $this->actingAs($this->user)->get('/sistema/usuarios/crear');
+    Livewire::actingAs($this->user)
+        ->test(CreateUser::class)
+        ->assertPropertyWired('name')
+        ->assertPropertyWired('email')
+        ->assertPropertyWired('firstname')
+        ->assertPropertyWired('lastname')
+        ->assertPropertyWired('role_id')
+        ->assertMethodWiredToForm('save');
+});
 
-    $response->assertStatus(200);
+it('can not create a new user if dont have permission', function ()
+{
+    Livewire::actingAs($this->user)
+        ->test(CreateUser::class)
+        ->set('name', 'new')
+        ->set('email', 'new@mail.com')
+        ->set('firstname', 'lorem')
+        ->set('lastname', 'ipsum')
+        ->call('save')
+        ->assertForbidden();
+});
+
+it('can create a new user if have permission', function ()
+{
+    $this->user->givePermissionTo('user create');
+
+    $admin = Role::where('name', 'admin')->first();
+
+    Livewire::actingAs($this->user)
+        ->test(CreateUser::class)
+        ->set('name', 'new')
+        ->set('email', 'new@mail.com')
+        ->set('firstname', 'lorem')
+        ->set('lastname', 'ipsum')
+        ->set('role_id', $admin->id)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $this->assertDatabaseHas('users', [
+        'email' => 'new@mail.com'
+    ]);
 });
 
 it('users without role sudo cannot create new users sudo', function () {
-    $this->user->givePermissionTo('user create');
     $this->user->assignRole('admin');
-
-    $response = $this->actingAs($this->user)->get('/sistema/usuarios/crear');
 
     $role_sudo = Role::where('name', 'sudo')->first();
 
-    $component = Livewire::test(CreateUser::class)
+    Livewire::actingAs($this->user)
+        ->test(CreateUser::class)
         ->set('name', 'name')
         ->set('firstname', 'Nombre')
         ->set('lastname', 'Apellido')

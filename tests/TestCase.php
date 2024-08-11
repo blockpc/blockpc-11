@@ -19,14 +19,14 @@ abstract class TestCase extends BaseTestCase
         $this->seed();
     }
 
-    protected function setUpTraits()
-    {
-        $uses = parent::setUpTraits();
+    // protected function setUpTraits()
+    // {
+    //     $uses = parent::setUpTraits();
 
-        // if (isset($uses[RefreshTestDatabase::class])) {
-        //     $this->refreshTestDatabase();
-        // }
+    //     if (isset($uses[RefreshTestDatabase::class])) {
+    //         $this->RefreshTestDatabase();
+    //     }
 
-        return $uses;
-    }
+    //     return $uses;
+    // }
 }

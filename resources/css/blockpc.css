@@ -1,22 +1,16 @@
 @layer components {
 
     .dark-mode {
-        @apply bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100;
-    }
-    .body-dark {
-        @apply bg-slate-100 text-black dark:bg-slate-800 dark:text-white;
+        @apply bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white;
     }
     .nav-dark {
-        @apply bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200;
-    }
-    .bg-slate {
-        @apply bg-slate-100 text-black dark:bg-slate-800 dark:text-white;
+        @apply bg-gray-300 dark:bg-gray-900 text-gray-900 dark:text-white;
     }
     .text-dark {
-        @apply text-gray-800 dark:text-gray-100;
+        @apply text-gray-800 dark:text-white;
     }
     .bg-dark {
-        @apply bg-gray-100 dark:bg-gray-800;
+        @apply bg-gray-200 dark:bg-gray-800;
     }
     .modal-base-10 {
         @apply fixed flex items-center justify-center overflow-auto z-10 bg-black bg-opacity-70 left-0 right-0 top-0 bottom-0;
@@ -38,7 +32,7 @@
     }
 
     .fieldset {
-        @apply border border-solid dark:border-gray-500 border-gray-300 rounded-lg p-3 bg-gray-200/50 dark:bg-gray-800/50;
+        @apply border border-solid dark:border-gray-500 border-gray-300 rounded-lg p-3 bg-gray-200/50 dark:bg-gray-800/80;
     }
     .legend {
         @apply text-sm font-semibold px-2 rounded dark:text-gray-400 text-gray-400 dark:bg-gray-700 bg-gray-300/50;
@@ -88,7 +82,7 @@
         @apply border-l-2 border-blue-400 dark:border-blue-200 bg-gray-100 dark:bg-gray-800;
     }
     .sidebar {
-        @apply my-1 block py-2 px-4 transition text-sm duration-200 hover:bg-gray-300 dark:hover:bg-gray-600;
+        @apply mb-1 block py-2 px-4 transition text-sm duration-200 hover:bg-gray-300 dark:hover:bg-gray-600;
     }
 
     /* Botones */
@@ -178,16 +172,16 @@
     }
 
     .table {
-        @apply w-full rounded-lg overflow-x-scroll bg-gray-400 text-gray-900 dark:bg-gray-900 dark:text-gray-200 text-xs md:text-sm;
+        @apply w-full rounded-lg overflow-x-scroll bg-gray-400 text-gray-900 dark:bg-gray-900 dark:text-gray-200;
     }
     .thead {
-        @apply text-left uppercase;
+        @apply text-left uppercase text-xs md:text-sm;
     }
     .tfoot {
         @apply font-semibold text-gray-900 dark:text-white;
     }
     .tbody {
-        @apply bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-200;
+        @apply bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white;
     }
     .tr {
         @apply border-b-[1px] border-b-gray-400 dark:border-b-gray-500;
@@ -196,7 +190,10 @@
         @apply p-2;
     }
     .tr-hover {
-        @apply dark:hover:bg-gray-600 hover:bg-gray-300 ;
+        @apply dark:hover:bg-gray-600 hover:bg-gray-300;
+    }
+    .tr-info {
+        @apply dark:hover:bg-blue-700 hover:bg-blue-200;
     }
     .td-actions {
         @apply flex items-center justify-end space-x-2;

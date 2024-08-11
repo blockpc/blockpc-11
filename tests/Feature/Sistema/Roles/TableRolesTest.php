@@ -8,19 +8,19 @@ beforeEach(function () {
 
 // TableRolesTest
 
-it('no puedo acceder a la tabla de cargos si no estoy autenticado', function () {
+it('I cannot access the roles table if I am not authenticated', function () {
     $response = $this->get('/sistema/cargos');
 
     $response->assertStatus(302);
 });
 
-it('no puedo acceder a la tabla de cargos si no tengo permiso', function () {
+it('I cannot access the roles table if I do not have permission', function () {
     $response = $this->actingAs($this->user)->get('/sistema/cargos');
 
     $response->assertStatus(403);
 });
 
-it('puedo acceder a la tabla de cargos autenticado y con permiso', function () {
+it('I can access the roles table authenticated and with permission', function () {
     $this->user->givePermissionTo('role list');
 
     $response = $this->actingAs($this->user)->get('/sistema/cargos');

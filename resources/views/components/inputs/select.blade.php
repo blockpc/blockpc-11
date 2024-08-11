@@ -14,7 +14,7 @@
             @foreach ($options as $option_key => $option_value)
                 <option value="{{ $option_key }}" wire:key="{{ $option_key }}">{{ __($option_value) }}</option>
             @endforeach
-        </select>oi
+        </select>
 
         @if ( $showError )
         @error( $attributes->wire('model')->value() )

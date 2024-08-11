@@ -5,10 +5,10 @@
                 <span>{{__('pages.dashboard.titles.link')}}</span>
             </x-links.href>
             @can('user create')
-            <x-links.href class="btn-sm btn-info space-x-2" href="{{ route('users.create') }}">
+            <x-buttons.btn class="btn-info" wire:click="create_user">
                 <x-bx-plus class="w-4 h-4" />
                 <span>{{ __('pages.users.titles.user') }}</span>
-            </x-links.href>
+            </x-buttons.btn>
             @endcan
         </x-slot>
     </x-page-header>
@@ -52,10 +52,11 @@
                 </x-slot>
             </x-tables.table>
 
-
             <x-pagination :model="$this->users" />
         </div>
 
-
     </section>
+    <div>
+        <livewire:users.create-user />
+    </div>
 </div>

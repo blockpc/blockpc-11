@@ -31,7 +31,15 @@ final class TableUsers extends Component
     public function users()
     {
         return User::with('profile')
+            // ->doesntHave('roles', function($query) {
+            //     $query->where('name', 'sudo');
+            // })
             ->whereLike(['name', 'email', 'profile.firstname', 'profile.lastname'], $this->search)
             ->paginate($this->paginate);
+    }
+
+    public function create_user()
+    {
+        $this->dispatch('show')->to(CreateUser::class);
     }
 }

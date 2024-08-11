@@ -30,12 +30,18 @@ final class TableRoles extends Component
     #[Computed()]
     public function roles()
     {
-        return Role::whereLike(['display_name', 'description'], $this->search)
+        return Role::withCount('permissions')
+            ->whereLike(['display_name', 'description'], $this->search)
             ->paginate($this->paginate);
     }
 
     public function create_role()
     {
-        $this->dispatch('show')->to('roles.create-role');
+        $this->dispatch('show')->to(CreateRole::class);
+    }
+
+    public function role_delete($role_id)
+    {
+        $this->dispatch('show', $role_id)->to(DeleteRole::class);
     }
 }

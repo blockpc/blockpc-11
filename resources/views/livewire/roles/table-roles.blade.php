@@ -5,9 +5,10 @@
                 <span>{{__('pages.dashboard.titles.link')}}</span>
             </x-links.href>
             @can('role create')
-            <x-links.href class="btn-sm btn-info" href="{{ route('roles.create') }}">
+            <x-buttons.btn class="btn-primary" wire:click="create_role">
+                <x-bx-plus class="w-4 h-4" />
                 <span>{{__('pages.roles.titles.create')}}</span>
-            </x-links.href>
+            </x-buttons.btn>
             @endcan
         </x-slot>
     </x-page-header>
@@ -21,27 +22,32 @@
                 <x-slot name="thead">
                     <tr>
                         <th class="td">{{ __('pages.roles.table.name') }}</th>
-                        <th class="td">{{ __('pages.roles.table.description') }}</th>
+                        <th class="td">{{ __('pages.roles.table.permissions') }}</th>
                         <th class="td text-right">{{ __('common.actions') }}</th>
                     </tr>
                 </x-slot>
                 <x-slot name="tbody">
                     @forelse ($this->roles as $role)
                         <tr class="tr tr-hover">
-                            <td class="td">{{ $role->display_name }}</td>
-                            <td class="td">{{ $role->description }}</td>
+                            <td class="td">
+                                <div class="flex flex-col space-y-1">
+                                    <span class="font-semibold">{{ $role->display_name }}</span>
+                                    <span class="text-xs italic">{{ $role->description }}</span>
+                                </div>
+                            </td>
+                            <td class="td">{{ $role->permissions_count }}</td>
                             <td class="td">
                                 <div class="flex justify-end space-x-2">
                                     @can('role edit')
-                                    <x-buttons.btn class="btn-success">
-                                        <x-bx-edit class="w-4 h-4" />
-                                    </x-buttons.btn>
+                                    <x-links.href class="btn-sm btn-success" href="{{ route('roles.update', ['role' => $role->id]) }}">
+                                        <x-bx-pencil class="w-4 h-4" />
+                                    </x-links.href>
                                     @endcan
-                                    @can('role delete')
-                                    <x-buttons.btn class="btn-danger">
+                                    @if ( $role->canDelete && current_user()->can('role delete') )
+                                    <x-buttons.btn class="btn-danger" wire:click="role_delete({{ $role->id }})">
                                         <x-bx-trash class="w-4 h-4" />
                                     </x-buttons.btn>
-                                    @endcan
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -55,4 +61,9 @@
         </div>
 
     </section>
+
+    <div>
+        <livewire:roles.create-role />
+        <livewire:roles.delete-role />
+    </div>
 </div>

@@ -1,7 +1,8 @@
 @props(['search', 'paginate', 'clean' => false, 'name' => 'search', 'placeholder' => 'Search'])
 
-<div class="flex justify-between items-center my-2">
-    <div class="flex space-x-2">
+<div class="flex flex-col md:flex-row justify-between items-center my-2">
+
+    <div class="w-full md:w-auto flex space-x-2">
         <div class="w-full relative rounded-md shadow-sm">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <x-bx-search class="w-4 h-4 fill-current" />
@@ -19,9 +20,8 @@
             <option value="50">50</option>
         </select>
     </div>
-    <div class="flex-1 mx-2">
-        <div class="flex justify-end items-center space-x-2">
-            {{ $actions ?? '' }}
-        </div>
+
+    <div class="w-full md:w-auto flex justify-end items-center space-x-2">
+        {{ $actions ?? '' }}
     </div>
 </div>

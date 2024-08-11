@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Blockpc\App\Livewire;
 
-use Blockpc\App\Traits\AlertBrowserEvent;
 use Livewire\Component;
 
 /**
@@ -12,8 +11,6 @@ use Livewire\Component;
  */
 final class MessageAlerts extends Component
 {
-    use AlertBrowserEvent;
-
     protected $listeners = [
         'show'
     ];
@@ -22,7 +19,7 @@ final class MessageAlerts extends Component
 
     public $message = '';
 
-    public $type = '';
+    public $class_alert = '';
 
     public $title = '';
 
@@ -38,11 +35,11 @@ final class MessageAlerts extends Component
         return view('blockpc::livewire.message-alerts');
     }
 
-    public function show(string $message, string $type, string $title, int $time = 5000)
+    public function show(string $message, string $alert, string $title, int $time = 5000)
     {
         $this->open = true;
         $this->message = $message;
-        $this->type = $this->match_type($type);
+        $this->class_alert = $this->match_type($alert);
         $this->title = $title;
         $this->time = $time;
     }
@@ -52,9 +49,9 @@ final class MessageAlerts extends Component
         $this->reset();
     }
 
-    private function match_type($type)
+    private function match_type($alert)
     {
-        return match($type) {
+        return match($alert) {
             'success' => 'alert alert-success',
             'error' => 'alert alert-danger',
             'warning' => 'alert alert-warning',

@@ -17,7 +17,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
     </head>
-    <body class="font-sans antialiased body-dark flex flex-col h-full">
+    <body class="font-sans antialiased dark-mode flex flex-col h-full">
         <div class="h-full flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
             <x-layouts.messages />
             <div>

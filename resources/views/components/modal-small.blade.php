@@ -14,7 +14,7 @@
                         {{ $titulo ?? 'Modal' }}
                     </div>
                     <div class="">
-                        <x-buttons.cancel wire:click="hide" />
+                        <x-buttons.close wire:click="hide" />
                     </div>
                 </div>
                 <div class="flex-1">

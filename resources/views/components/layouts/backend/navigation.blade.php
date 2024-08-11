@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="nav-dark w-full sticky top-0 z-10">
     {{-- Primary Navigation Menu --}}
-    <div class="mx-2 h-16 flex">
-        <div class="flex items-center space-x-4 w-64">
+    <div class="md:mx-2 h-16 flex">
+        <div class="flex items-center w-64">
             {{-- Logo --}}
             <div class="flex items-center space-x-4 w-64">
                 <a href="{{ route('home') }}">
@@ -9,27 +9,21 @@
                 </a>
                 <span class="text-lg font-semibold">{{ config('app.name', 'Backend') }}</span>
             </div>
-        </div>
-        <div class="flex-1 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <div class="flex items-center">
-                    <button x-on:click="sidebar = ! sidebar" class="inline-flex items-center justify-center p-2 rounded-md focus:bg-gray-200 dark:focus:bg-gray-700 transition duration-150 ease-in-out">
-                        <div :class="sidebar ? 'hidden' : 'inline-flex'">
-                            <x-bx-menu class="h-5 w-5" />
-                        </div>
-                        <div :class="! sidebar ? 'hidden' : 'inline-flex' ">
-                            <x-bx-x class="h-5 w-5" />
-                        </div>
-                    </button>
-                </div>
-                {{-- Navigation Links --}}
-                <div class="sm:flex sm:space-x-4">
-                    <a wire:navigate class="flex items-center dark:hover:bg-gray-800 hover:bg-gray-300 p-2 h-10 rounded-sm" href="{{ route('home') }}">{{ __('Home') }}</a>
-                </div>
+            <div class="flex items-center">
+                <button x-on:click="sidebar = ! sidebar" class="inline-flex items-center justify-center p-2 rounded-md focus:bg-gray-200 dark:focus:bg-gray-700 transition duration-150 ease-in-out">
+                    <div :class="sidebar ? 'hidden' : 'inline-flex'">
+                        <x-bx-menu class="h-5 w-5" />
+                    </div>
+                    <div :class="! sidebar ? 'hidden' : 'inline-flex' ">
+                        <x-bx-x class="h-5 w-5" />
+                    </div>
+                </button>
             </div>
+        </div>
+        <div class="flex justify-end w-full">
 
             {{-- Settings Dropdown --}}
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center md:space-x-4">
                 <div class="px-2 h-16 flex">
                     <button id="theme-toggle" type="button" class="rounded-lg text-sm p-1 ml-4">
                         <x-bx-sun class="hidden h-6 w-6 text-yellow-600" id="theme-toggle-dark-icon" />

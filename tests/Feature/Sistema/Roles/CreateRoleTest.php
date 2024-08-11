@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Roles\CreateRole;
+use App\Models\Role;
 use Livewire\Livewire;
 
 uses()->group('sistema', 'roles');
@@ -11,29 +12,35 @@ beforeEach(function () {
 
 // CreateRoleTest
 
-it('I cant create a new position if Im not authenticated', function () {
-    $this->get(route('roles.create'))->assertRedirect(route('login'));
-});
-
-it('I cant create a new position if I dont have permission', function () {
-    $this->actingAs($this->user)->get(route('roles.create'))->assertStatus(403);
-});
-
-it('I can create a new position if I have permission', function () {
-    $this->user->givePermissionTo('role create');
-
-    $this->actingAs($this->user)->get(route('roles.create'))->assertOk();
-});
-
 it('checking properties on view', function () {
-    $this->user->givePermissionTo('role create');
 
     Livewire::actingAs($this->user)
-        ->test('roles.create-role')
+        ->test(CreateRole::class)
         ->assertPropertyWired('name')
         ->assertPropertyWired('display_name')
         ->assertPropertyWired('description')
         ->assertMethodWiredToForm('save');
+});
+
+it('can not create a new position if not authenticated', function ()
+{
+    Livewire::test(CreateRole::class)
+        ->set('name', 'newrole')
+        ->set('display_name', 'New Role')
+        ->set('description', 'lorem ipsum')
+        ->call('save')
+        ->assertForbidden();
+});
+
+it('can not create a new position if dont have permission', function ()
+{
+    Livewire::actingAs($this->user)
+        ->test(CreateRole::class)
+        ->set('name', 'newrole')
+        ->set('display_name', 'New Role')
+        ->set('description', 'lorem ipsum')
+        ->call('save')
+        ->assertForbidden();
 });
 
 it('can create a new role', function () {
@@ -51,4 +58,50 @@ it('can create a new role', function () {
         'name' => 'newrole',
         'guard_name' => 'web',
     ]);
+});
+
+it('cant create a new role with invalid data', function () {
+    $this->user->givePermissionTo('role create');
+
+    Livewire::actingAs($this->user)
+        ->test(CreateRole::class)
+        ->set('name', '')
+        ->set('display_name', '')
+        ->call('save')
+        ->assertHasErrors([
+            'name' => 'required',
+            'display_name' => 'required',
+        ]);
+});
+
+it('cant create a new role with a name that already exists', function () {
+    $this->user->givePermissionTo('role create');
+
+    $role = Role::factory()->create();
+
+    Livewire::actingAs($this->user)
+        ->test(CreateRole::class)
+        ->set('name', $role->name)
+        ->set('display_name', 'New Role')
+        ->set('description', 'lorem ipsum')
+        ->call('save')
+        ->assertHasErrors([
+            'name' => 'unique',
+        ]);
+});
+
+it('cant create a new role with a display_name that already exists', function () {
+    $this->user->givePermissionTo('role create');
+
+    $role = Role::factory()->create();
+
+    Livewire::actingAs($this->user)
+        ->test(CreateRole::class)
+        ->set('name', 'lorem')
+        ->set('display_name', $role->display_name)
+        ->set('description', 'lorem ipsum')
+        ->call('save')
+        ->assertHasErrors([
+            'display_name' => 'unique',
+        ]);
 });
