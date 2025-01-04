@@ -5,6 +5,7 @@ use App\Livewire\Permissions\TablePermissions;
 use App\Livewire\Roles\TableRoles;
 use App\Livewire\Roles\UpdateRole;
 use App\Livewire\Users\TableUsers;
+use App\Livewire\Users\UpdateUser;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Livewire\Home::class)->name('home');
@@ -17,6 +18,7 @@ Route::middleware(['auth'])
 
         Route::prefix('sistema')->group(function () {
             Route::get('/usuarios', TableUsers::class)->name('users.table');
+            Route::get('/usuarios/editar/{user}', UpdateUser::class)->name('users.update');
         });
 
         Route::prefix('sistema')->group(function () {

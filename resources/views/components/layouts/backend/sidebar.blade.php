@@ -14,11 +14,15 @@
         </div>
     </x-links.sidebar-menu>
 
-    <hr class="hr-xs">
+    
+    @if ( count(app('menus')) )
+        <hr class="hr-xs my-1">
 
-    <x-blockpc.menu-package />
+        <x-blockpc.menu-package />
+    @endif
 
-    <hr class="hr-xs">
+
+    <hr class="hr-xs my-1">
 
     <x-links.sidebar-menu :href="route('users.table')" :active="request()->routeIs('users.*')" permission="user list">
         <div class="flex space-x-2 items-center">

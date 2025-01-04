@@ -83,19 +83,25 @@ final class CreateUser extends Component
             $message = 'Error al crear un nuevo usuario. Comuníquese con el administrador';
         }
 
-        return redirect()->route('users.table')->with($type, $message);
+        $this->flash($message, $type);
+        $this->redirectRoute('users.table', navigate: true);
     }
 
     protected function rules()
     {
         return [
-            'name' => 'required|string|unique:users,name',
-            'email' => 'required|email|unique:users,email',
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
+            'name' => 'required|string|max:255|unique:users,name',
+            'email' => 'required|string|max:255|email:rfc,dns|unique:users,email',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'role_id' => ['required', new OnlyKeysFromCollectionRule($this->roles)],
             'photo' => 'nullable|image|max:1024',
         ];
+    }
+
+    protected function getValidationAttributes()
+    {
+        return __('pages.users.attributes.form');
     }
 
     #[Computed()]

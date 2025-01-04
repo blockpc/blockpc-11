@@ -32,9 +32,11 @@ return [
             'table' => 'Tabla de Usuarios',
             'empty' => 'Sin usuarios encontrados',
             'create' => 'Crear Usuario',
+            'edit' => 'Editar Usuario',
             'link' => 'Usuarios',
             'user' => 'Usuario',
             'profile' => 'Perfil Usuario',
+            'add_role' => 'Agregar Cargo',
         ],
         'table' => [
             'name' => 'Nombre',
@@ -44,7 +46,7 @@ return [
             'role' => 'Cargo',
             'actions' => 'Acciones',
         ],
-        'create' => [
+        'attributes' => [
             'form' => [
                 'name' => 'Alias',
                 'email' => 'Correo',

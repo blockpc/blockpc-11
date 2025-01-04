@@ -1,12 +1,14 @@
-@props(['name', 'label', 'type' => 'text', 'required' => false])
+@props(['name', 'label' => null, 'type' => 'text', 'required' => false])
 
-<div class="">
+<div {{ $attributes->only('class') }}>
+    @if ( $label )
     <label class="label" for="{{$name}}">
         <span>{{title(__($label))}}</span>
         @if ($required)
         <span class="ml-1 text-red-600 dark:text-red-400">*</span>
         @endif
     </label>
+    @endif
 
     <input {{ $attributes->except('class') }} name="{{$name}}" id="{{$name}}" class="input input-sm border-dark p-2 @error( $attributes->wire('model')->value() ) border-error @enderror" type="{{$type}}" />
 

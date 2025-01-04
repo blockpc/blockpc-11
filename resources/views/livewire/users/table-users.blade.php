@@ -28,18 +28,18 @@
                 </x-slot>
                 <x-slot name="tbody">
                     @forelse ($this->users as $user)
-                        <tr class="tr tr-hover">
+                        <tr class="tr tr-hover text-xs">
                             <td class="td">{{ $user->fullname }}</td>
                             <td class="td">{{ $user->email }}</td>
                             <td class="td">
                                 <div class="flex justify-end space-x-2">
                                     @can('user edit')
-                                    <x-buttons.btn class="btn-info">
+                                    <x-links.href class="btn-sm btn-success" href="{{ route('users.update', ['user' => $user->id]) }}">
                                         <x-bx-edit class="w-4 h-4" />
-                                    </x-buttons.btn>
+                                    </x-links.href>
                                     @endcan
                                     @can('user delete')
-                                    <x-buttons.btn class="btn-info">
+                                    <x-buttons.btn class="btn-danger">
                                         <x-bx-trash class="w-4 h-4" />
                                     </x-buttons.btn>
                                     @endcan
