@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Users\UpdateUser;
+use App\Models\Role;
 use Livewire\Livewire;
 
 uses()->group('users');
@@ -42,7 +43,6 @@ it('checking properties on view user update', function () {
         ->assertPropertyWired('email')
         ->assertPropertyWired('firstname')
         ->assertPropertyWired('lastname')
-        ->assertPropertyWired('role_id')
         ->assertMethodWiredToForm('save');
 });
 
@@ -71,4 +71,47 @@ it('can edit a user if have permission', function () {
         'firstname' => 'lorem',
         'lastname' => 'ipsum',
     ]);
+});
+
+it('can add a user a new role', function ()
+{
+    $this->user->givePermissionTo('user update');
+
+    $admin = new_user();
+
+    $role = Role::factory()->create([
+        'name' => 'new',
+        'display_name' => 'New',
+    ]);
+
+    expect($admin->hasRole('new'))->toBeFalse();
+
+    Livewire::actingAs($this->user)
+        ->test(UpdateUser::class, ['user' => $admin])
+        ->call('select_option', $role->id)
+        ->assertHasNoErrors();
+
+    $admin->refresh();
+
+    expect($admin->hasRole('new'))->toBeTrue();
+});
+
+it('can remove a user a new role', function ()
+{
+    $this->user->givePermissionTo('user update');
+
+    $admin = new_user(role: 'admin');
+
+    $role = Role::whereName('admin')->first();
+
+    expect($admin->hasRole('admin'))->toBeTrue();
+
+    Livewire::actingAs($this->user)
+        ->test(UpdateUser::class, ['user' => $admin])
+        ->call('remove_option', $role->id)
+        ->assertHasNoErrors();
+
+    $admin->refresh();
+
+    expect($admin->hasRole('admin'))->toBeFalse();
 });

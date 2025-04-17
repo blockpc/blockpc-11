@@ -55,20 +55,33 @@
 
                     <div class="md:col-span-2 grid gap-4">
 
-                        <div class="flex space-x-2">
+                        {{-- <div class="flex space-x-2">
                             <x-inputs.select class="flex-1" name="role" :options="$this->roles" wire:model="role_id" required />
 
-                            <x-buttons.btn class="btn-sm btn-default mb-auto" wire:click="agregar_cargo">
+                            <x-buttons.btn class="btn-default mb-auto" wire:click="agregar_cargo">
                                 <span>{{__('pages.users.titles.add_role')}}</span>
                             </x-buttons.btn>
-                        </div>
+                        </div> --}}
+
+                        <x-select-two-only-select
+                            name="select_two_add_role_to_user"
+                            title="Buscar cargo"
+                            :options="$this->allRoles"
+                            search="selected_two_role_search"
+                            click="select_option"
+                            selected_name="{{ $selected_two_role_name }}"
+                            selected_id="{{ $selected_two_role_id }}"
+                            search_by="Buscar por nombre"
+                        />
 
                         <div class="flex space-x-2">
-                            @foreach ($cargos as $cargo_id => $cargo_name)
-                            <x-buttons.btn class="btn-sm btn-action" wire:click="quitar_cargo({{ $cargo_id }})">
-                                <span class="text-sm">{{ $cargo_name }}</span>
-                                <sup class="text-red-500">X</sup>
-                            </x-buttons.btn>
+                            @foreach ($this->userRoles as $cargo_id => $cargo_name)
+                            <div class="group">
+                                <x-buttons.btn class="btn-action group-hover:btn-danger" wire:click="remove_option({{ $cargo_id }})">
+                                    <span class="text-sm">{{ $cargo_name }}</span>
+                                    <x-bx-x class="w-4 h-4 hidden group-hover:block" />
+                                </x-buttons.btn>
+                            </div>
                             @endforeach
                         </div>
 

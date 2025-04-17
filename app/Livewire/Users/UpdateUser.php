@@ -6,12 +6,11 @@ namespace App\Livewire\Users;
 
 use App\Models\Role;
 use App\Models\User;
-use Blockpc\App\Rules\OnlyKeysFromCollectionRule;
+use App\Traits\SelectTwoRoleForUserTrait;
 use Blockpc\App\Traits\AlertBrowserEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -19,6 +18,7 @@ use Livewire\Component;
 final class UpdateUser extends Component
 {
     use AlertBrowserEvent;
+    use SelectTwoRoleForUserTrait;
 
     protected $listeners = [
         'refresh-update-user' => '$refresh',
@@ -34,12 +34,6 @@ final class UpdateUser extends Component
 
     public $lastname;
 
-    public $role_id;
-
-    public $role_ids;
-
-    public $cargos;
-
     public function mount()
     {
         $this->authorize('user update');
@@ -49,8 +43,6 @@ final class UpdateUser extends Component
             'email' => $this->user->email,
             'firstname' => $this->user->profile->firstname,
             'lastname' => $this->user->profile->lastname,
-            'role_ids' => $this->user->roles->pluck('id')->toArray(),
-            'cargos' => $this->user->roles->pluck('display_name', 'id'),
         ]);
     }
 
@@ -108,51 +100,5 @@ final class UpdateUser extends Component
     protected function getValidationAttributes()
     {
         return __('pages.users.attributes.form');
-    }
-
-    #[Computed()]
-    public function roles()
-    {
-        return Role::query()
-            ->when(! current_user()->hasRole('sudo'), function ($query) {
-                return $query->whereNotIn('name', ['sudo']);
-            })
-            ->whereNotIn('id', $this->role_ids)
-            ->pluck('display_name', 'id');
-    }
-
-    public function agregar_cargo()
-    {
-        $this->validate([
-            'role_id' => ['required', 'integer', new OnlyKeysFromCollectionRule($this->roles)],
-        ]);
-
-        $role = Role::find($this->role_id);
-        $this->user->assignRole($role->id);
-
-        $this->role_ids = $this->user->roles->pluck('id')->toArray();
-        $this->cargos = $this->user->roles->pluck('display_name', 'id');
-
-        $this->alert("Cargo {$role->display_name} agregado correctamente", 'success', 'Nuevo cargo Usuario');
-        $this->dispatch('refresh-update-user');
-    }
-
-    public function quitar_cargo($role_id)
-    {
-        $role = Role::find($role_id);
-
-        if (! $role) {
-            $this->addError('cargos', 'El cargo no existe en el sistema');
-
-            return;
-        }
-
-        $this->user->removeRole($role->id);
-
-        $this->role_ids = $this->user->roles->pluck('id')->toArray();
-        $this->cargos = $this->user->roles->pluck('display_name', 'id');
-
-        $this->alert("Cargo {$role->display_name} quitado correctamente", 'warning', 'Quitar cargo Usuario');
-        $this->dispatch('refresh-update-user');
     }
 }
