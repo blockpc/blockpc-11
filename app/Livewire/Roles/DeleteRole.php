@@ -16,7 +16,7 @@ final class DeleteRole extends Component
     use AlertBrowserEvent;
 
     protected $listeners = [
-        'show'
+        'show',
     ];
 
     public $show = false;
@@ -55,7 +55,7 @@ final class DeleteRole extends Component
 
             DB::commit();
             $message = 'Role eliminado correctamente';
-        } catch(\Throwable $th) {
+        } catch (\Throwable $th) {
             Log::error("Error al eliminar un role. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -87,5 +87,4 @@ final class DeleteRole extends Component
         $this->clearValidation();
         $this->reset();
     }
-
 }

@@ -2,7 +2,7 @@
 
 uses()->group('permissions');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 

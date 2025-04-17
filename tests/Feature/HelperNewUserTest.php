@@ -46,7 +46,7 @@ test('updating profile updates user name', function () {
 test('profile fillable attributes', function () {
     $fillable = ['firstname', 'lastname', 'image', 'user_id'];
 
-    $profile = new Profile();
+    $profile = new Profile;
 
     foreach ($fillable as $attribute) {
         $this->assertContains($attribute, $profile->getFillable());
@@ -54,7 +54,7 @@ test('profile fillable attributes', function () {
 });
 
 test('profile timestamps are disabled', function () {
-    $profile = new Profile();
+    $profile = new Profile;
 
     $this->assertFalse($profile->timestamps);
 });

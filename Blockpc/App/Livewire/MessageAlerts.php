@@ -12,7 +12,7 @@ use Livewire\Component;
 final class MessageAlerts extends Component
 {
     protected $listeners = [
-        'show'
+        'show',
     ];
 
     public $open = false;
@@ -51,7 +51,7 @@ final class MessageAlerts extends Component
 
     private function match_type($alert)
     {
-        return match($alert) {
+        return match ($alert) {
             'success' => 'alert alert-success',
             'error' => 'alert alert-danger',
             'warning' => 'alert alert-warning',
@@ -59,5 +59,4 @@ final class MessageAlerts extends Component
             default => 'alert alert-info',
         };
     }
-
 }

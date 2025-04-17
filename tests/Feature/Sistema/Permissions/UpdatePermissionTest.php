@@ -6,14 +6,13 @@ use Livewire\Livewire;
 
 uses()->group('permissions');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 
 // UpdatePermissionTest
 
-it('can not update permission if not authorized', function ()
-{
+it('can not update permission if not authorized', function () {
     $permission = Permission::factory()->create();
 
     Livewire::actingAs($this->user)
@@ -23,8 +22,7 @@ it('can not update permission if not authorized', function ()
         ->assertForbidden();
 });
 
-it('can update permission if authorized', function ()
-{
+it('can update permission if authorized', function () {
     $this->user->givePermissionTo('permission update');
 
     $permission = Permission::factory()->create();
@@ -37,8 +35,7 @@ it('can update permission if authorized', function ()
         ->assertDispatched('permissionsUpdated');
 });
 
-it('can not update permission if validation fails', function ()
-{
+it('can not update permission if validation fails', function () {
     $this->user->givePermissionTo('permission update');
 
     $permission = Permission::factory()->create();
@@ -52,8 +49,7 @@ it('can not update permission if validation fails', function ()
         ->assertHasErrors(['display_name' => 'required', 'description' => 'required']);
 });
 
-it('can not update permission if display name exists', function ()
-{
+it('can not update permission if display name exists', function () {
     $this->user->givePermissionTo('permission update');
 
     Permission::factory()->create(['display_name' => 'Permiso']);

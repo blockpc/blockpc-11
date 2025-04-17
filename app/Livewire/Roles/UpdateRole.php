@@ -75,7 +75,7 @@ final class UpdateRole extends Component
 
             DB::commit();
             $message = '';
-        } catch(\Throwable $th) {
+        } catch (\Throwable $th) {
             Log::error("Error al actualizar un cargo del sistema. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -99,31 +99,31 @@ final class UpdateRole extends Component
     public function permisos()
     {
         return Permission::query()
-                    ->when($this->permissions_role, function ($query) {
-                        $query->whereIn('id', $this->permisos_ids);
-                    })
-                    ->when(! current_user()->hasRole('sudo'), function ($query) {
-                        $query->whereNotIn('key', ['sudo']);
-                    })
-                    ->when($this->search, function ($query) {
-                        $query->whereLike(['display_name'], $this->search);
-                    })
-                    ->when($this->group_id, function ($query) {
-                        $query->where('key', $this->group_id);
-                    })
-                    ->paginate($this->paginate);
+            ->when($this->permissions_role, function ($query) {
+                $query->whereIn('id', $this->permisos_ids);
+            })
+            ->when(! current_user()->hasRole('sudo'), function ($query) {
+                $query->whereNotIn('key', ['sudo']);
+            })
+            ->when($this->search, function ($query) {
+                $query->whereLike(['display_name'], $this->search);
+            })
+            ->when($this->group_id, function ($query) {
+                $query->where('key', $this->group_id);
+            })
+            ->paginate($this->paginate);
     }
 
     #[Computed()]
     public function groups()
     {
         return Permission::query()
-                    ->when(! current_user()->hasRole('sudo'), function ($query) {
-                        $query->whereNotIn('key', ['sudo']);
-                    })
-                    ->select('key')
-                    ->groupBy('key')
-                    ->pluck('key');
+            ->when(! current_user()->hasRole('sudo'), function ($query) {
+                $query->whereNotIn('key', ['sudo']);
+            })
+            ->select('key')
+            ->groupBy('key')
+            ->pluck('key');
     }
 
     private function startMount()

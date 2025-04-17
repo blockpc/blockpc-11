@@ -1,9 +1,9 @@
-@props(['title' => null, 'color' => 'gray'])
+@props(['title' => null])
 
-<fieldset class="fieldset">
+<fieldset {{ $attributes->merge(['class' => 'fieldset']) }}>
     @if ( $title )
     <legend class="legend">{{ __($title) }}</legend>
     @endif
 
-    {{ $slot }}
+    <div>{{ $slot }}</div>
 </fieldset>

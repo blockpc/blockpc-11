@@ -25,6 +25,7 @@ final class UpdatePermission extends Component
     public $permission_id;
 
     public $display_name;
+
     public $description;
 
     public function mount()
@@ -57,7 +58,7 @@ final class UpdatePermission extends Component
             $message = 'Un permiso fue actualizado correctamente';
             $this->hide();
             $this->dispatch('permissionsUpdated');
-        } catch(\Throwable $th) {
+        } catch (\Throwable $th) {
             Log::error("Error al actualizar un permiso. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -70,7 +71,7 @@ final class UpdatePermission extends Component
     protected function rules()
     {
         return [
-            'display_name' => 'required|string|max:255|unique:permissions,display_name,' . $this->permission_id . ',id',
+            'display_name' => 'required|string|max:255|unique:permissions,display_name,'.$this->permission_id.',id',
             'description' => 'required|string|max:255',
         ];
     }
@@ -99,5 +100,4 @@ final class UpdatePermission extends Component
         $this->clearValidation();
         $this->reset();
     }
-
 }

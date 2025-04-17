@@ -21,5 +21,4 @@ final class PermissionFactory extends Factory
             'key' => fake()->unique()->word(),
         ];
     }
-
 }

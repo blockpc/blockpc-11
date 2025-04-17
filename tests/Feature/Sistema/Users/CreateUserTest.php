@@ -27,8 +27,7 @@ it('checking properties on view', function () {
         ->assertMethodWiredToForm('save');
 });
 
-it('can not create a new user if dont have permission', function ()
-{
+it('can not create a new user if dont have permission', function () {
     Livewire::actingAs($this->user)
         ->test(CreateUser::class)
         ->set('name', 'new')
@@ -39,8 +38,7 @@ it('can not create a new user if dont have permission', function ()
         ->assertForbidden();
 });
 
-it('can create a new user if have permission', function ()
-{
+it('can create a new user if have permission', function () {
     $this->user->givePermissionTo('user create');
 
     $admin = Role::where('name', 'admin')->first();
@@ -56,7 +54,7 @@ it('can create a new user if have permission', function ()
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('users', [
-        'email' => 'new@mail.com'
+        'email' => 'new@mail.com',
     ]);
 });
 

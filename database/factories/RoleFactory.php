@@ -19,5 +19,4 @@ final class RoleFactory extends Factory
             'description' => fake()->sentence,
         ];
     }
-
 }

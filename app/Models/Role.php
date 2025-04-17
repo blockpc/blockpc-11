@@ -10,8 +10,8 @@ use Spatie\Permission\Models\Role as ModelsRole;
 
 final class Role extends ModelsRole
 {
-    use SoftDeletes;
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -32,8 +32,8 @@ final class Role extends ModelsRole
         self::USER,
     ];
 
-    public function getCanDeleteAttribute() : bool
+    public function getCanDeleteAttribute(): bool
     {
-        return !in_array($this->name, self::ROLES_NOT_DELETES);
+        return ! in_array($this->name, self::ROLES_NOT_DELETES);
     }
 }

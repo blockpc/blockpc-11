@@ -16,7 +16,7 @@ final class TablePermissions extends Component
     use CustomPaginationTrait;
 
     protected $listeners = [
-        'permissionsUpdated' => '$refresh'
+        'permissionsUpdated' => '$refresh',
     ];
 
     public $key_id;
@@ -37,10 +37,10 @@ final class TablePermissions extends Component
     public function permissions()
     {
         return Permission::query()
-            ->when(!current_user()->hasRole('sudo'), function($query) {
+            ->when(! current_user()->hasRole('sudo'), function ($query) {
                 $query->whereNotIn('key', ['sudo']);
             })
-            ->when($this->key_id, function($query) {
+            ->when($this->key_id, function ($query) {
                 $query->where('key', $this->key_id);
             })
             ->whereLike(['display_name', 'description'], $this->search)
@@ -51,7 +51,7 @@ final class TablePermissions extends Component
     public function claves()
     {
         return Permission::query()
-            ->when(!current_user()->hasRole('sudo'), function($query) {
+            ->when(! current_user()->hasRole('sudo'), function ($query) {
                 $query->whereNotIn('key', ['sudo']);
             })
             ->distinct()

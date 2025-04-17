@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Artisan;
 
 trait CreatesApplicationTrait
 {
-
     /**
      * Creates the application.
      */
@@ -29,5 +28,4 @@ trait CreatesApplicationTrait
     {
         Artisan::call('config:clear');
     }
-
 }

@@ -5,7 +5,7 @@ use Livewire\Livewire;
 
 uses()->group('users');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 
@@ -46,8 +46,7 @@ it('checking properties on view user update', function () {
         ->assertMethodWiredToForm('save');
 });
 
-it('can edit a user if have permission', function ()
-{
+it('can edit a user if have permission', function () {
     $this->user->givePermissionTo('user update');
 
     $admin = new_user();

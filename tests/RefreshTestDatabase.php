@@ -11,7 +11,6 @@ use Symfony\Component\Finder\Finder;
 
 trait RefreshTestDatabase
 {
-
     use DatabaseTransactions;
 
     protected function refreshTestDatabase(): void
@@ -87,5 +86,4 @@ trait RefreshTestDatabase
 
         return false;
     }
-
 }

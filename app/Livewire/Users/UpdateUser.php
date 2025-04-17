@@ -21,7 +21,7 @@ final class UpdateUser extends Component
     use AlertBrowserEvent;
 
     protected $listeners = [
-        'refresh-update-user' => '$refresh'
+        'refresh-update-user' => '$refresh',
     ];
 
     public User $user;
@@ -84,7 +84,7 @@ final class UpdateUser extends Component
 
             DB::commit();
             $message = '';
-        } catch(\Throwable $th) {
+        } catch (\Throwable $th) {
             Log::error("Error al actualizar los datos de un usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -130,7 +130,6 @@ final class UpdateUser extends Component
         $role = Role::find($this->role_id);
         $this->user->assignRole($role->id);
 
-
         $this->role_ids = $this->user->roles->pluck('id')->toArray();
         $this->cargos = $this->user->roles->pluck('display_name', 'id');
 
@@ -142,8 +141,9 @@ final class UpdateUser extends Component
     {
         $role = Role::find($role_id);
 
-        if ( ! $role ) {
-            $this->addError('cargos', "El cargo no existe en el sistema");
+        if (! $role) {
+            $this->addError('cargos', 'El cargo no existe en el sistema');
+
             return;
         }
 

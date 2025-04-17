@@ -8,7 +8,6 @@ use Livewire\WithPagination;
 
 trait CustomPaginationTrait
 {
-
     use WithPagination;
 
     public $search = '';
@@ -22,5 +21,4 @@ trait CustomPaginationTrait
         $this->search = '';
         $this->resetPage();
     }
-
 }

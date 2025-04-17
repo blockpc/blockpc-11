@@ -28,7 +28,7 @@ final class BlockpcServiceProvider extends ServiceProvider
     {
         $this->app->register(BlockpcAuthServiceProvider::class);
 
-        Builder::mixin(new QuerySearchMixin());
+        Builder::mixin(new QuerySearchMixin);
     }
 
     /**

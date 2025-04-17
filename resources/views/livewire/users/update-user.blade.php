@@ -91,6 +91,34 @@
 
                 </div>
 
+                {{-- Cambio de claver --}}
+                <div class="grid md:grid-cols-3 gap-4">
+
+                    <div class="flex flex-col md:space-y-2">
+                        <legend class="uppercase tracking-wide text-base">{{__('Cambio de Clave')}}</legend>
+                        <p class="text-sm font-light">{{__('Cambio de clave de acceso')}}</p>
+                    </div>
+
+                    <div class="md:col-span-2 grid grid-cols-2 gap-4">
+                        {{-- <x-inputs.password name="create_user_password" label="{{ __('pages.users.attributes.form.password') }}" wire:model="password" autocomplete="new-password" required />
+
+                        <x-inputs.password name="create_user_password_confirmation" label="{{ __('pages.users.attributes.form.password_confirmation') }}" wire:model="password_confirmation" autocomplete="new-password" required /> --}}
+                    </div>
+                </div>
+
+                {{-- Activar o desactivar usuario --}}
+                <div class="grid md:grid-cols-3 gap-4">
+
+                    <div class="flex flex-col md:space-y-2">
+                        <legend class="uppercase tracking-wide text-base">{{__('Activar o Desactivar')}}</legend>
+                        <p class="text-sm font-light">{{__('Activar o desactivar el usuario')}}</p>
+                    </div>
+
+                    <div class="md:col-span-2 grid grid-cols-2 gap-4">
+                        {{-- <x-inputs.switch name="create_user_active" label="{{ __('pages.users.attributes.form.active') }}" wire:model="active" /> --}}
+                    </div>
+                </div>
+
             </div>
         </form>
     </section>

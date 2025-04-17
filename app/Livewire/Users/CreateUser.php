@@ -20,7 +20,7 @@ final class CreateUser extends Component
     use WithFileUploads;
 
     protected $listeners = [
-        'show'
+        'show',
     ];
 
     public $show = false;
@@ -129,5 +129,4 @@ final class CreateUser extends Component
         $this->clearValidation();
         $this->reset();
     }
-
 }

@@ -22,8 +22,7 @@ it('checking properties on view', function () {
         ->assertMethodWiredToForm('save');
 });
 
-it('can not create a new position if not authenticated', function ()
-{
+it('can not create a new position if not authenticated', function () {
     Livewire::test(CreateRole::class)
         ->set('name', 'newrole')
         ->set('display_name', 'New Role')
@@ -32,8 +31,7 @@ it('can not create a new position if not authenticated', function ()
         ->assertForbidden();
 });
 
-it('can not create a new position if dont have permission', function ()
-{
+it('can not create a new position if dont have permission', function () {
     Livewire::actingAs($this->user)
         ->test(CreateRole::class)
         ->set('name', 'newrole')
@@ -76,6 +74,12 @@ it('cant create a new role with invalid data', function () {
 
 it('cant create a new role with a name that already exists', function () {
     $this->user->givePermissionTo('role create');
+
+    // $role = Role::factory()->create([
+    //     'name' => 'newrole',
+    // ]);
+
+    // expect($role->name)->toBe('newrole');
 
     $role = Role::factory()->create();
 

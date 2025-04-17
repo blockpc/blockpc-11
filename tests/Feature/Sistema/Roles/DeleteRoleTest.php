@@ -6,11 +6,11 @@ use Livewire\Livewire;
 
 uses()->group('roles');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 
     $this->role = Role::factory()->create([
-        'display_name' => 'new role'
+        'display_name' => 'new role',
     ]);
 });
 
@@ -24,8 +24,7 @@ it('checking properties on view', function () {
         ->assertMethodWiredToForm('save');
 });
 
-it('can not delete a role if name is not same', function ()
-{
+it('can not delete a role if name is not same', function () {
     Livewire::actingAs($this->user)
         ->test(DeleteRole::class)
         ->call('show', $this->role->id)
@@ -36,8 +35,7 @@ it('can not delete a role if name is not same', function ()
         ->assertHasErrors(['name']);
 });
 
-it('can not delete a role if wrong user password', function ()
-{
+it('can not delete a role if wrong user password', function () {
     Livewire::actingAs($this->user)
         ->test(DeleteRole::class)
         ->call('show', $this->role->id)
@@ -48,8 +46,7 @@ it('can not delete a role if wrong user password', function ()
         ->assertHasErrors(['password']);
 });
 
-it('can delete a role', function ()
-{
+it('can delete a role', function () {
     Livewire::actingAs($this->user)
         ->test(DeleteRole::class)
         ->call('show', $this->role->id)
@@ -60,6 +57,6 @@ it('can delete a role', function ()
         ->assertHasNoErrors();
 
     $this->assertSoftDeleted('roles', [
-        'id' => $this->role->id
+        'id' => $this->role->id,
     ]);
 });

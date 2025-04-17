@@ -4,7 +4,7 @@ use App\Models\Role;
 
 uses()->group('roles');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 
     $this->role = Role::factory()->create();

@@ -58,25 +58,25 @@ $register = function () {
 
 <div>
     <form wire:submit="register">
-        <x-inputs.text name="name" label="pages.users.create.form.name" wire:model="name" required autofocus autocomplete="name" />
+        <x-inputs.text name="name" label="pages.users.attributes.form.name" wire:model="name" required autofocus autocomplete="name" />
         <div class="mt-4">
-        <x-inputs.text name="firstname" label="pages.users.create.form.firstname" wire:model="firstname" required autofocus autocomplete="name" />
+        <x-inputs.text name="firstname" label="pages.users.attributes.form.firstname" wire:model="firstname" required autofocus autocomplete="name" />
         </div>
 
         <div class="mt-4">
-        <x-inputs.text name="lastname" label="pages.users.create.form.lastname" wire:model="lastname" required autofocus autocomplete="name" />
+        <x-inputs.text name="lastname" label="pages.users.attributes.form.lastname" wire:model="lastname" required autofocus autocomplete="name" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('pages.users.create.form.email')" />
+            <x-input-label for="email" :value="__('pages.users.attributes.form.email')" />
             <x-text-input wire:model="email" id="email" class="input input-sm" type="email" name="email" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('pages.users.create.form.password')" />
+            <x-input-label for="password" :value="__('pages.users.attributes.form.password')" />
 
             <x-text-input wire:model="password" id="password" class="input input-sm"
                             type="password"
@@ -88,7 +88,7 @@ $register = function () {
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('pages.users.create.form.confirmed_password')" />
+            <x-input-label for="password_confirmation" :value="__('pages.users.attributes.form.confirmed_password')" />
 
             <x-text-input wire:model="password_confirmation" id="password_confirmation" class="input input-sm"
                             type="password"

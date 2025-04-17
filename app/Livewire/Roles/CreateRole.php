@@ -15,7 +15,7 @@ final class CreateRole extends Component
     use AlertBrowserEvent;
 
     protected $listeners = [
-        'show'
+        'show',
     ];
 
     public $show = false;
@@ -60,7 +60,7 @@ final class CreateRole extends Component
 
             $this->flash($message, $type);
             $this->redirectRoute('roles.update', ['role' => $role->id], navigate: true);
-        } catch(\Throwable $th) {
+        } catch (\Throwable $th) {
             Log::error("Error al crear un nuevo cargo en el sistema. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -74,7 +74,7 @@ final class CreateRole extends Component
     protected function rules()
     {
         return [
-            'name' => 'required|string|min:3|max:50|unique:roles,name',
+            'name' => 'required|string|min:3|max:64|unique:roles,name',
             'display_name' => 'required|string|min:3|max:64|unique:roles,display_name',
             'description' => 'nullable|string|max:255',
         ];
@@ -95,5 +95,4 @@ final class CreateRole extends Component
         $this->clearValidation();
         $this->reset();
     }
-
 }
