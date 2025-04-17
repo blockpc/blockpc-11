@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Users;
 
-use App\Models\Role;
 use App\Models\User;
 use App\Traits\SelectTwoRoleForUserTrait;
 use Blockpc\App\Traits\AlertBrowserEvent;

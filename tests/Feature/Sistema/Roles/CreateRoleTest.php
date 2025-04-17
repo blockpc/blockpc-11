@@ -75,13 +75,11 @@ it('cant create a new role with invalid data', function () {
 it('cant create a new role with a name that already exists', function () {
     $this->user->givePermissionTo('role create');
 
-    // $role = Role::factory()->create([
-    //     'name' => 'newrole',
-    // ]);
+    $role = Role::factory()->create([
+        'name' => 'newrole',
+    ]);
 
-    // expect($role->name)->toBe('newrole');
-
-    $role = Role::factory()->create();
+    expect($role->name)->toBe('newrole');
 
     Livewire::actingAs($this->user)
         ->test(CreateRole::class)

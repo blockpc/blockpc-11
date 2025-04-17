@@ -73,8 +73,7 @@ it('can edit a user if have permission', function () {
     ]);
 });
 
-it('can add a user a new role', function ()
-{
+it('can add a user a new role', function () {
     $this->user->givePermissionTo('user update');
 
     $admin = new_user();
@@ -96,8 +95,7 @@ it('can add a user a new role', function ()
     expect($admin->hasRole('new'))->toBeTrue();
 });
 
-it('can remove a user a new role', function ()
-{
+it('can remove a user a new role', function () {
     $this->user->givePermissionTo('user update');
 
     $admin = new_user(role: 'admin');

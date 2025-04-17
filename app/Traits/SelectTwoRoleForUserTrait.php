@@ -9,7 +9,6 @@ use Livewire\Attributes\Computed;
 
 trait SelectTwoRoleForUserTrait
 {
-
     public $selected_two_role_search;
 
     public $selected_two_role_id;
@@ -41,18 +40,19 @@ trait SelectTwoRoleForUserTrait
     public function select_option($role_id = null)
     {
         $role = Role::find($role_id);
+        $role_name = $role?->display_name;
 
-        if ( ! $role) {
+        if (! $role) {
             return;
         }
 
-        if ( !$this->user->hasRole($role_id)) {
+        if (! $this->user->hasRole($role_id)) {
             $this->user->assignRole($role_id);
             $this->selected_two_role_search = null;
             $this->selected_two_role_id = null;
             $this->selected_two_role_name = null;
 
-            $this->alert("Cargo {$role->display_name} agregado correctamente", 'success', 'Nuevo cargo Usuario');
+            $this->alert("Cargo {$role_name} agregado correctamente", 'success', 'Nuevo cargo Usuario');
             $this->dispatch('refresh-update-user');
         }
     }
@@ -60,20 +60,20 @@ trait SelectTwoRoleForUserTrait
     public function remove_option($role_id = null)
     {
         $role = Role::find($role_id);
+        $role_name = $role?->display_name;
 
-        if ( ! $role) {
+        if (! $role) {
             return;
         }
 
-        if ( $this->user->hasRole($role_id)) {
+        if ($this->user->hasRole($role_id)) {
             $this->user->removeRole($role_id);
             $this->selected_two_role_search = null;
             $this->selected_two_role_id = null;
             $this->selected_two_role_name = null;
 
-            $this->alert("Cargo {$role->display_name} quitado correctamente", 'warning', 'Quitar cargo Usuario');
+            $this->alert("Cargo {$role_name} quitado correctamente", 'warning', 'Quitar cargo Usuario');
             $this->dispatch('refresh-update-user');
         }
     }
-
 }
