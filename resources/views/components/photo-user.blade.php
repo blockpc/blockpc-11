@@ -5,7 +5,7 @@
     <div class="flex flex-col space-y-2 w-full md:w-2/3 mt-1 md:mt-0">
         <div class="flex flex-1 space-x-2">
             <div class="flex items-center h-20 w-20 rounded-full overflow-hidden">
-                @if ($photo)
+                @if ($photo instanceof \Livewire\TemporaryUploadedFile && $photo->exists())
                     <img class="h-16 w-16 rounded-full" src="{{ $photo->temporaryUrl() }}">
                 @else
                     <img class="h-16 w-16 rounded-full" src="{{ image_profile() }}">

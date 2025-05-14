@@ -5,7 +5,9 @@
         @svg($icon, 'w-6 h-6')
         <span>{{__($titulo)}}</span>
     </div>
+    @isset($buttons)
     <div class="flex space-x-2 items-center">
-        {{ $buttons ?? '' }}
+        {{ $buttons }}
     </div>
+    @endisset
 </div>
