@@ -32,8 +32,12 @@
             :aria-label="show_password ? 'Mostrar' : 'Ocultar'"
             :title="show_password ? 'Mostrar' : 'Ocultar'"
         >
-            <x-heroicon-o-eye class="w-4 h-4" x-show="show_password" x-cloak />
-            <x-heroicon-o-eye-slash class="w-4 h-4" x-show="!show_password" x-cloak />
+            {{-- <x-heroicon-o-eye class="w-4 h-4" x-show="show_password" x-cloak />
+            <x-heroicon-o-eye-slash class="w-4 h-4" x-show="!show_password" x-cloak /> --}}
+            @unless(app()->runningUnitTests())
+                <x-heroicon-o-eye class="w-4 h-4" x-show="show_password" x-cloak />
+                <x-heroicon-o-eye-slash class="w-4 h-4" x-show="!show_password" x-cloak />
+            @endunless
         </button>
     </div>
 

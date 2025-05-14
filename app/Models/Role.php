@@ -39,4 +39,17 @@ final class Role extends ModelsRole
     {
         return ! in_array($this->name, self::ROLES_NOT_DELETES);
     }
+
+    /**
+     * scope search by name and display_name
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string|null $search
+     */
+    public function scopeSearch($query, $search = null)
+    {
+        $query->when($search, function ($query) use ($search) {
+            $query->whereLike(['display_name', 'description'], $search);
+        });
+    }
 }

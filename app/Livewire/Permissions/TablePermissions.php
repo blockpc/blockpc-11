@@ -43,7 +43,7 @@ final class TablePermissions extends Component
             ->when($this->key_id, function ($query) {
                 $query->where('key', $this->key_id);
             })
-            ->whereLike(['display_name', 'description'], $this->search)
+            ->search($this->search)
             ->paginate($this->paginate);
     }
 

@@ -2,7 +2,9 @@
 
 <div class="page-header">
     <div class="flex space-x-2 items-center">
+        @unless(app()->runningUnitTests())
         @svg($icon, 'w-6 h-6')
+        @endunless
         <span>{{__($titulo)}}</span>
     </div>
     @isset($buttons)

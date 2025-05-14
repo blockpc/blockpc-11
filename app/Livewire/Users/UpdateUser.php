@@ -74,7 +74,7 @@ final class UpdateUser extends Component
             ]);
 
             DB::commit();
-            $message = '';
+            $message = 'El usuario se actualizó correctamente';
         } catch (\Throwable $th) {
             Log::error("Error al actualizar los datos de un usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
@@ -90,7 +90,7 @@ final class UpdateUser extends Component
     {
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('users', 'name')->ignore($this->user->id)],
-            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', Rule::unique('users', 'email')->ignore($this->user->id)],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user->id)],
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
         ];

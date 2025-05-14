@@ -31,7 +31,7 @@ final class TableRoles extends Component
     public function roles()
     {
         return Role::withCount('permissions')
-            ->whereLike(['display_name', 'description'], $this->search)
+            ->search($this->search)
             ->paginate($this->paginate);
     }
 

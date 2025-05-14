@@ -31,10 +31,14 @@ final class TableUsers extends Component
     public function users()
     {
         return User::with('profile')
-            // ->doesntHave('roles', function($query) {
-            //     $query->where('name', 'sudo');
-            // })
-            ->whereLike(['name', 'email', 'profile.firstname', 'profile.lastname'], $this->search)
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->when(!current_user()->hasRole('sudo'), function($query) {
+                $query->whereDoesntHave('roles', function($query) {
+                    $query->where('name', 'sudo');
+                });
+            })
+            ->search($this->search)
+            ->orderBy('profiles.firstname')
             ->paginate($this->paginate);
     }
 

@@ -13,7 +13,7 @@
 
                     <x-inputs.text name="delete_role_name" label="{{ __('pages.roles.attributes.form.name') }}" wire:model="name" readonly placeholder="{{ $current_name }}" />
 
-                    <x-inputs.text name="delete_role_password" label="{{ __('common.password') }}" wire:model="password" placeholder="Clave" />
+                    <x-inputs.password name="delete_role_password" label="{{ __('common.password') }}" wire:model="password" placeholder="Clave" />
 
                     <div class="flex justify-end space-x-2">
                         <x-links.href class="btn-sm btn-cancel" href="{{ route('roles.table') }}">

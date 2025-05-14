@@ -14,7 +14,7 @@
         </div>
     </x-links.sidebar-menu>
 
-    
+
     @if ( count(app('menus')) )
         <hr class="hr-xs my-1">
 
@@ -33,14 +33,14 @@
 
     <x-links.sidebar-menu :href="route('roles.table')" :active="request()->routeIs('roles.*')" permission="role list">
         <div class="flex space-x-2 items-center">
-            <x-bx-layout class="w-5 h-5" />
+            <x-bx-shield class="w-5 h-5" />
             <span>{{__('pages.roles.titles.link')}}</span>
         </div>
     </x-links.sidebar-menu>
 
     <x-links.sidebar-menu :href="route('permissions.table')" :active="request()->routeIs('permissions.*')" permission="permission list">
         <div class="flex space-x-2 items-center">
-            <x-bx-layout class="w-5 h-5" />
+            <x-bx-label class="w-5 h-5" />
             <span>{{__('pages.permissions.titles.link')}}</span>
         </div>
     </x-links.sidebar-menu>

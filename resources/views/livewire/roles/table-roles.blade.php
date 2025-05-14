@@ -1,5 +1,5 @@
 <div>
-    <x-page-header titulo="pages.roles.titles.table" icon="heroicon-s-users">
+    <x-page-header titulo="pages.roles.titles.table" icon="bx-shield">
         <x-slot name="buttons">
             <x-links.href class="btn-sm btn-default" href="{{ route('dashboard') }}">
                 <span>{{__('pages.dashboard.titles.link')}}</span>
@@ -52,7 +52,7 @@
                             </td>
                         </tr>
                     @empty
-                        <x-tables.no-records colspan="3" :search="$search" />
+                        <x-tables.no-records span="3" :search="$search" />
                     @endforelse
                 </x-slot>
             </x-tables.table>

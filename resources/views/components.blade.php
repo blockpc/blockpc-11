@@ -33,3 +33,10 @@
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 whitespace-nowrap" x-cloak>{{__($not)}}</span>
     </label>
 </div>
+
+<x-heroicon-o-eye />
+<x-heroicon-o-eye-slash />
+<x-bx-link />
+<x-heroicon-s-users />
+<x-bx-shield />
+<x-bx-label />

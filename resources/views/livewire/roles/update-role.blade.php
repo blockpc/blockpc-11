@@ -1,5 +1,5 @@
 <div>
-    <x-page-header titulo="pages.roles.titles.edit" icon="heroicon-s-users">
+    <x-page-header titulo="pages.roles.titles.edit" icon="bx-shield">
         <x-slot name="buttons">
             <x-links.href class="btn-sm btn-default" href="{{ route('dashboard') }}">
                 <span>{{__('pages.dashboard.titles.link')}}</span>

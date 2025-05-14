@@ -1,5 +1,5 @@
 <div>
-    <x-page-header titulo="pages.permissions.titles.table" icon="bx-layout">
+    <x-page-header titulo="pages.permissions.titles.table" icon="bx-label">
         <x-slot name="buttons">
             <x-links.href class="btn-sm btn-default" href="{{ route('dashboard') }}">
                 <span>{{__('pages.dashboard.titles.link')}}</span>
@@ -52,7 +52,7 @@
                         </td>
                     </tr>
                     @empty
-                    <x-tables.no-records colspan="2" :search="$search" />
+                    <x-tables.no-records span="2" :search="$search" />
                     @endforelse
                 </x-slot>
             </x-tables.table>

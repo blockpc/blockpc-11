@@ -59,4 +59,17 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    /**
+     * scope search by 'name', 'email', 'profile.firstname', 'profile.lastname'
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string|null $search
+     */
+    public function scopeSearch($query, $search = null)
+    {
+        $query->when($search, function ($query) use ($search) {
+            $query->whereLike(['name', 'email', 'profile.firstname', 'profile.lastname'], $search);
+        });
+    }
 }

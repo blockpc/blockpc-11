@@ -22,7 +22,7 @@
                 <x-slot name="thead">
                     <tr>
                         <th class="td">{{ __('pages.users.table.name') }}</th>
-                        <th class="td">{{ __('pages.users.create.form.email') }}</th>
+                        <th class="td">{{ __('pages.users.table.email') }}</th>
                         <th class="td text-right">{{ __('common.actions') }}</th>
                     </tr>
                 </x-slot>
@@ -47,7 +47,7 @@
                             </td>
                         </tr>
                     @empty
-                    <x-tables.no-records colspan="3" :search="$search" />
+                    <x-tables.no-records span="3" :search="$search" />
                     @endforelse
                 </x-slot>
             </x-tables.table>

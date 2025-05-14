@@ -17,7 +17,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
     </head>
-    <body class="font-sans antialiased bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white flex flex-col h-full" x-data="{sidebar: false}">
+    <body class="font-sans antialiased dark-mode flex flex-col h-full" x-data="{sidebar: false}">
         <x-layouts.backend.navigation />
         <x-layouts.messages />
         <x-layouts.backend.sidebar />
