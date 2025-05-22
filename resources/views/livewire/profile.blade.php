@@ -10,7 +10,7 @@
     <section class="mt-2 mx-auto w-full">
         <div class="grid gap-4">
 
-            <x-fieldset class="" title="Sobre el Perfil">
+            <x-fieldset title="Sobre el Perfil">
                 <form class="w-full md:w-1/2" wire:submit.prevent="updateProfile">
                     <div class="grid grid-cols-2 gap-4">
                         <x-inputs.text name="firstname" label="{{ __('pages.profile.form.firstname') }}" wire:model="firstname" />
@@ -26,8 +26,8 @@
                         </div>
 
                         <div class="col-span-2 flex justify-end">
-                            <x-buttons.submit class="bg-blue-600 hover:bg-blue-500 border border-transparent rounded-md font-semibold text-white uppercase tracking-wider focus:outline-none focus:border-blue-900 disabled:opacity-25 transition ease-in-out duration-150">
-                                {{ __('pages.profile.buttons.update') }}
+                            <x-buttons.submit class="btn-primary">
+                                <span>{{ __('pages.profile.buttons.update') }}</span>
                             </x-buttons.submit>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="flex justify-end mt-4">
                         <x-buttons.submit class="btn-primary">
-                            {{ __('pages.profile.buttons.update-password') }}
+                            <span>{{ __('pages.profile.buttons.update-password') }}</span>
                         </x-buttons.submit>
                     </div>
                 </form>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="flex justify-end mt-4">
                         <x-buttons.submit class="btn-danger">
-                            {{ __('pages.profile.buttons.delete-account') }}
+                            <span>{{ __('pages.profile.buttons.delete-account') }}</span>
                         </x-buttons.submit>
                     </div>
                 </form>

@@ -117,7 +117,8 @@ it('check if user is created', function () {
         ->set('lastname', 'Apellido')
         ->set('email', 'mail@mail.com')
         ->set('role_id', $role_admin->id)
-        ->call('save');
+        ->call('save')
+        ->assertHasNoErrors();
 
     // Verifica que el usuario fue creado
     $this->assertDatabaseHas('users', [
