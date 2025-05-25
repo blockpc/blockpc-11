@@ -23,6 +23,7 @@ final class OnlyKeysFromCollectionRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        $keys = []; // Initialize $keys to an empty array
         // if collection is an Collection get the keys
         if (is_a($this->collection, 'Illuminate\Support\Collection')) {
             $keys = $this->collection->keys()->all();
