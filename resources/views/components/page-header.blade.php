@@ -5,7 +5,7 @@
         @unless(app()->runningUnitTests())
         @svg($icon, 'w-6 h-6')
         @endunless
-        <span>{{__($titulo)}}</span>
+        <span class="font-semibold">{{__($titulo)}}</span>
     </div>
     @isset($buttons)
     <div class="flex space-x-2 items-center">
