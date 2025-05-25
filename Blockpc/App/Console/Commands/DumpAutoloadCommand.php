@@ -49,6 +49,7 @@ final class DumpAutoloadCommand extends Command
      */
     public function handle()
     {
-        $this->composer->dumpAutoloads('--optimize');
+        $this->composer->dumpAutoloads();
+        $this->info('Autoload files regenerated.');
     }
 }

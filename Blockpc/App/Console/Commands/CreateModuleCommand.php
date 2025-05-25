@@ -82,6 +82,12 @@ final class CreateModuleCommand extends Command
             $this->info('Recommended: The package name must be singular');
             $packageName = $this->ask('Choose your package name');
 
+            // Validación del nombre del paquete
+            if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $packageName)) {
+                $this->error('Invalid package name. Only letters, numbers and underscores are allowed.');
+                return;
+            }
+
             $this->camel_name = Str::camel($packageName);           // foo_bar -> fooBar
             $this->plural_name = Str::plural($this->camel_name);    // fooBar -> fooBars
             $this->snake_name = Str::snake($this->plural_name);     // fooBars -> foo_bars
@@ -101,12 +107,17 @@ final class CreateModuleCommand extends Command
             // ask if the user wants to create the files, if not, exit
             if (! $this->confirm('Do you want to create the files?')) {
                 $this->info('The command was canceled!');
-
                 return;
             }
 
             foreach ($paths as $key => $path) {
                 $this->makeDirectory(dirname($path));
+                if ($this->files->exists($path)) {
+                    if (! $this->confirm("File {$path} exists. Overwrite?")) {
+                        $this->info("Skipped: {$path}");
+                        continue;
+                    }
+                }
                 $this->files->put($path, $this->getSourceFile($key));
                 $this->info("Created: {$path}");
             }
@@ -117,8 +128,7 @@ final class CreateModuleCommand extends Command
             $this->info('The command was successful!');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-
-            $this->error('Something went wrong!');
+            $this->error('Something went wrong: ' . $th->getMessage());
 
             if ($this->files->isDirectory(base_path('Packages/'.$this->package))) {
                 if ($this->files->deleteDirectory(base_path('Packages/'.$this->package))) {
