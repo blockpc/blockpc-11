@@ -1,89 +1,104 @@
 <?php
 
-use App\Models\User;
-use Livewire\Volt\Volt;
+use App\Livewire\Profile;
+use Livewire\Livewire;
+
+beforeEach(function () {
+    $this->user = new_user();
+});
+
+// ProfileTest
 
 test('profile page is displayed', function () {
-    $user = User::factory()->create();
+    $this->actingAs($this->user);
 
-    $this->actingAs($user);
+    $response = $this->get('/perfil-usuario');
 
-    $response = $this->get('/profile');
+    $response->assertOk();
+});
 
-    $response
-        ->assertOk()
-        ->assertSeeVolt('profile.update-profile-information-form')
-        ->assertSeeVolt('profile.update-password-form')
-        ->assertSeeVolt('profile.delete-user-form');
+it('profile page contains properties and methods', function () {
+    $this->actingAs($this->user);
+
+    Livewire::test(Profile::class)
+        ->assertMethodWiredToForm('updateProfile')
+        ->assertPropertyWired('firstname')
+        ->assertPropertyWired('lastname')
+        ->assertPropertyWired('email')
+        ->assertPropertyWired('photo')
+        ->assertMethodWiredToForm('updatePassword')
+        ->assertPropertyWired('password')
+        ->assertPropertyWired('current_password')
+        ->assertPropertyWired('password_confirmation');
 });
 
 test('profile information can be updated', function () {
-    $user = User::factory()->create();
 
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
-    $component = Volt::test('profile.update-profile-information-form')
-        ->set('name', 'Test User')
+    $component = Livewire::test(Profile::class)
+        ->set('firstname', 'Test')
+        ->set('lastname', 'User')
         ->set('email', 'test@example.com')
-        ->call('updateProfileInformation');
+        ->call('updateProfile');
 
     $component
         ->assertHasNoErrors()
         ->assertNoRedirect();
 
-    $user->refresh();
+    $this->user->refresh();
 
-    $this->assertSame('Test User', $user->name);
-    $this->assertSame('test@example.com', $user->email);
-    $this->assertNull($user->email_verified_at);
+    $this->assertSame('Test User', $this->user->fullname);
+    $this->assertSame('test@example.com', $this->user->email);
+    $this->assertNull($this->user->email_verified_at);
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
-    $user = User::factory()->create();
 
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
-    $component = Volt::test('profile.update-profile-information-form')
-        ->set('name', 'Test User')
-        ->set('email', $user->email)
-        ->call('updateProfileInformation');
+    $component = Livewire::test(Profile::class)
+        ->set('firstname', 'Test')
+        ->set('lastname', 'User')
+        ->set('email', $this->user->email)
+        ->call('updateProfile');
 
     $component
         ->assertHasNoErrors()
         ->assertNoRedirect();
 
-    $this->assertNotNull($user->refresh()->email_verified_at);
+    $this->assertNotNull($this->user->refresh()->email_verified_at);
 });
 
 test('user can delete their account', function () {
-    $user = User::factory()->create();
 
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
-    $component = Volt::test('profile.delete-user-form')
-        ->set('password', 'password')
-        ->call('deleteUser');
+    $component = Livewire::test(Profile::class)
+        ->set('delete_email', $this->user->email)
+        ->set('delete_current_password', 'password')
+        ->call('deleteAccount');
 
     $component
         ->assertHasNoErrors()
         ->assertRedirect('/');
 
     $this->assertGuest();
-    $this->assertNull($user->fresh());
+    $this->assertNull($this->user->fresh());
 });
 
 test('correct password must be provided to delete account', function () {
-    $user = User::factory()->create();
 
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
-    $component = Volt::test('profile.delete-user-form')
-        ->set('password', 'wrong-password')
-        ->call('deleteUser');
+    $component = Livewire::test(Profile::class)
+        ->set('delete_email', $this->user->email)
+        ->set('delete_current_password', 'wrong-password')
+        ->call('deleteAccount');
 
     $component
-        ->assertHasErrors('password')
+        ->assertHasErrors('delete_current_password')
         ->assertNoRedirect();
 
-    $this->assertNotNull($user->fresh());
+    $this->assertNotNull($this->user->fresh());
 });

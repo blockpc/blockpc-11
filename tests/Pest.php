@@ -1,5 +1,9 @@
 <?php
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -42,7 +46,38 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * Crea un nuevo usuario y su perfil.
+ *
+ * @return Collection<int, Model>|Model
+ *
+ * @throws InvalidArgumentException
+ * @throws ModelNotFoundException
+ */
+function new_user(array $user = [], array $profile = [], string $role = '')
 {
-    // ..
+    $user = \App\Models\User::factory()->create($user);
+    \App\Models\Profile::factory()->for($user)->create($profile);
+    if ($role) {
+        $user->assignRole($role);
+    }
+    $user->refresh();
+
+    return $user;
+}
+
+/**
+ * date: 2023-04-18 12:00:00 | time: 1681830000
+ *
+ * @param  int  $year
+ * @param  int  $month
+ * @param  int  $day
+ * @param  int  $hour
+ *
+ * @throws InvalidFormatException
+ */
+function set_carbon($year = 2023, $month = 4, $day = 18, $hour = 12): void
+{
+    $knownDate = Carbon::create($year, $month, $day, $hour);
+    Carbon::setTestNow($knownDate);
 }

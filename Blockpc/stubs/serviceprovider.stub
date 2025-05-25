@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Packages\$PACKAGE$\App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use Packages\$PACKAGE$\App\Livewire\$PACKAGE$;
+
+final class $PACKAGE$ServiceProvider extends ServiceProvider
+{
+    public $menus;
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $package_dir = $this->getPath();
+        $this->mergeConfigFrom($package_dir.'config/config.php', '$NAME$');
+        $this->menus = $this->app->config->get('$NAME$.menus');
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $package_dir = $this->getPath();
+
+        // Routes
+        $this->loadRoutesFrom($package_dir.'routes/web.php');
+
+        // Views
+        $this->loadViewsFrom($package_dir.'resources/views', '$NAME$');
+
+        // Migrations
+        $this->loadMigrationsFrom($package_dir.'database/migrations');
+
+        // Translations
+        $this->loadTranslationsFrom($package_dir.'lang', '$NAME$');
+
+        // Load Livewire Components
+        $this->loadWireComponents();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPath(): string
+    {
+        $path = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
+        return $path;
+    }
+
+    /**
+     * Load Livewire Components
+     */
+    protected function loadWireComponents()
+    {
+        Livewire::component('$NAME$', $PACKAGE$::class);
+    }
+}
