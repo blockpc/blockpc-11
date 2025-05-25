@@ -36,7 +36,7 @@ final class OnlyKeysFromCollectionRule implements ValidationRule
 
         // if collection is empty, return 'La collecion esta vacia.'
         if (empty($keys)) {
-            $fail('La colección esta vacia.');
+            $fail('La colección está vacía.');
 
             return;
         }
