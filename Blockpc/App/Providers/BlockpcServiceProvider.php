@@ -73,8 +73,6 @@ final class BlockpcServiceProvider extends ServiceProvider
             return Cache::rememberForever('ordered_menus', function () {
                 return $this->reorderMenus();
             });
-
-            return $this->menus;
         });
     }
 
