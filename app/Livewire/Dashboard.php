@@ -15,7 +15,7 @@ final class Dashboard extends Component
         //
     }
 
-    #[Layout('blockpc::layouts.backend')]
+    #[Layout('layouts.backend')]
     #[Title('Escritorio')]
     public function render()
     {

@@ -30,7 +30,7 @@ final class TableUsers extends Component
     #[Computed()]
     public function users()
     {
-        return User::with('profile')
+        return User::query()
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->when(! current_user()->hasRole('sudo'), function ($query) {
                 $query->whereDoesntHave('roles', function ($query) {

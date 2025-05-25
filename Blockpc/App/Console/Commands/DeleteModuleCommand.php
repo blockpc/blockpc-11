@@ -52,8 +52,9 @@ final class DeleteModuleCommand extends Command
             $packageName = $this->ask('What is the name of the package?');
 
             // Validar el nombre del paquete
-            if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $packageName)) {
+            if (! preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $packageName)) {
                 $this->error('Invalid package name. Only letters, numbers and underscores are allowed.');
+
                 return;
             }
 
@@ -71,8 +72,9 @@ final class DeleteModuleCommand extends Command
             }
 
             // Confirmar antes de eliminar
-            if (!$this->confirm('Do you want to delete the package?')) {
+            if (! $this->confirm('Do you want to delete the package?')) {
                 $this->info('The command was canceled!');
+
                 return;
             }
 
@@ -93,7 +95,7 @@ final class DeleteModuleCommand extends Command
             Artisan::call('blockpc:dump-autoload');
             Artisan::call('route:clear');
         } catch (\Throwable $th) {
-            $this->error('Something went wrong: ' . $th->getMessage());
+            $this->error('Something went wrong: '.$th->getMessage());
         }
     }
 
