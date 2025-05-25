@@ -1,13 +1,15 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 if (! function_exists('current_user')) {
-    function current_user(): ?Authenticatable
+    /**
+     * Helper para obtener el usuario autenticado con relaciones precargadas.
+     */
+    function current_user(): ?User
     {
         if (Auth::check()) {
             return Auth::user()->loadMissing('profile', 'permissions');

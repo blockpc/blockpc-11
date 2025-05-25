@@ -94,7 +94,7 @@ final class CreateUser extends Component
             'email' => 'required|string|max:255|email:rfc,dns|unique:users,email',
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'role_id' => ['required', new OnlyKeysFromCollectionRule($this->roles)],
+            'role_id' => ['required', new OnlyKeysFromCollectionRule($this->roles())],
             'photo' => 'nullable|image|max:1024',
         ];
     }

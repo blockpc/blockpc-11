@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+/**
+ * @property-read \App\Models\Profile|null $profile
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, HasRoles, Notifiable;
 
@@ -63,8 +65,8 @@ class User extends Authenticatable
     /**
      * scope search by 'name', 'email', 'profile.firstname', 'profile.lastname'
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string|null $search
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $search
      */
     public function scopeSearch($query, $search = null)
     {

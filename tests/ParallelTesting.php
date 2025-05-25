@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Laravel\ParallelTesting\Events\BeforeTestCase;
 
 use function Laravel\ParallelTesting\parallel;
 
@@ -18,7 +17,7 @@ parallel()
     ->setUp(function ($worker) {
         // Crear una carpeta de vistas compiladas única por worker
         $customViewPath = storage_path("framework/views/worker_{$worker->id}");
-        if (!File::exists($customViewPath)) {
+        if (! File::exists($customViewPath)) {
             File::makeDirectory($customViewPath, 0755, true);
         }
 
@@ -31,7 +30,7 @@ parallel()
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
 
-        $databaseName = 'testing_test_' . $worker->id;
+        $databaseName = 'testing_test_'.$worker->id;
 
         config(['database.connections.mysql.database' => $databaseName]);
 

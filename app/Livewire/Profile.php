@@ -39,13 +39,17 @@ final class Profile extends Component
     #[Locked]
     public $user_id;
 
+    #[Locked]
+    public User $user;
+
     public function mount()
     {
         $this->user_id = auth()->id();
 
-        $this->email = current_user()->email;
-        $this->firstname = current_user()->profile->firstname;
-        $this->lastname = current_user()->profile->lastname;
+        $this->user = current_user();
+        $this->email = $this->user->email;
+        $this->firstname = $this->user->profile->firstname;
+        $this->lastname = $this->user->profile->lastname;
     }
 
     #[Layout('layouts.backend')]
@@ -99,7 +103,7 @@ final class Profile extends Component
     public function deleteAccount(Logout $logout)
     {
         $validated = $this->validate([
-            'delete_email' => ['required', 'string', (new AreEqualsRule(current_user()->email))],
+            'delete_email' => ['required', 'string', (new AreEqualsRule($this->user->email))],
             'delete_current_password' => ['required', 'string', 'current_password'],
         ]);
 

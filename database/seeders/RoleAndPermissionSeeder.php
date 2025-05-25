@@ -22,24 +22,24 @@ final class RoleAndPermissionSeeder extends Seeder
          */
 
         /* Role Super Administrador */
-        $role_sudo = Role::create([
+        $role_sudo = Role::firstOrCreate(['name' => 'sudo'], [
             'name' => 'sudo',
             'display_name' => 'Super Administrador',
             'description' => 'Usuario del sistema con acceso total',
         ]);
 
         /* Role Administrador */
-        $role_admin = Role::create([
+        $role_admin = Role::firstOrCreate(['name' => 'admin'], [
             'name' => 'admin',
             'display_name' => 'Administrador',
             'description' => 'Usuario del sistema con acceso general',
         ]);
 
         /* Role Usuario */
-        $role_user = Role::create([
+        $role_user = Role::firstOrCreate(['name' => 'user'], [
             'name' => 'user',
             'display_name' => 'Usuario',
-            'description' => 'Usuario asociado a un centro, capacitado para tomar un cargo del protocolo, solo vera su dashboard',
+            'description' => 'Usuario normal',
         ]);
 
         /**
@@ -47,7 +47,7 @@ final class RoleAndPermissionSeeder extends Seeder
          */
 
         /* Permiso Super Administrador */
-        $super_admin = Permission::create([
+        $super_admin = Permission::firstOrCreate(['name' => 'super admin'], [
             'name' => 'super admin',
             'display_name' => 'Super usuario',
             'description' => 'Permiso de Super Usuario. El usuario con este permiso tiene acceso total al sistema. No necesita ningún otro permiso',
@@ -57,7 +57,7 @@ final class RoleAndPermissionSeeder extends Seeder
         /**
          * Permisos Users
          */
-        $user_list = Permission::create([
+        $user_list = Permission::firstOrCreate(['name' => 'user list'], [
             'name' => 'user list',
             'display_name' => 'Listado de Usuarios',
             'description' => 'Permite acceder al listado de usuarios',
@@ -65,7 +65,7 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($user_list);
 
-        $user_create = Permission::create([
+        $user_create = Permission::firstOrCreate(['name' => 'user create'], [
             'name' => 'user create',
             'display_name' => 'Crear Usuarios',
             'description' => 'Permite crear un nuevo usuario',
@@ -73,13 +73,13 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($user_create);
 
-        $user_update = Permission::create([
+        $user_update = Permission::firstOrCreate(['name' => 'user update'], [
             'name' => 'user update',
             'display_name' => 'Actualizar Usuarios',
             'description' => 'Permite actualizar la información de un usuario',
             'key' => 'users',
         ]);
-        $user_delete = Permission::create([
+        $user_delete = Permission::firstOrCreate(['name' => 'user delete'], [
             'name' => 'user delete',
             'display_name' => 'Eliminar Usuarios',
             'description' => 'Permite eliminar un usuario',
@@ -87,7 +87,7 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($user_delete);
 
-        $user_restore = Permission::create([
+        $user_restore = Permission::firstOrCreate(['name' => 'user restore'], [
             'name' => 'user restore',
             'display_name' => 'Restaurar Usuario',
             'description' => 'Permite restaurar un usuario eliminado anteriormente',
@@ -98,7 +98,7 @@ final class RoleAndPermissionSeeder extends Seeder
         /**
          * Permisos Roles
          */
-        $role_list = Permission::create([
+        $role_list = Permission::firstOrCreate(['name' => 'role list'], [
             'name' => 'role list',
             'display_name' => 'Listado de Cargos',
             'description' => 'Permite acceder al listado de cargos',
@@ -106,7 +106,7 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($role_list);
 
-        $role_create = Permission::create([
+        $role_create = Permission::firstOrCreate(['name' => 'role create'], [
             'name' => 'role create',
             'display_name' => 'Crear Cargos',
             'description' => 'Permite crear un cargo',
@@ -114,7 +114,7 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($role_create);
 
-        $role_update = Permission::create([
+        $role_update = Permission::firstOrCreate(['name' => 'role update'], [
             'name' => 'role update',
             'display_name' => 'Actualizar Cargos',
             'description' => 'Permite actualizar un cargo',
@@ -122,7 +122,7 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($role_update);
 
-        $role_delete = Permission::create([
+        $role_delete = Permission::firstOrCreate(['name' => 'role delete'], [
             'name' => 'role delete',
             'display_name' => 'Eliminar Cargos',
             'description' => 'Permite eliminar un cargo',
@@ -130,7 +130,7 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($role_delete);
 
-        $role_restore = Permission::create([
+        $role_restore = Permission::firstOrCreate(['name' => 'role restore'], [
             'name' => 'role restore',
             'display_name' => 'Restaurar Cargo',
             'description' => 'Permite restaurar un cargo eliminado anteriormente',
@@ -138,7 +138,10 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($role_restore);
 
-        $permission_list = Permission::create([
+        /**
+         * Permisos Permissions
+         */
+        $permission_list = Permission::firstOrCreate(['name' => 'permission list'], [
             'name' => 'permission list',
             'display_name' => 'Listado de Permisos',
             'description' => 'Permite el acceso a la lista de permisos',
@@ -146,10 +149,7 @@ final class RoleAndPermissionSeeder extends Seeder
         ]);
         $role_admin->givePermissionTo($permission_list);
 
-        /**
-         * Permisos Permissions
-         */
-        $permission_update = Permission::create([
+        $permission_update = Permission::firstOrCreate(['name' => 'permission update'], [
             'name' => 'permission update',
             'display_name' => 'Actualizar Permisos',
             'description' => 'Permite actualizar la información de un permiso',

@@ -56,7 +56,7 @@ final class CreateRole extends Component
             ]);
 
             DB::commit();
-            $message = "Un nuevo cargo, {$role->display_name}, ha sido creado en el sistema";
+            $message = "Un nuevo cargo, {$this->display_name}, ha sido creado en el sistema";
 
             $this->flash($message, $type);
             $this->redirectRoute('roles.update', ['role' => $role->id], navigate: true);

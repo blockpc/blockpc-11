@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role as ModelsRole;
 
 /**
  * @property string $display_name
+ * @property string $description
  */
 final class Role extends ModelsRole
 {
@@ -43,8 +44,8 @@ final class Role extends ModelsRole
     /**
      * scope search by name and display_name
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string|null $search
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $search
      */
     public function scopeSearch($query, $search = null)
     {

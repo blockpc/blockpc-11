@@ -7,6 +7,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Permission as ModelsPermission;
 
+/**
+ * @property string $display_name
+ * @property string $description
+ * @property string $key
+ */
 final class Permission extends ModelsPermission
 {
     use HasFactory;
@@ -22,8 +27,8 @@ final class Permission extends ModelsPermission
     /**
      * scope search by name and display_name
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string|null $search
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $search
      */
     public function scopeSearch($query, $search = null)
     {
