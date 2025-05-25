@@ -7,8 +7,11 @@ namespace App\Livewire;
 use App\Livewire\Actions\Logout;
 use App\Models\User;
 use Blockpc\App\Rules\AreEqualsRule;
+use Blockpc\App\Traits\AlertBrowserEvent;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Layout;
@@ -18,6 +21,8 @@ use Livewire\Component;
 
 final class Profile extends Component
 {
+    use AlertBrowserEvent;
+
     public $firstname;
 
     public $lastname;
@@ -67,23 +72,44 @@ final class Profile extends Component
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user_id)],
         ]);
 
-        $user = User::find($this->user_id);
+        $type = 'success';
+        $message = '';
+        DB::beginTransaction();
+        try {
 
-        $user->fill($validated);
+            $user = User::find($this->user_id);
 
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+            $user->fill([
+                'email' => $validated['email'],
+            ]);
+
+            if ($user->isDirty('email')) {
+                $user->email_verified_at = null;
+            }
+
+            $user->save();
+
+            $user->profile->fill([
+                'firstname' => $validated['firstname'],
+                'lastname' => $validated['lastname'],
+            ]);
+
+            if ($this->photo) {
+                $user->profile->image = $this->savePhoto();
+            }
+
+            $user->profile->save();
+
+            DB::commit();
+            $message = 'El perfil se ha actualizado correctamente';
+        } catch (\Throwable $th) {
+            Log::error("Error al actualizar el perfil de un usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
+            DB::rollback();
+            $type = 'error';
+            $message = 'Error al actualizar el perfil de un usuario. Comuníquese con el administrador';
         }
 
-        $user->save();
-
-        $user->profile->fill($validated);
-
-        if ($this->photo) {
-            $user->profile->image = $this->savePhoto();
-        }
-
-        $user->profile->save();
+        $this->alert($message, $type, 'Perfil Usuario');
     }
 
     public function updatePassword()

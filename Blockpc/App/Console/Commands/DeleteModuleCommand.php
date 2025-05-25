@@ -46,77 +46,74 @@ final class DeleteModuleCommand extends Command
      */
     public function handle(): void
     {
-        $this->info('Delete a package for the application.');
+        try {
+            $this->info('Delete a package for the application.');
 
-        $packageName = $this->ask('What is the name of the package?');
+            $packageName = $this->ask('What is the name of the package?');
 
-        $this->camel_name = Str::camel($packageName);           // foo_bar -> fooBar
-        $this->plural_name = Str::plural($this->camel_name);    // fooBar -> fooBars
-        $this->snake_name = Str::snake($this->plural_name);     // fooBars -> foo_bars
-        $this->package = Str::ucfirst($this->camel_name);       // fooBar -> FooBar
-        $this->name = strtolower($this->package);               // FooBar -> foobar
+            // Validar el nombre del paquete
+            if (! preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $packageName)) {
+                $this->error('Invalid package name. Only letters, numbers and underscores are allowed.');
 
-        $paths = $this->getSourceFilePath();
-
-        $this->info('The following files will be deleted:');
-        foreach ($paths as $key => $path) {
-            $this->info("Directory: {$path}");
-        }
-
-        // ask if the user wants to delete the package, if not, exit
-        if (! $this->confirm('Do you want to delete the package?')) {
-            $this->info('The command was canceled!');
-
-            return;
-        }
-
-        $this->deletePackage($paths);
-    }
-
-    private function deletePackage($paths): void
-    {
-        $this->info('Deleting package...');
-
-        foreach ($paths as $key => $path) {
-            $this->info("Deleting directory: {$path}");
-
-            $this->deleteFiles($path);
-        }
-
-        $this->info("The package {$this->package} was deleted!");
-
-        Artisan::call('blockpc:dump-autoload');
-        Artisan::call('route:clear');
-    }
-
-    private function deleteFiles($package)
-    {
-        $files = glob($package);
-
-        foreach ($files as $file) {
-
-            if (is_file($file)) {
-                $this->info("File: {$file} deleted!");
-
-                return unlink($file);
+                return;
             }
 
-            if (is_dir($file)) {
-                $this->info("Directory: {$file}");
+            $this->camel_name = Str::camel($packageName);           // foo_bar -> fooBar
+            $this->plural_name = Str::plural($this->camel_name);    // fooBar -> fooBars
+            $this->snake_name = Str::snake($this->plural_name);     // fooBars -> foo_bars
+            $this->package = Str::ucfirst($this->camel_name);       // fooBar -> FooBar
+            $this->name = strtolower($this->package);               // FooBar -> foobar
 
-                // Get the list of the files in this directory
-                $scan = glob(rtrim($file, '/').'/*');
+            $paths = $this->getSourceFilePath();
 
-                // Loop through the list of files
-                foreach ($scan as $index => $path) {
+            $this->info('The following files/directories will be deleted:');
+            foreach ($paths as $key => $path) {
+                $this->info("Directory: {$path}");
+            }
 
-                    // Call recursive function
-                    $this->deleteFiles($path);
+            // Confirmar antes de eliminar
+            if (! $this->confirm('Do you want to delete the package?')) {
+                $this->info('The command was canceled!');
+
+                return;
+            }
+
+            foreach ($paths as $key => $path) {
+                if ($this->files->exists($path)) {
+                    if ($this->confirm("Are you sure you want to delete {$path}?")) {
+                        $this->deleteFiles($path);
+                    } else {
+                        $this->info("Skipped: {$path}");
+                    }
+                } else {
+                    $this->warn("Path not found: {$path}");
                 }
-
-                // Remove the directory itself
-                return @rmdir($file);
             }
+
+            $this->info("The package {$this->package} was deleted!");
+
+            Artisan::call('blockpc:dump-autoload');
+            Artisan::call('route:clear');
+        } catch (\Throwable $th) {
+            $this->error('Something went wrong: '.$th->getMessage());
+        }
+    }
+
+    /**
+     * Elimina archivos o directorios de forma recursiva usando Filesystem de Laravel.
+     */
+    private function deleteFiles($path)
+    {
+        if ($this->files->exists($path)) {
+            if ($this->files->isDirectory($path)) {
+                $this->files->deleteDirectory($path);
+                $this->info("Directory: {$path} deleted!");
+            } else {
+                $this->files->delete($path);
+                $this->info("File: {$path} deleted!");
+            }
+        } else {
+            $this->warn("Path not found: {$path}");
         }
     }
 

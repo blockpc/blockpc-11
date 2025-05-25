@@ -4,10 +4,6 @@ use Illuminate\Support\Facades\DB;
 
 uses()->group('database');
 
-beforeEach(function () {
-    $this->user = new_user();
-});
-
 // UsersSchemaTest
 
 it('users table database has expected columns', function () {

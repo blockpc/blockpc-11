@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Livewire;
 
@@ -90,15 +91,22 @@ final class BlockpcServiceProvider extends ServiceProvider
         $files = $this->app->make('files');
         $this->menus = [];
 
-        foreach ($files->directories(base_path('Packages')) as $directory) {
+        $packagesPath = base_path('Packages');
+        if (! $files->exists($packagesPath)) {
+            return;
+        }
 
-            $directoryName = last(explode(DIRECTORY_SEPARATOR, $directory));
+        foreach ($files->directories($packagesPath) as $directory) {
+            $directoryName = Str::afterLast($directory, DIRECTORY_SEPARATOR);
             $customServiceProvider = "Packages\\{$directoryName}\\App\\Providers\\{$directoryName}ServiceProvider";
             $pathServiceProvider = base_path("Packages/{$directoryName}/App/Providers/{$directoryName}ServiceProvider.php");
 
             if ($files->exists($pathServiceProvider)) {
-                $app = $this->app->register($customServiceProvider);
-                $this->menus = array_merge($app->menus, $this->menus);
+                $this->app->register($customServiceProvider);
+                $providerInstance = app($customServiceProvider);
+                if (property_exists($providerInstance, 'config')) {
+                    $this->menus = array_merge($providerInstance->config, $this->menus);
+                }
             }
         }
     }
