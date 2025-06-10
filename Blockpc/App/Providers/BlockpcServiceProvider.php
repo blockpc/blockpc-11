@@ -7,6 +7,7 @@ namespace Blockpc\App\Providers;
 use Blockpc\App\Console\Commands\CreateModuleCommand;
 use Blockpc\App\Console\Commands\DeleteModuleCommand;
 use Blockpc\App\Console\Commands\DumpAutoloadCommand;
+use Blockpc\App\Console\Commands\RegisterPermissionsCommand;
 use Blockpc\App\Livewire\MessageAlerts;
 use Blockpc\App\Mixins\QuerySearchMixin;
 use Carbon\Carbon;
@@ -53,6 +54,7 @@ final class BlockpcServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
+                RegisterPermissionsCommand::class,
                 DumpAutoloadCommand::class,
                 CreateModuleCommand::class,
                 DeleteModuleCommand::class,
