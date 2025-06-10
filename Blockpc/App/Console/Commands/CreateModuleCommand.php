@@ -85,6 +85,7 @@ final class CreateModuleCommand extends Command
             // Validación del nombre del paquete
             if (! preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $packageName)) {
                 $this->error('Invalid package name. Only letters, numbers and underscores are allowed.');
+
                 return;
             }
 
@@ -103,11 +104,12 @@ final class CreateModuleCommand extends Command
                 // Validación simple del nombre del modelo
                 if (! preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $modelName)) {
                     $this->error('Nombre de modelo inválido. Solo letras, números y guiones bajos.');
+
                     return;
                 }
                 $this->model_name = Str::ucfirst(Str::camel($modelName));
-                $this->factory_name = $this->model_name . 'Factory';
-                $this->migration_name = 'create_' . Str::snake(Str::plural($modelName)) . '_table';
+                $this->factory_name = $this->model_name.'Factory';
+                $this->migration_name = 'create_'.Str::snake(Str::plural($modelName)).'_table';
             }
 
             $this->info('Creating package: '.$this->package);
@@ -121,6 +123,7 @@ final class CreateModuleCommand extends Command
 
             if (! $this->confirm('Do you want to create the files?')) {
                 $this->info('The command was canceled!');
+
                 return;
             }
 
@@ -129,6 +132,7 @@ final class CreateModuleCommand extends Command
                 if ($this->files->exists($path)) {
                     if (! $this->confirm("File {$path} exists. Overwrite?")) {
                         $this->info("Skipped: {$path}");
+
                         continue;
                     }
                 }

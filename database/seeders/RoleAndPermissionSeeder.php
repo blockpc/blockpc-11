@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\seeders;
 
-use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 

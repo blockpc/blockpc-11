@@ -127,7 +127,7 @@ final class BlockpcServiceProvider extends ServiceProvider
             // Cargar el menú desde el archivo de configuración
             if ($files->exists($configPath)) {
                 $menu = require $configPath;
-                if (is_array($menu) && isset($menu['id']) && !is_null($menu['id'])) {
+                if (is_array($menu) && isset($menu['id']) && ! is_null($menu['id'])) {
                     $this->menus[] = $menu;
                 }
             }

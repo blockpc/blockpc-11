@@ -5,7 +5,7 @@ use Blockpc\App\Console\Classes\PermissionList;
 
 uses()->group('sistema', 'permissions');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 

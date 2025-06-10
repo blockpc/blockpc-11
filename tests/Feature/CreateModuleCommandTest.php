@@ -41,7 +41,7 @@ it('crea un paquete con modelo, factory y migración si el usuario lo desea', fu
     expect(base_path('Packages/Example/database/factories/ProductoFactory.php'))->toBeFile();
     // La migración debe tener el nombre correcto
     $migrationFiles = File::files(base_path('Packages/Example/database/migrations'));
-    $migration = collect($migrationFiles)->first(fn($f) => str_contains($f->getFilename(), 'create_productos_table.php'));
+    $migration = collect($migrationFiles)->first(fn ($f) => str_contains($f->getFilename(), 'create_productos_table.php'));
     expect($migration)->not->toBeNull();
 });
 

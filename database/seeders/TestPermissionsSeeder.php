@@ -30,5 +30,4 @@ final class TestPermissionsSeeder extends Seeder
             $permission->save();
         }
     }
-
 }
