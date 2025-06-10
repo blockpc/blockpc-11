@@ -97,15 +97,36 @@ final class BlockpcServiceProvider extends ServiceProvider
         }
 
         foreach ($files->directories($packagesPath) as $directory) {
+            // $directoryName = Str::afterLast($directory, DIRECTORY_SEPARATOR);
+            // $customServiceProvider = "Packages\\{$directoryName}\\App\\Providers\\{$directoryName}ServiceProvider";
+            // $pathServiceProvider = base_path("Packages/{$directoryName}/App/Providers/{$directoryName}ServiceProvider.php");
+
+            // if ($files->exists($pathServiceProvider)) {
+            //     $this->app->register($customServiceProvider);
+            //     $providerInstance = app($customServiceProvider);
+            //     if (property_exists($providerInstance, 'config') && isset($providerInstance->config['menu'])) {
+            //         $menu = $providerInstance->config['menu'];
+            //         // Solo agregar si existe 'id' y no es null
+            //         if (isset($menu['id']) && !is_null($menu['id'])) {
+            //             $this->menus[] = $menu;
+            //         }
+            //     }
+            // }
+
             $directoryName = Str::afterLast($directory, DIRECTORY_SEPARATOR);
             $customServiceProvider = "Packages\\{$directoryName}\\App\\Providers\\{$directoryName}ServiceProvider";
-            $pathServiceProvider = base_path("Packages/{$directoryName}/App/Providers/{$directoryName}ServiceProvider.php");
+            $configPath = "{$directory}/config/menu.php";
 
-            if ($files->exists($pathServiceProvider)) {
+            // Registrar el ServiceProvider
+            if (class_exists($customServiceProvider)) {
                 $this->app->register($customServiceProvider);
-                $providerInstance = app($customServiceProvider);
-                if (property_exists($providerInstance, 'config')) {
-                    $this->menus = array_merge($providerInstance->config, $this->menus);
+            }
+
+            // Cargar el menú desde el archivo de configuración
+            if ($files->exists($configPath)) {
+                $menu = require $configPath;
+                if (is_array($menu) && isset($menu['id']) && !is_null($menu['id'])) {
+                    $this->menus[] = $menu;
                 }
             }
         }

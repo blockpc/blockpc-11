@@ -19,6 +19,7 @@ return [
 //
 // 'menus' => [
 //     '$NAME$' => [
+//         'id' => 0, // a value that determines where it appears in the sidebar
 //         'icon' => '', // add icon key here. see https://blade-ui-kit.com/blade-icons
 //         'name' => '$NAME$::$NAME$.menu', // if you use a translation file
 //         'route' => '$NAME$.index',
