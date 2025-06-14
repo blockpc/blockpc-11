@@ -59,6 +59,7 @@ it('can create a new user if have permission', function () {
 });
 
 it('users without role sudo cannot create new users sudo', function () {
+    $this->user->givePermissionTo('user create');
     $this->user->assignRole('admin');
 
     $role_sudo = Role::where('name', 'sudo')->first();

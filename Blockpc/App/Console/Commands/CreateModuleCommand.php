@@ -89,23 +89,38 @@ final class CreateModuleCommand extends Command
                 return;
             }
 
-            $this->camel_name = Str::camel($packageName);           // foo_bar -> fooBar
-            $this->plural_name = Str::plural($this->camel_name);    // fooBar -> fooBars
-            $this->snake_name = Str::snake($this->plural_name);     // fooBars -> foo_bars
-            $this->package = Str::ucfirst($this->camel_name);       // fooBar -> FooBar
-            $this->name = strtolower($this->package);               // FooBar -> foobar
-            $this->date = Carbon::now()->format('Y_m_d_Hmi');       // 2021_01_01_000000
+            $this->camel_name = Str::camel($packageName);
+            $this->plural_name = Str::plural($this->camel_name);
+            $this->snake_name = Str::snake($this->plural_name);
+            $this->package = Str::ucfirst($this->camel_name);
+            $this->name = strtolower($this->package);
+            $this->date = Carbon::now()->format('Y_m_d_Hmi');
+
+            // NUEVO: Preguntar si quiere agregar modelo
+            $addModel = $this->confirm('¿Quieres agregar un modelo?');
+            $modelName = null;
+            if ($addModel) {
+                $modelName = $this->ask('¿Nombre del modelo?');
+                // Validación simple del nombre del modelo
+                if (! preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/', $modelName)) {
+                    $this->error('Nombre de modelo inválido. Solo letras, números y guiones bajos.');
+
+                    return;
+                }
+                $this->model_name = Str::ucfirst(Str::camel($modelName));
+                $this->factory_name = $this->model_name.'Factory';
+                $this->migration_name = 'create_'.Str::snake(Str::plural($modelName)).'_table';
+            }
 
             $this->info('Creating package: '.$this->package);
 
-            $paths = $this->getSourceFilePath();
+            $paths = $this->getSourceFilePath($addModel);
 
             $this->info('The following files will be created:');
             foreach ($paths as $key => $path) {
                 $this->info("File: {$path}");
             }
 
-            // ask if the user wants to create the files, if not, exit
             if (! $this->confirm('Do you want to create the files?')) {
                 $this->info('The command was canceled!');
 
@@ -121,7 +136,7 @@ final class CreateModuleCommand extends Command
                         continue;
                     }
                 }
-                $this->files->put($path, $this->getSourceFile($key));
+                $this->files->put($path, $this->getSourceFile($key, $addModel, $modelName));
                 $this->info("Created: {$path}");
             }
 
@@ -148,22 +163,30 @@ final class CreateModuleCommand extends Command
      *
      * @return bool|mixed|string
      */
-    public function getSourceFile($key)
+    public function getSourceFile($key, $addModel = false, $modelName = null)
     {
-        return $this->getStubContents($this->getStubPath($key), $this->getStubVariables());
+        return $this->getStubContents($this->getStubPath($key), $this->getStubVariables($addModel, $modelName));
     }
 
     /**
      **
      * Map the stub variables present in stub to its value
      */
-    public function getStubVariables(): array
+    public function getStubVariables($addModel = false, $modelName = null): array
     {
-        return [
+        $vars = [
             'PACKAGE' => $this->package,
             'NAME' => $this->name,
             'TABLE' => $this->snake_name,
         ];
+
+        if ($addModel && $modelName) {
+            $vars['MODEL'] = $this->model_name;
+            $vars['FACTORY'] = $this->factory_name;
+            $vars['MIGRATION'] = $this->migration_name;
+        }
+
+        return $vars;
     }
 
     /**
@@ -200,22 +223,27 @@ final class CreateModuleCommand extends Command
     /**
      * Get the full path of generate class
      */
-    private function getSourceFilePath(): array
+    private function getSourceFilePath($addModel = false): array
     {
         $base = "Packages/{$this->package}";
 
-        return [
+        $paths = [
             'serviceprovider' => "{$base}/App/Providers/{$this->package}ServiceProvider.php",
             'config' => "{$base}/config/config.php",
             'route' => "{$base}/routes/web.php",
             'lang' => "{$base}/lang/en/{$this->name}.php",
             'livewire' => "{$base}/App/Livewire/{$this->package}.php",
             'view' => "{$base}/resources/views/livewire/{$this->name}.blade.php",
-            'migration' => "{$base}/database/migrations/{$this->date}_create_{$this->snake_name}_table.php",
-            'model' => "{$base}/App/Models/{$this->package}.php",
-            'factory' => "{$base}/database/factories/{$this->package}Factory.php",
             'test' => "tests/Feature/Packages/{$this->package}/{$this->package}RouteTest.php",
         ];
+
+        if ($addModel) {
+            $paths['model'] = "{$base}/App/Models/{$this->model_name}.php";
+            $paths['factory'] = "{$base}/database/factories/{$this->factory_name}.php";
+            $paths['migration'] = "{$base}/database/migrations/{$this->date}_{$this->migration_name}.php";
+        }
+
+        return $paths;
     }
 
     /**
