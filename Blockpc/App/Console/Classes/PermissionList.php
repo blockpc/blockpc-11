@@ -8,10 +8,16 @@ final class PermissionList
 {
     /**
      * Devuelve todos los permisos utilizados por el sistema.
+     * Cada arreglo contiene:
+     * - name: Nombre del permiso
+     * - key: clave de grupo del permiso
+     * - description: Descripción del permiso
+     * - display_name: Nombre para mostrar del permiso
+     * - guard_name: Nombre del guard (opcional, por defecto 'web')
+     * [name, key, description, display_name, guard_name (opcional:web)]
      */
     public static function all(): array
     {
-        // cada arreglo contiene [name, key, description, display_name, guard_name (opcional:web)]
         return [
             ['super admin', 'sudo', 'Permiso de Super Usuario. El usuario con este permiso tiene acceso total al sistema. No necesita ningún otro permiso', 'Super usuario'],
             ['jobs control', 'jobs', 'Controla las tareas pendientes y fallidas del sistema', 'Control Tareas'],

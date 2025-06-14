@@ -2,14 +2,11 @@
 
 use App\Models\Permission;
 use Blockpc\App\Console\Classes\PermissionList;
+use Blockpc\App\Console\Services\PermissionSynchronizerService;
 
 uses()->group('sistema', 'permissions');
 
-beforeEach(function () {
-    $this->user = new_user();
-});
-
-// PermissionsAreRegisteredTest
+// SyncPermissionsTest
 
 it('todos los permisos definidos están registrados con su guard_name', function () {
     foreach (PermissionList::all() as $permiso) {
@@ -25,4 +22,14 @@ it('todos los permisos definidos están registrados con su guard_name', function
         expect($existe)
             ->toBeTrue("Falta el permiso '{$name}' con guard '{$guard}'");
     }
+});
+
+it('todos los permisos están registrados y sincronizados', function () {
+    $sync = app(PermissionSynchronizerService::class);
+
+    $missing = $sync->getMissing();
+    $outdated = $sync->getOutdated();
+
+    expect($missing->isEmpty())->toBeTrue('Hay permisos faltantes');
+    expect($outdated->isEmpty())->toBeTrue('Hay permisos desactualizados');
 });
