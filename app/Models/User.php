@@ -21,6 +21,7 @@ final class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'is_active',
         'password',
         'password_changed_at',
     ];
@@ -28,6 +29,12 @@ final class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'password_changed_at' => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 
     /**

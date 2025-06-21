@@ -195,3 +195,27 @@ it('can change password to user, generating', function () {
             return mb_strlen($value) === 8; // Check if the confirmation matches the generated password
         });
 });
+
+it('can toggle user active status', function () {
+    $this->user->givePermissionTo('user update');
+
+    $admin = new_user();
+
+    Livewire::actingAs($this->user)
+        ->test(UpdateUser::class, ['user' => $admin])
+        ->set('is_active', false)
+        ->assertHasNoErrors();
+
+    $admin->refresh();
+
+    expect($admin->is_active)->toBeFalse();
+
+    Livewire::actingAs($this->user)
+        ->test(UpdateUser::class, ['user' => $admin])
+        ->set('is_active', true)
+        ->assertHasNoErrors();
+
+    $admin->refresh();
+
+    expect($admin->is_active)->toBeTrue();
+});

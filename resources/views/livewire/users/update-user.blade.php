@@ -149,9 +149,9 @@
                 <div class="lg:col-span-2">
                     <form wire:submit="changePassword">
                         <div class="lg:col-span-2 grid grid-cols-2 gap-4">
-                            <x-inputs.password name="update_user_password" label="{{ __('pages.users.attributes.form.password') }}" wire:model="password" autocomplete="new-password" required />
+                            <x-inputs.password name="update_user_password" label="{{ __('pages.users.attributes.form.password') }}" wire:model="password" autocomplete="new-password" />
 
-                            <x-inputs.password name="update_user_password_confirmation" label="{{ __('pages.users.attributes.form.password_confirmation') }}" wire:model="password_confirmation" autocomplete="new-password" required />
+                            <x-inputs.password name="update_user_password_confirmation" label="{{ __('pages.users.attributes.form.password_confirmation') }}" wire:model="password_confirmation" autocomplete="new-password" />
 
                             <div class="col-span-2 flex justify-between items-center">
                                 <x-buttons.btn class="btn-default" wire:click="generatePassword">
@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="lg:col-span-2 grid grid-cols-2 gap-4">
-                    {{-- <x-toggle-sm name="update_user_active" label="{{ __('pages.users.attributes.form.active') }}" wire:model="active" /> --}}
+                    <x-toggle-sm name="update_user_active" label="{{ __('pages.users.attributes.form.active') }}" default="red" wire:model.live="is_active" />
                 </div>
             </div>
 
