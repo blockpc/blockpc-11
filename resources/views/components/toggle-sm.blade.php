@@ -1,4 +1,11 @@
-@props(['name', 'yes' => 'Si', 'not' => 'No', 'color' => 'blue', 'default' => 'gray', 'disabled' => false])
+@props([
+    'name',
+    'yes' => 'Si',
+    'not' => 'No',
+    'color' => 'blue',
+    'default' => 'gray',
+    'disabled' => false
+])
 
 <div {{ $attributes->except(['wire:model.live'])->merge(['class' => 'flex text-xs font-semibold']) }} x-data="{toogle: @entangle($attributes->wire('model')->value()).live }">
     <label for="{{$name}}" class="inline-flex relative items-center cursor-pointer">

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use Blockpc\App\Console\Services\PermissionSynchronizerService;
 use Blockpc\App\Console\Services\RoleSynchronizerService;
 
 uses()->group('sistema', 'permissions', 'roles');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 

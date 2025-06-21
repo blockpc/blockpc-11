@@ -15,15 +15,12 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Throwable;
 
 final class UpdateRole extends Component
 {
     use AlertBrowserEvent;
     use CustomPaginationTrait;
-
-    protected $listeners = [
-        'refresh-roles' => '$refresh',
-    ];
 
     public Role $role;
 
@@ -41,6 +38,10 @@ final class UpdateRole extends Component
     public $permisos_ids = [];
 
     public $permissions_role = 0;
+
+    protected $listeners = [
+        'refresh-roles' => '$refresh',
+    ];
 
     public function mount()
     {
@@ -75,7 +76,7 @@ final class UpdateRole extends Component
 
             DB::commit();
             $message = '';
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al actualizar un cargo del sistema. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -84,15 +85,6 @@ final class UpdateRole extends Component
 
         $this->flash($message, $type);
         $this->redirectRoute('roles.table', navigate: true);
-    }
-
-    protected function rules()
-    {
-        return [
-            'name' => 'required|string|max:255',
-            'display_name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-        ];
     }
 
     #[Computed()]
@@ -126,15 +118,6 @@ final class UpdateRole extends Component
             ->pluck('key');
     }
 
-    private function startMount()
-    {
-        $this->role_id = $this->role->id;
-        $this->display_name = $this->role->display_name;
-        $this->guard_name = $this->role->guard_name;
-        $this->description = $this->role->description;
-        $this->permisos_ids = $this->role->permissions->pluck('id')->toArray();
-    }
-
     public function asignar_permiso($permiso_id)
     {
         $role = Role::find($this->role_id);
@@ -157,5 +140,23 @@ final class UpdateRole extends Component
 
         $this->permisos_ids = $role->permissions->pluck('id')->toArray();
         $this->dispatch('refresh-roles')->self();
+    }
+
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'display_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+        ];
+    }
+
+    private function startMount()
+    {
+        $this->role_id = $this->role->id;
+        $this->display_name = $this->role->display_name;
+        $this->guard_name = $this->role->guard_name;
+        $this->description = $this->role->description;
+        $this->permisos_ids = $this->role->permissions->pluck('id')->toArray();
     }
 }

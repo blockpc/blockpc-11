@@ -13,15 +13,12 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Throwable;
 
 final class CreateUser extends Component
 {
     use AlertBrowserEvent;
     use WithFileUploads;
-
-    protected $listeners = [
-        'show',
-    ];
 
     public $show = false;
 
@@ -36,6 +33,10 @@ final class CreateUser extends Component
     public string $lastname;
 
     public int $role_id;
+
+    protected $listeners = [
+        'show',
+    ];
 
     public function mount()
     {
@@ -76,7 +77,7 @@ final class CreateUser extends Component
 
             DB::commit();
             $message = 'Usuario creado correctamente';
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al crear un nuevo usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -85,23 +86,6 @@ final class CreateUser extends Component
 
         $this->flash($message, $type);
         $this->redirectRoute('users.table', navigate: true);
-    }
-
-    protected function rules()
-    {
-        return [
-            'name' => 'required|string|max:255|unique:users,name',
-            'email' => 'required|string|max:255|email:rfc,dns|unique:users,email',
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'role_id' => ['required', new OnlyKeysFromCollectionRule($this->roles())],
-            'photo' => 'nullable|image|max:1024',
-        ];
-    }
-
-    protected function getValidationAttributes()
-    {
-        return __('pages.users.attributes.form');
     }
 
     #[Computed()]
@@ -128,5 +112,22 @@ final class CreateUser extends Component
     {
         $this->clearValidation();
         $this->reset();
+    }
+
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|max:255|unique:users,name',
+            'email' => 'required|string|max:255|email:rfc,dns|unique:users,email',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'role_id' => ['required', new OnlyKeysFromCollectionRule($this->roles())],
+            'photo' => 'nullable|image|max:1024',
+        ];
+    }
+
+    protected function getValidationAttributes()
+    {
+        return __('pages.users.attributes.form');
     }
 }

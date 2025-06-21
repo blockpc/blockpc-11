@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
+use Throwable;
 
 final class DeleteModuleCommand extends Command
 {
@@ -62,7 +63,7 @@ final class DeleteModuleCommand extends Command
             $this->plural_name = Str::plural($this->camel_name);    // fooBar -> fooBars
             $this->snake_name = Str::snake($this->plural_name);     // fooBars -> foo_bars
             $this->package = Str::ucfirst($this->camel_name);       // fooBar -> FooBar
-            $this->name = strtolower($this->package);               // FooBar -> foobar
+            $this->name = mb_strtolower($this->package);               // FooBar -> foobar
 
             $paths = $this->getSourceFilePath();
 
@@ -94,7 +95,7 @@ final class DeleteModuleCommand extends Command
 
             Artisan::call('blockpc:dump-autoload');
             Artisan::call('route:clear');
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             $this->error('Something went wrong: '.$th->getMessage());
         }
     }

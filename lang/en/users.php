@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'modals' => [
         'restore' => 'Are you sure you want to restore the associated user?',

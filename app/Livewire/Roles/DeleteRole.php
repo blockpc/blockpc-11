@@ -10,14 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Throwable;
 
 final class DeleteRole extends Component
 {
     use AlertBrowserEvent;
-
-    protected $listeners = [
-        'show',
-    ];
 
     public $show = false;
 
@@ -30,6 +27,10 @@ final class DeleteRole extends Component
     public $name;
 
     public $password;
+
+    protected $listeners = [
+        'show',
+    ];
 
     public function mount()
     {
@@ -55,7 +56,7 @@ final class DeleteRole extends Component
 
             DB::commit();
             $message = 'Role eliminado correctamente';
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al eliminar un role. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -63,14 +64,6 @@ final class DeleteRole extends Component
         }
 
         return redirect()->route('roles.table')->with($type, $message);
-    }
-
-    protected function rules()
-    {
-        return [
-            'name' => 'required|string|same:current_name',
-            'password' => 'required|string|current_password',
-        ];
     }
 
     public function show($role_id)
@@ -86,5 +79,13 @@ final class DeleteRole extends Component
     {
         $this->clearValidation();
         $this->reset();
+    }
+
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|same:current_name',
+            'password' => 'required|string|current_password',
+        ];
     }
 }

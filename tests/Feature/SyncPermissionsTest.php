@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Permission;
 use Blockpc\App\Console\Classes\PermissionList;
 use Blockpc\App\Console\Services\PermissionSynchronizerService;

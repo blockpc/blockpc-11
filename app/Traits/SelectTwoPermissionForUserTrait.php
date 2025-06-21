@@ -44,7 +44,7 @@ trait SelectTwoPermissionForUserTrait
             $this->alert("Permiso {$permiso->display_name} agregado correctamente", 'success', 'Nuevo Permiso Usuario');
             $this->load_permissions();
         }
-        $this->search_permission = '';
+        $this->selected_two_permission_search = '';
     }
 
     public function remove_permission($id)

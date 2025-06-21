@@ -30,7 +30,7 @@ final class RoleList
                 'display_name' => 'Administrador',
                 'description' => 'Usuario del sistema con acceso general',
                 'permissions' => [
-                    'user list'
+                    'user list',
                 ],
             ],
             [

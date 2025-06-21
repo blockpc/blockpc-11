@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Blockpc\App\Rules\AreEqualsRule;
 use Illuminate\Support\Facades\Validator;
 

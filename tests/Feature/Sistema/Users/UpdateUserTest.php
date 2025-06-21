@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Users\UpdateUser;
 use App\Models\Role;
 use Livewire\Livewire;
@@ -114,13 +116,12 @@ it('can remove a user a new role', function () {
     expect($admin->hasRole('admin'))->toBeFalse();
 });
 
-it('check if can add to user new permission', function ()
-{
+it('check if can add to user new permission', function () {
     $this->user->givePermissionTo('user update');
 
     $admin = new_user(role: 'admin');
 
-    $permission = \App\Models\Permission::factory()->create([
+    $permission = App\Models\Permission::factory()->create([
         'name' => 'new permission',
         'display_name' => 'New Permission',
     ]);
@@ -137,13 +138,12 @@ it('check if can add to user new permission', function ()
     expect($admin->hasPermissionTo('new permission'))->toBeTrue();
 });
 
-it('check if can delete to user permission', function ()
-{
+it('check if can delete to user permission', function () {
     $this->user->givePermissionTo('user update');
 
     $admin = new_user(role: 'admin');
 
-    $permission = \App\Models\Permission::factory()->create([
+    $permission = App\Models\Permission::factory()->create([
         'name' => 'new permission',
         'display_name' => 'New Permission',
     ]);
@@ -162,8 +162,7 @@ it('check if can delete to user permission', function ()
     expect($admin->hasPermissionTo('new permission'))->toBeFalse();
 });
 
-it('can change password to user, manually', function ()
-{
+it('can change password to user, manually', function () {
     $this->user->givePermissionTo('user update');
 
     $admin = new_user(role: 'admin');
@@ -180,8 +179,7 @@ it('can change password to user, manually', function ()
     $this->assertTrue(password_verify('new-password', $admin->password));
 });
 
-it('can change password to user, generating', function ()
-{
+it('can change password to user, generating', function () {
     $this->user->givePermissionTo('user update');
 
     $admin = new_user(role: 'admin');
@@ -191,9 +189,9 @@ it('can change password to user, generating', function ()
         ->call('generatePassword')
         ->assertHasNoErrors()
         ->assertSet('password', function ($value) {
-            return strlen($value) === 8; // Check if the generated password is 8 characters long
+            return mb_strlen($value) === 8; // Check if the generated password is 8 characters long
         })
         ->assertSet('password_confirmation', function ($value) {
-            return strlen($value) === 8; // Check if the confirmation matches the generated password
+            return mb_strlen($value) === 8; // Check if the confirmation matches the generated password
         });
 });

@@ -15,11 +15,11 @@ final class TablePermissions extends Component
 {
     use CustomPaginationTrait;
 
+    public $key_id;
+
     protected $listeners = [
         'permissionsUpdated' => '$refresh',
     ];
-
-    public $key_id;
 
     public function mount()
     {

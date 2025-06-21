@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Throwable;
 
 /**
  * permissions.update-permission
@@ -58,7 +59,7 @@ final class UpdatePermission extends Component
             $message = 'Un permiso fue actualizado correctamente';
             $this->hide();
             $this->dispatch('permissionsUpdated');
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al actualizar un permiso. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -66,22 +67,6 @@ final class UpdatePermission extends Component
         }
 
         $this->alert($message, $type, 'Actualizar Permiso');
-    }
-
-    protected function rules()
-    {
-        return [
-            'display_name' => 'required|string|max:255|unique:permissions,display_name,'.$this->permission_id.',id',
-            'description' => 'required|string|max:255',
-        ];
-    }
-
-    protected function getValidationAttributes()
-    {
-        return [
-            'display_name' => 'nombre a mostrar',
-            'description' => 'descripción',
-        ];
     }
 
     #[On('show')]
@@ -99,5 +84,21 @@ final class UpdatePermission extends Component
     {
         $this->clearValidation();
         $this->reset();
+    }
+
+    protected function rules()
+    {
+        return [
+            'display_name' => 'required|string|max:255|unique:permissions,display_name,'.$this->permission_id.',id',
+            'description' => 'required|string|max:255',
+        ];
+    }
+
+    protected function getValidationAttributes()
+    {
+        return [
+            'display_name' => 'nombre a mostrar',
+            'description' => 'descripción',
+        ];
     }
 }

@@ -68,7 +68,7 @@ final class SyncPermissionsCommand extends Command
         }
 
         if ($this->option('ci') && $errors > 0) {
-			$this->error("Errores de sincronización de permisos: {$errors}");
+            $this->error("Errores de sincronización de permisos: {$errors}");
             Log::error("Errores de sincronización de permisos: {$errors}");
             exit(1);
         }

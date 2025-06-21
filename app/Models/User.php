@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,9 +12,9 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * @property-read \App\Models\Profile|null $profile
+ * @property-read Profile|null $profile
  */
-class User extends Authenticatable implements MustVerifyEmail
+final class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, HasRoles, Notifiable;
 
@@ -27,20 +29,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'password_changed_at' => 'datetime',
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
 
     /**
      * Get the user's full name.
@@ -73,5 +61,19 @@ class User extends Authenticatable implements MustVerifyEmail
         $query->when($search, function ($query) use ($search) {
             $query->whereLike(['name', 'email', 'profile.firstname', 'profile.lastname'], $search);
         });
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'password_changed_at' => 'datetime',
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }

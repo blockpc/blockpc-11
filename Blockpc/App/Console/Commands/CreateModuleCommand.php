@@ -10,6 +10,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Throwable;
 
 final class CreateModuleCommand extends Command
 {
@@ -93,7 +94,7 @@ final class CreateModuleCommand extends Command
             $this->plural_name = Str::plural($this->camel_name);
             $this->snake_name = Str::snake($this->plural_name);
             $this->package = Str::ucfirst($this->camel_name);
-            $this->name = strtolower($this->package);
+            $this->name = mb_strtolower($this->package);
             $this->date = Carbon::now()->format('Y_m_d_Hmi');
 
             // NUEVO: Preguntar si quiere agregar modelo
@@ -144,7 +145,7 @@ final class CreateModuleCommand extends Command
             Artisan::call('route:clear');
 
             $this->info('The command was successful!');
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error($th->getMessage());
             $this->error('Something went wrong: '.$th->getMessage());
 
@@ -207,6 +208,27 @@ final class CreateModuleCommand extends Command
     }
 
     /**
+     * Return the stub file path
+     */
+    public function getStubPath($key): string
+    {
+        $stubs = [
+            'serviceprovider' => base_path('Blockpc/stubs/serviceprovider.stub'),
+            'config' => base_path('Blockpc/stubs/config.stub'),
+            'route' => base_path('Blockpc/stubs/route.stub'),
+            'lang' => base_path('Blockpc/stubs/lang.stub'),
+            'livewire' => base_path('Blockpc/stubs/livewire.stub'),
+            'view' => base_path('Blockpc/stubs/view.stub'),
+            'migration' => base_path('Blockpc/stubs/migration.stub'),
+            'model' => base_path('Blockpc/stubs/model.stub'),
+            'factory' => base_path('Blockpc/stubs/factory.stub'),
+            'test' => base_path('Blockpc/stubs/test.stub'),
+        ];
+
+        return $stubs[$key];
+    }
+
+    /**
      * Build the directory for the class if necessary.
      *
      * @param  string  $path
@@ -244,26 +266,5 @@ final class CreateModuleCommand extends Command
         }
 
         return $paths;
-    }
-
-    /**
-     * Return the stub file path
-     */
-    public function getStubPath($key): string
-    {
-        $stubs = [
-            'serviceprovider' => base_path('Blockpc/stubs/serviceprovider.stub'),
-            'config' => base_path('Blockpc/stubs/config.stub'),
-            'route' => base_path('Blockpc/stubs/route.stub'),
-            'lang' => base_path('Blockpc/stubs/lang.stub'),
-            'livewire' => base_path('Blockpc/stubs/livewire.stub'),
-            'view' => base_path('Blockpc/stubs/view.stub'),
-            'migration' => base_path('Blockpc/stubs/migration.stub'),
-            'model' => base_path('Blockpc/stubs/model.stub'),
-            'factory' => base_path('Blockpc/stubs/factory.stub'),
-            'test' => base_path('Blockpc/stubs/test.stub'),
-        ];
-
-        return $stubs[$key];
     }
 }

@@ -11,10 +11,6 @@ use Livewire\Component;
  */
 final class MessageAlerts extends Component
 {
-    protected $listeners = [
-        'show',
-    ];
-
     public $open = false;
 
     public $message = '';
@@ -24,6 +20,10 @@ final class MessageAlerts extends Component
     public $title = '';
 
     public $time = 5000;
+
+    protected $listeners = [
+        'show',
+    ];
 
     public function mount()
     {
