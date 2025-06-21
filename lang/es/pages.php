@@ -37,6 +37,8 @@ return [
             'user' => 'Usuario',
             'profile' => 'Perfil Usuario',
             'add_role' => 'Agregar Cargo',
+            'generate_password' => 'Generar Clave',
+            'change_password' => 'Cambiar Clave',
         ],
         'table' => [
             'name' => 'Nombre',
@@ -53,7 +55,7 @@ return [
                 'firstname' => 'Nombre',
                 'lastname' => 'Apellido',
                 'password' => 'Clave',
-                'confirmed_password' => 'Confirmar Clave',
+                'password_confirmation' => 'Confirmar Clave',
                 'role_id' => 'Cargos',
                 'photo' => 'Imagen',
             ],

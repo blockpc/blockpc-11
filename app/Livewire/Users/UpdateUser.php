@@ -19,6 +19,7 @@ final class UpdateUser extends Component
     use AlertBrowserEvent;
     use SelectTwoRoleForUserTrait;
     use \App\Traits\SelectTwoPermissionForUserTrait;
+    use \App\Traits\ChangePasswordUserTrait;
 
     protected $listeners = [
         'refresh-update-user' => '$refresh',

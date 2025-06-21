@@ -8,6 +8,10 @@
     'search_by' => 'Buscar...'
 ])
 
+@php
+    $when_selected = $attributes->get('when_selected');
+@endphp
+
 <div {{ $attributes->only('class')->merge(['class' => '']) }}>
     <div class="w-full relative" x-data="{open:false}" x-on:click.away="open=false">
         <div class="flex space-x-2">
@@ -30,7 +34,13 @@
                     <input wire:model.live.debounce.500ms="{{ $attributes->get('search') }}" id="{{ $name }}" @keydown.enter="open = false; $event.target.blur()" type="text" class="input input-sm w-full" placeholder="{{ $search_by }}">
                 </li>
                 @forelse ($options as $option_id => $option_name)
-                <li class="" wire:click="{{ $attributes->get('click') }}({{ $option_id }})" x-on:click="open=false" id="option-{{$option_id}}">
+                <li
+                    @if ($when_selected)
+                        wire:click="{{ $when_selected }}({{ $option_id }})"
+                    @endif
+                    x-on:click="open=false"
+                    id="option-{{$option_id}}"
+                >
                     <div class="p-2 w-full hover:bg-gray-300 hover:dark:bg-gray-600 flex justify-between cursor-pointer text-xs">
                         <span>{{$option_name}}</span>
                         @if ($option_id == $selected_id)
