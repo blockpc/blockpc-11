@@ -33,7 +33,7 @@
                             <td class="td">{{ $user->email }}</td>
                             <td class="td">
                                 <div class="flex justify-end space-x-2">
-                                    @can('user edit')
+                                    @can('user update')
                                     <x-links.href class="btn-sm btn-success" href="{{ route('users.update', ['user' => $user->id]) }}">
                                         <x-bx-edit class="w-4 h-4" />
                                     </x-links.href>

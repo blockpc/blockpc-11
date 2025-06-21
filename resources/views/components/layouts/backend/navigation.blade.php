@@ -34,21 +34,22 @@
                 <x-dropdown align="right" width="72" :bx="false">
                     <x-slot name="trigger">
                         <button class="flex items-center space-x-2 text-sm font-medium text-dark transition duration-150 ease-in-out mx-2">
-                            <x-logo class="rounded-full w-8 h-8 bg-inherit" src="https://ui-avatars.com/api/?name=n+n" alt="{{ current_user()->name }}" />
+                            <x-logo class="rounded-full w-8 h-8 bg-inherit" src="{{ image_profile() }}" alt="{{ current_user()->name }}" />
                         </button>
                     </x-slot>
                     <x-slot name="content">
-                        <div class="flex items-center space-x-2 border-b-2 border-gray-300 dark:border-gray-600 p-2">
+                        <div class="flex items-center space-x-2 p-2">
                             <div class="w-16">
-                                <img class="rounded-full bg-inherit" src="https://ui-avatars.com/api/?name=n+n" alt="{{ current_user()->name }}">
+                                <img class="rounded-full bg-inherit" src="{{ image_profile() }}" alt="{{ current_user()->name }}">
                             </div>
                             <div class="w-full">
                                 <div class="font-bold text-base text-gray-800 dark:text-gray-200">{{ current_user()->name }}</div>
                                 <div class="font-medium text-xs text-gray-500 dark:text-gray-400">Administrador</div>
                             </div>
                         </div>
-                        <a wire:navigate class="flex items-center dark:hover:bg-gray-800 hover:bg-gray-300 p-2 h-10 rounded-sm" href="{{ route('dashboard') }}">{{ __('pages.dashboard.titles.link') }}</a>
-                        <a wire:navigate class="flex items-center dark:hover:bg-gray-800 hover:bg-gray-300 p-2 h-10 rounded-sm" href="{{ route('profile') }}">{{ __('pages.users.titles.profile') }}</a>
+                        <hr class="hr-xs">
+                        <a wire:navigate class="flex items-center dark:hover:bg-gray-700 hover:bg-gray-300 p-2 h-10 rounded-sm" href="{{ route('dashboard') }}">{{ __('pages.dashboard.titles.link') }}</a>
+                        <a wire:navigate class="flex items-center dark:hover:bg-gray-700 hover:bg-gray-300 p-2 h-10 rounded-sm" href="{{ route('profile') }}">{{ __('pages.users.titles.profile') }}</a>
                         <hr class="hr-xs">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

@@ -31,4 +31,9 @@ Route::middleware(['auth'])
         });
     });
 
+// fallback
+Route::fallback(function () {
+    return redirect()->route('home');
+});
+
 require __DIR__.'/auth.php';
