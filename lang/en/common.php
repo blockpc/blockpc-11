@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'load-message' => 'This could take a while, please do not close the page',
     'no-records-founds' => 'No records founds',

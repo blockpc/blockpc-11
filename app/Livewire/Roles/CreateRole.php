@@ -9,14 +9,11 @@ use Blockpc\App\Traits\AlertBrowserEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Throwable;
 
 final class CreateRole extends Component
 {
     use AlertBrowserEvent;
-
-    protected $listeners = [
-        'show',
-    ];
 
     public $show = false;
 
@@ -25,6 +22,10 @@ final class CreateRole extends Component
     public $display_name;
 
     public $description;
+
+    protected $listeners = [
+        'show',
+    ];
 
     public function mount()
     {
@@ -60,7 +61,7 @@ final class CreateRole extends Component
 
             $this->flash($message, $type);
             $this->redirectRoute('roles.update', ['role' => $role->id], navigate: true);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al crear un nuevo cargo en el sistema. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
@@ -69,6 +70,17 @@ final class CreateRole extends Component
             $this->flash($message, $type);
             $this->redirectRoute('roles.table', navigate: true);
         }
+    }
+
+    public function show()
+    {
+        $this->show = true;
+    }
+
+    public function hide()
+    {
+        $this->clearValidation();
+        $this->reset();
     }
 
     protected function rules()
@@ -83,16 +95,5 @@ final class CreateRole extends Component
     protected function getValidationAttributes()
     {
         return __('pages.roles.attributes.form');
-    }
-
-    public function show()
-    {
-        $this->show = true;
-    }
-
-    public function hide()
-    {
-        $this->clearValidation();
-        $this->reset();
     }
 }

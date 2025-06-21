@@ -18,6 +18,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Throwable;
 
 final class Profile extends Component
 {
@@ -102,7 +103,7 @@ final class Profile extends Component
 
             DB::commit();
             $message = 'El perfil se ha actualizado correctamente';
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al actualizar el perfil de un usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'logout' => 'Cerrar Sesión',
     'dashboard' => [
@@ -39,6 +41,7 @@ return [
             'add_role' => 'Agregar Cargo',
             'generate_password' => 'Generar Clave',
             'change_password' => 'Cambiar Clave',
+            'active' => 'Activar Usuario',
         ],
         'table' => [
             'name' => 'Nombre',

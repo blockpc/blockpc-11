@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Blockpc\App\Console\Services\RoleSynchronizerService;
 
 uses()->group('sistema', 'roles');

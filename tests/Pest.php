@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -56,8 +58,8 @@ expect()->extend('toBeOne', function () {
  */
 function new_user(array $user = [], array $profile = [], string $role = '')
 {
-    $user = \App\Models\User::factory()->create($user);
-    \App\Models\Profile::factory()->for($user)->create($profile);
+    $user = App\Models\User::factory()->create($user);
+    App\Models\Profile::factory()->for($user)->create($profile);
     if ($role) {
         $user->assignRole($role);
     }

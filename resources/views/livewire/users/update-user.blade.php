@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="lg:col-span-2 grid grid-cols-2 gap-4">
-                    {{-- <x-inputs.switch name="update_user_active" label="{{ __('pages.users.attributes.form.active') }}" wire:model="active" /> --}}
+                    {{-- <x-toggle-sm name="update_user_active" label="{{ __('pages.users.attributes.form.active') }}" wire:model="active" /> --}}
                 </div>
             </div>
 

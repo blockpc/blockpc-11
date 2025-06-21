@@ -40,7 +40,7 @@ final class RoleSynchronizerService
 
                 dump($permissionName);
 
-                if (!$permission) {
+                if (! $permission) {
                     throw new Exception("El permiso '{$permissionName}' no existe para el guard '{$guard_name}'");
                 }
 
@@ -56,22 +56,21 @@ final class RoleSynchronizerService
     {
         return collect(RoleList::all())
             ->filter(function ($roleData) {
-                return !Role::where('name', $roleData['name'])
-                        ->where('guard_name', $roleData['guard'] ?? 'web')
-                        ->exists();
+                return ! Role::where('name', $roleData['name'])
+                    ->where('guard_name', $roleData['guard'] ?? 'web')
+                    ->exists();
             });
     }
 
     public function getOrphans(): Collection
     {
-        $defined = collect(RoleList::all())->map(fn($r) => [
+        $defined = collect(RoleList::all())->map(fn ($r) => [
             'name' => $r['name'],
-            'guard_name' => $r['guard'] ?? 'web'
+            'guard_name' => $r['guard'] ?? 'web',
         ]);
 
         return Role::all()->filter(function ($role) use ($defined) {
-            return !$defined->contains(fn($r) =>
-                $r['name'] === $role->name && $r['guard_name'] === $role->guard_name
+            return ! $defined->contains(fn ($r) => $r['name'] === $role->name && $r['guard_name'] === $role->guard_name
             );
         });
     }

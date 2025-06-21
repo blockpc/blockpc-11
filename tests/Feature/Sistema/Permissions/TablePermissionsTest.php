@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 uses()->group('permissions');
 
 beforeEach(function () {

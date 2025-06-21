@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 uses()->group('sistema', 'roles');
 
 beforeEach(function () {

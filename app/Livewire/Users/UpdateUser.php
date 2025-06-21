@@ -13,17 +13,14 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Throwable;
 
 final class UpdateUser extends Component
 {
     use AlertBrowserEvent;
-    use SelectTwoRoleForUserTrait;
-    use \App\Traits\SelectTwoPermissionForUserTrait;
     use \App\Traits\ChangePasswordUserTrait;
-
-    protected $listeners = [
-        'refresh-update-user' => '$refresh',
-    ];
+    use \App\Traits\SelectTwoPermissionForUserTrait;
+    use SelectTwoRoleForUserTrait;
 
     public User $user;
 
@@ -34,6 +31,10 @@ final class UpdateUser extends Component
     public $firstname;
 
     public $lastname;
+
+    protected $listeners = [
+        'refresh-update-user' => '$refresh',
+    ];
 
     public function mount()
     {
@@ -77,7 +78,7 @@ final class UpdateUser extends Component
 
             DB::commit();
             $message = 'El usuario se actualizó correctamente';
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al actualizar los datos de un usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';

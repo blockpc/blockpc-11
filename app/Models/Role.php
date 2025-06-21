@@ -17,23 +17,23 @@ final class Role extends ModelsRole
     use HasFactory;
     use SoftDeletes;
 
+    public const SUDO = 'sudo';
+
+    public const ADMIN = 'admin';
+
+    public const USER = 'user';
+
+    public const ROLES_NOT_DELETES = [
+        self::SUDO,
+        self::ADMIN,
+        self::USER,
+    ];
+
     protected $fillable = [
         'name',
         'guard_name',
         'display_name',
         'description',
-    ];
-
-    const SUDO = 'sudo';
-
-    const ADMIN = 'admin';
-
-    const USER = 'user';
-
-    const ROLES_NOT_DELETES = [
-        self::SUDO,
-        self::ADMIN,
-        self::USER,
     ];
 
     public function getCanDeleteAttribute(): bool
