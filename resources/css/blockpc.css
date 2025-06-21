@@ -37,6 +37,9 @@
     .legend {
         @apply text-sm font-semibold px-2 rounded dark:text-gray-400 text-gray-500 bg-gray-300 dark:bg-gray-700;
     }
+    .upper-legend {
+        @apply uppercase tracking-wide text-base font-semibold;
+    }
 
     .border-light {
         @apply border border-gray-700 dark:border-gray-400;
