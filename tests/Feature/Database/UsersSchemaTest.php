@@ -15,6 +15,7 @@ it('users table database has expected columns', function () {
         'name',
         'email',
         'email_verified_at',
+        'is_active',
         'password',
         'password_changed_at',
         'remember_token',

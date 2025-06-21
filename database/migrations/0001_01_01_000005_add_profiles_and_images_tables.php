@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_active')->default(true)->after('email_verified_at');
             $table->timestamp('password_changed_at')->nullable()->after('password');
         });
 
@@ -37,6 +38,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('is_active');
             $table->dropColumn('password_changed_at');
         });
 

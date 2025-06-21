@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Livewire\Users;
 
 use App\Models\User;
+use App\Traits\ActiveOrDeactiveUserTrait;
+use App\Traits\ChangePasswordUserTrait;
+use App\Traits\SelectTwoPermissionForUserTrait;
 use App\Traits\SelectTwoRoleForUserTrait;
 use Blockpc\App\Traits\AlertBrowserEvent;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +20,10 @@ use Throwable;
 
 final class UpdateUser extends Component
 {
+    use ActiveOrDeactiveUserTrait;
     use AlertBrowserEvent;
-    use \App\Traits\ChangePasswordUserTrait;
-    use \App\Traits\SelectTwoPermissionForUserTrait;
+    use ChangePasswordUserTrait;
+    use SelectTwoPermissionForUserTrait;
     use SelectTwoRoleForUserTrait;
 
     public User $user;
