@@ -41,6 +41,7 @@ trait SelectTwoPermissionForUserTrait
         if (! $this->selected_two_permission_ids->contains($id)) {
             $permiso = Permission::find($id);
             $this->user->givePermissionTo($permiso);
+            $this->alert("Permiso {$permiso->display_name} agregado correctamente", 'success', 'Nuevo Permiso Usuario');
             $this->load_permissions();
         }
         $this->search_permission = '';
@@ -51,6 +52,7 @@ trait SelectTwoPermissionForUserTrait
         if ($this->selected_two_permission_ids->contains($id)) {
             $permiso = Permission::find($id);
             $this->user->revokePermissionTo($permiso);
+            $this->alert("Permiso {$permiso->display_name} quitado correctamente", 'warning', 'Quitar Permiso Usuario');
             $this->load_permissions();
         }
     }

@@ -37,7 +37,7 @@ trait SelectTwoRoleForUserTrait
         return $this->user->roles->pluck('display_name', 'id');
     }
 
-    public function select_option($role_id = null)
+    public function select_role($role_id = null)
     {
         $role = Role::find($role_id);
         $role_name = $role?->display_name;
@@ -57,7 +57,7 @@ trait SelectTwoRoleForUserTrait
         }
     }
 
-    public function remove_option($role_id = null)
+    public function remove_role($role_id = null)
     {
         $role = Role::find($role_id);
         $role_name = $role?->display_name;

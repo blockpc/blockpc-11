@@ -10,6 +10,7 @@
 @php
     $options = collect($options);
     $selected_ids = collect($selected_ids);
+    $when_selected = $attributes->get('when_selected');
 @endphp
 
 <div {{ $attributes->only('class')->merge(['class' => 'flex flex-col text-xs font-semibold']) }}>
@@ -25,15 +26,15 @@
         <div class="div-select2" x-show="open" x-cloak>
             <ul class="list-reset px-2 max-h-40 text-sm scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300 overflow-y-auto">
                 <li class="sticky top-0 bg-dark">
-                    <input wire:model.live.debounce.500ms="{{ $attributes->get('search') }}" id="{{ $name }}" @keydown.enter="open = false; $event.target.blur()" type="text" class="input input-sm w-full" placeholder="{{ $search_by }}">
+                    <input wire:model.live.debounce.500ms="{{ $attributes->get('search') }}" id="{{ $name }}" @keydown.enter="open = false; $event.target.blur()" type="search" class="input input-sm w-full" placeholder="{{ $search_by }}">
                 </li>
                 @forelse ($options as $option_id => $option_name)
                 <li
                     @class([
                         'bg-gray-300 dark:bg-gray-800/50' => $selected_ids->contains($option_id)
                     ])
-                    @if ($attributes->has('when_selected'))
-                        wire:click="{{ $attributes->get('when_selected') }}({{ $option_id }})"
+                    @if ($when_selected)
+                        wire:click="{{ $when_selected }}({{ $option_id }})"
                     @endif
                     x-on:click="open=false"
                     id="etiqueta-{{ $option_id }}"
