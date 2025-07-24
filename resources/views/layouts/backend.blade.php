@@ -33,6 +33,9 @@
             Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) | @ {{ now()->year }}
         </footer>
 
+        <div>
+            @livewire('blockpc::sidebar-notifications', [], key('blockpc::sidebar-notifications'))
+        </div>
         @livewireScripts
         @stack('scripts')
     </body>
