@@ -125,4 +125,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Values for Blockpc
+    |--------------------------------------------------------------------------
+    |*/
+
+    'blockpc' => [
+        'version' => env('BLOCKPC_VERSION', '1.0.0'),
+        'reverb' => [
+            'enabled' => (bool) env('VITE_ENABLE_REVERB', false),
+        ],
+    ]
+
 ];

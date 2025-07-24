@@ -15,6 +15,7 @@ use Blockpc\App\Mixins\QuerySearchMixin;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -68,6 +69,8 @@ final class BlockpcServiceProvider extends ServiceProvider
         // Load Service Providers from packages
         $this->loadServiceProviders();
 
+        Blade::anonymousComponentPath($blockpc_dir.'resources/views', 'blockpc');
+
         // Load Views
         $this->loadViewsFrom($blockpc_dir.'resources/views', 'blockpc');
 
@@ -86,6 +89,9 @@ final class BlockpcServiceProvider extends ServiceProvider
     protected function loadWireComponents()
     {
         Livewire::component('message-alerts', MessageAlerts::class);
+
+        Livewire::component('blockpc::btn-notifications', \Blockpc\App\Livewire\Notifications\ButtonShowNotifications::class);
+        Livewire::component('blockpc::sidebar-notifications', \Blockpc\App\Livewire\Notifications\SidebarNotification::class);
     }
 
     /**

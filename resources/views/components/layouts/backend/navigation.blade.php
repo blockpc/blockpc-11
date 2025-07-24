@@ -24,8 +24,11 @@
 
             {{-- Settings Dropdown --}}
             <div class="flex items-center md:space-x-4">
-                <div class="px-2 h-16 flex">
-                    <button id="theme-toggle" type="button" class="rounded-lg text-sm p-1 ml-4">
+                <div class="h-16 flex">
+                    @livewire('blockpc::btn-notifications', [], key('blockpc::btn-notifications'))
+                </div>
+                <div class="h-16 flex">
+                    <button id="theme-toggle" type="button" class="rounded-lg text-sm p-1">
                         <x-bx-sun class="hidden h-6 w-6 text-yellow-600" id="theme-toggle-dark-icon" />
                         <x-bx-moon class="hidden h-6 w-6 text-gray-200" id="theme-toggle-light-icon" />
                     </button>
@@ -34,16 +37,16 @@
                 <x-dropdown align="right" width="72" :bx="false">
                     <x-slot name="trigger">
                         <button class="flex items-center space-x-2 text-sm font-medium text-dark transition duration-150 ease-in-out mx-2">
-                            <x-logo class="rounded-full w-8 h-8 bg-inherit" src="{{ image_profile() }}" alt="{{ current_user()->name }}" />
+                            <x-logo class="rounded-full w-8 h-8 bg-inherit" src="{{ image_profile() }}" alt="{{ current_user()->fullname }}" />
                         </button>
                     </x-slot>
                     <x-slot name="content">
                         <div class="flex items-center space-x-2 p-2">
                             <div class="w-16">
-                                <img class="rounded-full bg-inherit" src="{{ image_profile() }}" alt="{{ current_user()->name }}">
+                                <img class="rounded-full bg-inherit" src="{{ image_profile() }}" alt="{{ current_user()->fullname }}">
                             </div>
                             <div class="w-full">
-                                <div class="font-bold text-base text-gray-800 dark:text-gray-200">{{ current_user()->name }}</div>
+                                <div class="font-bold text-base text-gray-800 dark:text-gray-200">{{ current_user()->fullname }}</div>
                                 <div class="font-medium text-xs text-gray-500 dark:text-gray-400">Administrador</div>
                             </div>
                         </div>

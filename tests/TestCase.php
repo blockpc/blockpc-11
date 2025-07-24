@@ -6,6 +6,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Tests\Traits\IsolateViewStorage;
 use Tests\Traits\ProtectTestEnvironment;
 
 abstract class TestCase extends BaseTestCase
@@ -13,6 +14,7 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplicationTrait;
     use ProtectTestEnvironment;
     use RefreshDatabase;
+    use IsolateViewStorage;
 
     /**
      * Indicates whether the default seeder should run before each test.
@@ -28,6 +30,8 @@ abstract class TestCase extends BaseTestCase
         $this->ensureSafeTestEnvironment();
 
         $this->withoutVite();
+
+        // $this->isolateViewStorage();
 
         $this->seed();
     }

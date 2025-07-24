@@ -19,6 +19,8 @@ Icons [blade-ui-kit/blade-icons](https://github.com/blade-ui-kit/blade-icons) wi
 - [Boxicons](https://github.com/mallardduck/blade-boxicons)
 - [Heroicons](https://github.com/blade-ui-kit/blade-heroicons)
 
+Laravel [Reverb](https://reverb.laravel.com/)
+
 _Dont forget clear cache icons if don't see them correctly_
 
 Helpers: file autoload helper on `Blockpc\helpers.php`
@@ -139,6 +141,17 @@ This command run `php artisan optimize --quiet`
 ### Delete command
 
 with command `php artisan blockpc:package-delete` you can delete your own packages folder
+
+### Laravel Reverb
+
+Se usa laravel reverb para poder enviar mensaje entre usuarios.
+Los mensajes son enviados por medio de un `job` (`php artisan queue:listen` en local, `php artisan queue:work` en produccion)
+Pasos:
+- Se debe ajustar una variable de entorno `VITE_ENABLE_REVERB` a true
+- se debe ejecutar `php artisan reverb:start`
+
+Por defecto, `VITE_ENABLE_REVERB` esta en false, y no se usa reverb.
+Los mensajes se envian igual (siempre que este el worker este activo) solo que el usuario debera actualizar la pagina
 
 ### Others
 

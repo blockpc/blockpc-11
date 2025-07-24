@@ -70,7 +70,7 @@ final class RoleSynchronizerService
         ]);
 
         return Role::all()->filter(function ($role) use ($defined) {
-            return ! $defined->contains(fn ($r) => $r['name'] === $role->name && $r['guard_name'] === $role->guard_name
+            return !$defined->contains(fn ($r) => $r['name'] === $role->name && $r['guard_name'] === $role->guard_name
             );
         });
     }

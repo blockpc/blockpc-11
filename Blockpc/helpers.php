@@ -27,7 +27,7 @@ if (! function_exists('image_profile')) {
         $user = $user ?? current_user();
         $image = $user?->exists ? $user->profile?->image : false;
         if (! $image) {
-            $name = str_replace(' ', '+', $user?->exists ? $user->name : 'n n');
+            $name = str_replace(' ', '+', $user?->exists ? $user->fullname : 'n n');
 
             return "https://ui-avatars.com/api/?name={$name}";
         }
@@ -40,5 +40,19 @@ if (! function_exists('title')) {
     function title($value): string
     {
         return Str::title($value);
+    }
+}
+
+if (! function_exists('formato')) {
+    function formato($date, $format_out = 'd/m/Y H:i'): string
+    {
+        return Str::title($date?->translatedFormat($format_out) ?? '--');
+    }
+}
+
+if (! function_exists('tiempo')) {
+    function tiempo($seconds): string|false
+    {
+        return gmdate('H:i:s', $seconds);
     }
 }

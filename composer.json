@@ -9,6 +9,7 @@
         "blade-ui-kit/blade-heroicons": "^2.6",
         "christophrumpel/missing-livewire-assertions": "^2.8",
         "laravel/framework": "^12.0",
+        "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",

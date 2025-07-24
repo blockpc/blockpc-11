@@ -113,6 +113,8 @@ return [
             'users' => 'Usuarios',
             'roles' => 'Cargos',
             'permissions' => 'Permisos',
+            'jobs' => 'Control de Tareas',
+            'settings' => 'Configuración',
         ],
     ],
     'register' => [

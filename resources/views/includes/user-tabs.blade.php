@@ -9,10 +9,6 @@
     <div class="flex flex-col space-y-2 p-2 md:block" :class="show ? '' : 'hidden'">
         <div class="w-full bg-parameter">
 
-            {{-- <x-menus.parameter :route="route('auditoria.auditing')" :active="route_active('auditoria.auditing', true)" :first="1">
-                <span>{{__('Auditoria de Trazabilidad')}}</span>
-            </x-menus.parameter> --}}
-
             <x-links.parameter :active="false" :first="1">
                 <span>{{__('Auditoria de Trazabilidad')}}</span>
             </x-links.parameter>
