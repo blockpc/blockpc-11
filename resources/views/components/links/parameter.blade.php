@@ -13,7 +13,7 @@
             'link-parameter',
             'link-parameter-active' => $active,
             'link-parameter-no-active border-r border-l' => !$active,
-            'border border-t-nonde rounded-b-lg' => $last,
+            'border border-t-none rounded-b-lg' => $last,
             'border border-b-nonde rounded-t-lg' => $first
         ])>
 
