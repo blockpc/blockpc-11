@@ -12,7 +12,7 @@
 
     <div class="flex flex-col space-y-2 w-full">
         <select {{ $attributes->except('class') }} name="{{$name}}" id="{{$name}}" class="select text-sm scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700 @error( $attributes->wire('model')->value() ) border-error @enderror" title="{{ $tooltip }}">
-            <option wire:key="0">{{__('common.select')}}...</option>
+            <option value="" wire:key="0">{{__('common.select')}}...</option>
             @foreach ($options as $option_key => $option_value)
                 <option value="{{ $option_key }}" wire:key="{{ $option_key }}">{{ __($option_value) }}</option>
             @endforeach

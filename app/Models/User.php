@@ -31,11 +31,20 @@ final class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    protected $casts = [
-        'is_active' => 'boolean',
-        'password_changed_at' => 'datetime',
-        'email_verified_at' => 'datetime',
-    ];
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+            'password_changed_at' => 'datetime',
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
     /**
      * Get the user's full name.
@@ -68,19 +77,5 @@ final class User extends Authenticatable implements MustVerifyEmail
         $query->when($search, function ($query) use ($search) {
             $query->whereLike(['name', 'email', 'profile.firstname', 'profile.lastname'], $search);
         });
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'password_changed_at' => 'datetime',
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
     }
 }

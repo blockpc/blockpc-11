@@ -23,7 +23,7 @@ final class SendNotificationToUserJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(public $message, public $type_id, public $user_id, public $current_user_id)
+    public function __construct(public string $message, public string $type_id, public int $user_id, public int $current_user_id)
     {
         //
     }
