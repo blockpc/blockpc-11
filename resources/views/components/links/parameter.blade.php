@@ -14,7 +14,7 @@
             'link-parameter-active' => $active,
             'link-parameter-no-active border-r border-l' => !$active,
             'border border-t-none rounded-b-lg' => $last,
-            'border border-b-nonde rounded-t-lg' => $first
+            'border border-b-none rounded-t-lg' => $first
         ])>
 
             <div class="flex items-center justify-between w-full">
