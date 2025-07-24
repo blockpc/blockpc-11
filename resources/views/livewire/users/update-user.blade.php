@@ -70,7 +70,7 @@
                                 search_by="Buscar por nombre"
                             />
                         </div>
-                        <x-buttons.btn class="btn-info h-8" x-on:click="show_roles=!show_roles">
+                        <x-buttons.btn class="btn-default h-8" x-on:click="show_roles=!show_roles">
                             <span class="flex items-center">Mostrar ({{ $this->userRoles()->count() }})</span>
                         </x-buttons.btn>
                     </div>
@@ -117,7 +117,7 @@
                                 search_by="Buscar por nombre"
                             />
                         </div>
-                        <x-buttons.btn class="btn-info h-8" x-on:click="show_permissions=!show_permissions">
+                        <x-buttons.btn class="btn-default h-8" x-on:click="show_permissions=!show_permissions">
                             <span class="flex items-center">Mostrar ({{ $this->user->getAllPermissions()->count() }})</span>
                         </x-buttons.btn>
                     </div>
@@ -157,7 +157,7 @@
                                 <x-buttons.btn class="btn-default" wire:click="generatePassword">
                                     {{ __('pages.users.titles.generate_password') }}
                                 </x-buttons.btn>
-                                <x-buttons.submit class="btn-success">
+                                <x-buttons.submit class="btn-info">
                                     {{ __('pages.users.titles.change_password') }}
                                 </x-buttons.submit>
                             </div>
@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="lg:col-span-2 grid grid-cols-2 gap-4">
-                    <x-toggle-sm name="update_user_active" label="{{ __('pages.users.attributes.form.active') }}" default="red" wire:model.live="is_active" />
+                    <x-toggle-sm name="update_user_active" label="{{ __('pages.users.attributes.form.active') }}" default="red" wire:model.live="is_active" yes="Activado" not="No Activado" />
                 </div>
             </div>
 

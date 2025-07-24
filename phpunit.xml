@@ -37,5 +37,8 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="VIEW_COMPILED_PATH" value="storage/framework/testing/views"/>
+
+        <!-- Limpieza de vistas Blade compiladas por proceso -->
+        <env name="PEST_PARALLEL_PROCESS_FINISHED" value="tests/CleanupBladeViews.php"/>
     </php>
 </phpunit>

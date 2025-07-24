@@ -2,8 +2,8 @@
 
 <div {{ $attributes->only('class') }}>
     @if ( $label)
-        <label class="label" for="{{$name}}">
-            <span>{{title(__($label))}}</span>
+        <label class="label mb-1 mx-2" for="{{$name}}">
+            <span>{{ $label }}</span>
             @if ($required)
             <span class="ml-1 text-red-600 dark:text-red-400">*</span>
             @endif
@@ -12,7 +12,7 @@
 
     <div class="flex flex-col space-y-2 w-full">
         <select {{ $attributes->except('class') }} name="{{$name}}" id="{{$name}}" class="select text-sm scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700 @error( $attributes->wire('model')->value() ) border-error @enderror" title="{{ $tooltip }}">
-            <option value="" wire:key="0">{{__('common.select')}}...</option>
+            <option wire:key="0">{{__('common.select')}}...</option>
             @foreach ($options as $option_key => $option_value)
                 <option value="{{ $option_key }}" wire:key="{{ $option_key }}">{{ __($option_value) }}</option>
             @endforeach

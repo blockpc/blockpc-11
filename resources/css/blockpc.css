@@ -296,4 +296,8 @@
     .badge-warning {
         @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-800;
     }
+
+    .wire-loading {
+        @apply hidden top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-900 opacity-90 flex-col items-center justify-center;
+    }
 }
