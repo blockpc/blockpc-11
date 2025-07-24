@@ -14,7 +14,6 @@ beforeEach(function () {
     $this->admin = new_user(role: 'admin');
 });
 
-// SendNotificationToUserJobTest
 
 test('notification is sent to the user but no broadcasting', function () {
     $this->actingAs($this->user);
