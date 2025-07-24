@@ -15,11 +15,6 @@ final class SidebarNotification extends Component
 {
     use AlertBrowserEvent;
 
-    protected $listeners = [
-        'refresh',
-        'show_sidebar',
-    ];
-
     public $sidebar = false;
 
     public $show_response = false;
@@ -39,6 +34,11 @@ final class SidebarNotification extends Component
     public $response_type_id;
 
     public $response_message;
+
+    protected $listeners = [
+        'refresh',
+        'show_sidebar',
+    ];
 
     public function mount()
     {
@@ -71,21 +71,6 @@ final class SidebarNotification extends Component
     {
         $this->sidebar = false;
         $this->dispatch('close_sidebar')->to(ButtonShowNotifications::class);
-    }
-
-    private function getNotifications()
-    {
-        $notifications = current_user()->unreadNotifications->map(function ($notification) {
-            return (object) [
-                'id' => $notification->id,
-                'type' => $notification->data['type'],
-                'message' => $notification->data['message'],
-                'from' => User::find($notification->data['from_id'])->fullname,
-                'date' => formato($notification->created_at, 'd/m/Y H:i'),
-            ];
-        });
-
-        return $notifications;
     }
 
     #[Computed()]
@@ -141,7 +126,6 @@ final class SidebarNotification extends Component
     /**
      * Envio de una nueva notificación.
      */
-
     #[Computed]
     public function users()
     {
@@ -185,5 +169,20 @@ final class SidebarNotification extends Component
     public function close_new_notification()
     {
         $this->reset('notification_user_id', 'response_type_id', 'response_message', 'new_notification');
+    }
+
+    private function getNotifications()
+    {
+        $notifications = current_user()->unreadNotifications->map(function ($notification) {
+            return (object) [
+                'id' => $notification->id,
+                'type' => $notification->data['type'],
+                'message' => $notification->data['message'],
+                'from' => User::find($notification->data['from_id'])->fullname,
+                'date' => formato($notification->created_at, 'd/m/Y H:i'),
+            ];
+        });
+
+        return $notifications;
     }
 }

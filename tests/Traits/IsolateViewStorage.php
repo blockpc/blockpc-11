@@ -8,13 +8,12 @@ use Illuminate\View\Engines\CompilerEngine;
 
 trait IsolateViewStorage
 {
-
     protected function isolateViewStorage(): void
     {
         $pid = getmypid();
         $path = storage_path("framework/testing/views/{$pid}");
 
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             mkdir($path, 0755, true);
         }
 
@@ -29,5 +28,4 @@ trait IsolateViewStorage
             return $resolver;
         });
     }
-
 }

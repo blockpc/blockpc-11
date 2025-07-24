@@ -23,7 +23,7 @@ final class ButtonShowNotifications extends Component
         ];
 
         // If the Reverb feature is enabled, listen for private user events
-        if ( config('app.blockpc.reverb.enabled')) {
+        if (config('app.blockpc.reverb.enabled')) {
             $listeners[] = "echo:private-users.{$this->user_id},.SendMessagePusherEvent";
         }
 
@@ -44,7 +44,7 @@ final class ButtonShowNotifications extends Component
 
     public function recibido()
     {
-        $this->alert('Ha llegado un mensaje.', title:'Notificación');
+        $this->alert('Ha llegado un mensaje.', title: 'Notificación');
     }
 
     public function open_close()

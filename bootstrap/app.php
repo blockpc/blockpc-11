@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ->merge([
 
         ])
-        ->replace([\Illuminate\View\ViewServiceProvider::class => \Blockpc\App\Providers\ViewServiceProvider::class])
+        ->replace([Illuminate\View\ViewServiceProvider::class => Blockpc\App\Providers\ViewServiceProvider::class])
         ->toArray()
     )
     ->create();

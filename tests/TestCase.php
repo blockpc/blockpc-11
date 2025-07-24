@@ -12,9 +12,9 @@ use Tests\Traits\ProtectTestEnvironment;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplicationTrait;
+    use IsolateViewStorage;
     use ProtectTestEnvironment;
     use RefreshDatabase;
-    use IsolateViewStorage;
 
     /**
      * Indicates whether the default seeder should run before each test.
