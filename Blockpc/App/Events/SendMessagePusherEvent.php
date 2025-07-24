@@ -21,8 +21,6 @@ final class SendMessagePusherEvent implements ShouldBroadcastNow
 
     /**
      * Get the event's broadcast name.
-     *
-     * @return string
      */
     public function broadcastAs(): string
     {

@@ -9,10 +9,10 @@ use Blockpc\App\Events\SendMessagePusherEvent;
 use Blockpc\App\Notifications\UserNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Notification;
 
 final class SendNotificationToUserJob implements ShouldQueue
 {
@@ -40,7 +40,7 @@ final class SendNotificationToUserJob implements ShouldQueue
 
         Notification::send($user, new UserNotification($this->message, $this->type_id, $current_user));
 
-        if ( config('app.blockpc.reverb.enabled') ) {
+        if (config('app.blockpc.reverb.enabled')) {
             event(new SendMessagePusherEvent($user->id));
         }
     }

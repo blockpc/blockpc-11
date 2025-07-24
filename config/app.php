@@ -136,6 +136,6 @@ return [
         'reverb' => [
             'enabled' => (bool) env('VITE_ENABLE_REVERB', false),
         ],
-    ]
+    ],
 
 ];

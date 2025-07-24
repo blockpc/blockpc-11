@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Blockpc\App\Events\SendMessagePusherEvent;
 use Blockpc\App\Jobs\SendNotificationToUserJob;
 use Blockpc\App\Notifications\UserNotification;
@@ -13,7 +15,6 @@ beforeEach(function () {
     $this->user = new_user();
     $this->admin = new_user(role: 'admin');
 });
-
 
 test('notification is sent to the user but no broadcasting', function () {
     $this->actingAs($this->user);
