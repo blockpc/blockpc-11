@@ -60,7 +60,7 @@
 
                         <div class="flex space-x-2">
                             <div class="w-full">
-                                <x-select-two-only-select
+                                <x-select-two-onlyone
                                     name="select_two_add_role_to_user"
                                     title="Agregar Cargo..."
                                     :options="$this->allRoles"

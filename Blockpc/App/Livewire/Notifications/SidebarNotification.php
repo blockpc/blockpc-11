@@ -14,6 +14,7 @@ use Livewire\Component;
 final class SidebarNotification extends Component
 {
     use AlertBrowserEvent;
+    use SelectTwoOnlyOneUserTrait;
 
     public $sidebar = false;
 
@@ -123,17 +124,6 @@ final class SidebarNotification extends Component
         $this->reset('notification_response', 'user_to_response', 'response_type_id', 'response_message', 'show_response');
     }
 
-    /**
-     * Envio de una nueva notificación.
-     */
-    #[Computed]
-    public function users()
-    {
-        return User::where('id', '!=', current_user()->id)
-            ->get()
-            ->pluck('fullname', 'id');
-    }
-
     public function send_new_notification()
     {
         $this->validate([
@@ -184,5 +174,10 @@ final class SidebarNotification extends Component
         });
 
         return $notifications;
+    }
+
+    public function select_user($user_id)
+    {
+        dump($user_id);
     }
 }
