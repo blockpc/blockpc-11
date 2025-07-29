@@ -11,6 +11,7 @@
     $options = collect($options);
     $selected_ids = collect($selected_ids);
     $when_selected = $attributes->get('when_selected');
+    $search = $attributes->get('search');
 @endphp
 
 <div {{ $attributes->only('class')->merge(['class' => 'flex flex-col text-xs font-semibold']) }}>
@@ -26,7 +27,10 @@
         <div class="div-select2" x-show="open" x-cloak>
             <ul class="list-reset px-2 max-h-40 text-sm scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300 overflow-y-auto">
                 <li class="sticky top-0 bg-dark">
-                    <input wire:model.live.debounce.500ms="{{ $attributes->get('search') }}" id="{{ $name }}" @keydown.enter="open = false; $event.target.blur()" type="search" class="input input-sm w-full" placeholder="{{ $search_by }}">
+                    <input type="search" class="input input-sm w-full" placeholder="{{ $search_by }}" id="{{ $name }}"
+                         wire:model.live.debounce.500ms="{{ $search }}"
+                         @keydown.enter="open = false; $event.target.blur()"
+                    />
                 </li>
                 @forelse ($options as $option_id => $option_name)
                 <li
@@ -47,7 +51,7 @@
                     </div>
                 </li>
                 @empty
-                <li class="" x-on:click="open=false" wire:click="$set('{{ $attributes->get('search') }}', null)">
+                <li class="" x-on:click="open=false" wire:click="$set('{{ $search }}', null)">
                     <p class="p-2 block dark:text-red-400 text-red-800 hover:bg-red-200 cursor-pointer">{{ $empty_values }}</p>
                 </li>
                 @endforelse

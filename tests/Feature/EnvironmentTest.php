@@ -10,8 +10,6 @@ beforeEach(function () {
 
 // EnvironmentTest
 
-// EnvironmentTest
-
 test('tests are running in the correct environment', function () {
     $this->assertEquals('testing', app()->environment());
     $this->assertDatabaseHas('users', ['id' => $this->user->id]); // según lo que sepas

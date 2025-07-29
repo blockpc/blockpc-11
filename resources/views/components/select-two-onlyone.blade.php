@@ -10,6 +10,8 @@
 
 @php
     $when_selected = $attributes->get('when_selected');
+    $click = $attributes->get('click');
+    $search = $attributes->get('search');
 @endphp
 
 <div {{ $attributes->only('class')->merge(['class' => '']) }}>
@@ -21,18 +23,27 @@
                     <x-bx-chevron-up class="w-4 h-4" />
                 </div>
             </button>
-            @if ( $selected_id )
-            <x-buttons.btn class="btn-danger" wire:click="{{ $attributes->get('click') }}">
+            @if ( $selected_id && $click )
+            <x-buttons.btn class="btn-danger" wire:click="{{ $click }}">
                 <x-bx-x class="w-4 h-4" />
             </x-buttons.btn>
             @endif
         </div>
 
-        <div class="div-select2" x-show="open" x-cloak>
+        <div class="z-10 w-full rounded-b shadow-md py-2 text-dark border-l border-r border-b border-gray-500" x-show="open" x-cloak>
+            <div class="m-2">
+                <input type="search" class="input input-sm w-full" placeholder="{{ $search_by }}" id="{{ $name }}"
+                    wire:model.live.debounce.500ms="{{ $search }}"
+                    @keydown.enter="open = false; $event.target.blur()"
+                />
+            </div>
             <ul class="list-reset px-2 max-h-64 text-sm scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300 overflow-y-auto">
-                <li class="sticky top-0 bg-dark">
-                    <input wire:model.live.debounce.500ms="{{ $attributes->get('search') }}" id="{{ $name }}" @keydown.enter="open = false; $event.target.blur()" type="text" class="input input-sm w-full" placeholder="{{ $search_by }}">
-                </li>
+                {{-- <li class="sticky top-0">
+                    <input type="search" class="input input-sm w-full" placeholder="{{ $search_by }}" id="{{ $name }}"
+                        wire:model.live.debounce.500ms="{{ $search }}"
+                        @keydown.enter="open = false; $event.target.blur()"
+                    />
+                </li> --}}
                 @forelse ($options as $option_id => $option_name)
                 <li
                     @if ($when_selected)
@@ -49,7 +60,7 @@
                     </div>
                 </li>
                 @empty
-                <li x-on:click="open=false" wire:click="$set('{{ $attributes->get('search') }}', null)">
+                <li x-on:click="open=false" wire:click="$set('{{ $search }}', null)">
                     <p class="p-2 block dark:text-red-400 text-red-800 hover:bg-red-200 cursor-pointer">{{ $empty_values }}</p>
                 </li>
                 @endforelse

@@ -97,7 +97,18 @@
         <div class="grid gap-4 mt-4">
                 <x-inputs.select label="Tipo Respuesta" name="type_select_response_new_notification" title="Tipo de respuesta" :options="$this->types" wire:model="response_type_id" required />
 
-                <x-inputs.select label="Destinatario" name="user_to_response_new_notification" title="Usuario Destino" :options="$this->users" wire:model="notification_user_id" required />
+                {{-- <x-inputs.select label="Destinatario" name="user_to_response_new_notification" title="Usuario Destino" :options="$this->users" wire:model="notification_user_id" required /> --}}
+
+                <x-select-two-onlyone
+                    name="select_two_send_notification_to_user"
+                    title="Seleccionar Usuario..."
+                    :options="$this->users"
+                    search="search_user"
+                    when_selected="select_user"
+                    selected_name="{{ $select_user_name }}"
+                    selected_id="{{ $select_user_id }}"
+                    search_by="Buscar por nombre"
+                />
 
                 <x-inputs.textarea label="Mensaje" name="message_user_response_new_notification" title="Mensaje" wire:model="response_message" required />
 
