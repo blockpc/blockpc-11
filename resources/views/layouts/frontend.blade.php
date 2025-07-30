@@ -18,23 +18,17 @@
 
         @stack('styles')
     </head>
-    <body class="font-sans antialiased dark-mode flex flex-col h-full">
-        <x-layouts.frontend.navigation />
-        <x-layouts.messages />
-
-        <!-- Page Heading -->
-        @if ( isset($header) )
-        <header class="content flex flex-col space-y-2 p-2">
-            {{ $header }}
-        </header>
-        @endif
-
-        <main class="content">
-            {{ $slot }}
-        </main>
-        <footer class="bg-slate text-center text-sm mt-auto p-4">
-            Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-        </footer>
+    <body class="font-sans antialiased dark-frontend">
+        <div class="h-screen flex flex-col">
+            <x-layouts.frontend.navigation />
+            <x-layouts.messages />
+            <main class="flex flex-col flex-1">
+                {{ $slot }}
+            </main>
+            <footer class="bg-slate text-center text-sm mt-auto p-4">
+                Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+            </footer>
+        </div>
         @livewireScripts
         @stack('scripts')
     </body>

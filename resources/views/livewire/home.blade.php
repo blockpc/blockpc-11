@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-between items-center text-dark bg-dark h-screen-nav">
+<div class="flex flex-col justify-between items-center h-screen-nav">
     <div class="w-full md:w-9/12 lg:w-8/12 px-6 lg:px-32">
         <img class="w-48 mx-auto py-6" src="{{ asset('img/logo150x75.png') }}" alt="BlockPC" />
     </div>

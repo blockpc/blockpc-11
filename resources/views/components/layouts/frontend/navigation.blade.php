@@ -31,11 +31,11 @@
                             {{ __('Log in') }}
                         </x-nav-link>
 
-                        @if (Route::has('register'))
+                        {{-- @if (Route::has('register'))
                             <x-nav-link :href="route('register')" :active="request()->routeIs('register')">
                                 {{ __('Register') }}
                             </x-nav-link>
-                        @endif
+                        @endif --}}
                     @endauth
                 </div>
 
