@@ -10,7 +10,9 @@ use Livewire\Attributes\Computed;
 trait SelectTwoOnlyOneUserTrait
 {
     public $search_user;
+
     public $select_user_name;
+
     public $select_user_id;
 
     #[Computed()]
@@ -23,5 +25,4 @@ trait SelectTwoOnlyOneUserTrait
             ->get()
             ->pluck('fullname', 'id');
     }
-
 }
