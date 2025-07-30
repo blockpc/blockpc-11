@@ -1,6 +1,6 @@
-# BlockPC Layout for Laravel
+# BlockPC Plantilla para Laravel
 
-This repo contains a frontend and bakend layouts for a laravel
+Este repositorio contiene pantillas para frontend y backend para una plaicación de laravel
 
 Contains:
 - Laravel 12
@@ -9,35 +9,35 @@ Contains:
 - Alpine JS
 - Pest
 
-Packages for laravel:
+Paquetes instalados para laravel:
 - [barryvdh/laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) (for only dev)
 - [christophrumpel/missing-livewire-assertions](https://github.com/christophrumpel/missing-livewire-assertions)
 - [spatie/laravel-permission](https://spatie.be/index.php/docs/laravel-permission)
 - [intervention/image](http://image.intervention.io/)
 
-Icons [blade-ui-kit/blade-icons](https://github.com/blade-ui-kit/blade-icons) with
+Iconos [blade-ui-kit/blade-icons](https://github.com/blade-ui-kit/blade-icons)
 - [Boxicons](https://github.com/mallardduck/blade-boxicons)
 - [Heroicons](https://github.com/blade-ui-kit/blade-heroicons)
 
 Laravel [Reverb](https://reverb.laravel.com/)
 
-_Dont forget clear cache icons if don't see them correctly_
+_No olvidar limpiar la cache de iconos si no se ven correctamente_
 
-Helpers: file autoload helper on `Blockpc\helpers.php`
+Helpers: archivo `Blockpc\helpers.php`
 
-Packages NPM:
+Paquetes NPM:
 
 - [tailwind-scrollbar](https://github.com/adoxography/tailwind-scrollbar)
 
-This packages includes a model `Profile` (one-to-one for user) and model `Image` (polimorphic model)
+Este repositorio incluye un modelo `Profile` (one-to-one for user) y un modelo `Image` (polimorphic model)
 
-### Install Clone
+### Instalación
 
-first clone
+Primero clonar el repositorio
 
 >    git clone https://github.com/blockpc/blockpc-11 _your-name-proyect_
 
-next
+Siguiente
 
 >    cd _your-name-proyect_
 >    cp .env.example .env (Configure your app name, app url, database, email, etc)
@@ -46,13 +46,13 @@ next
 >    php artisan storage:link
 >    php artisan icons:cache
 
-if not use SAIL
+Si no se usa laravel SAIL
 
 >	php artisan migrate --seed
 >	npm install
 >	npm run dev
 
-else, with SAIL
+sino, con SAIL
 
 >	check if not docker-compose.yml exists
 >		php artisan sail:install (select your prefers apps, comma separator)
@@ -65,13 +65,13 @@ else, with SAIL
 >	./vendor/bin/sail npm install
 >	./vendor/bin/sail npm run dev
 
-open new console
+Abrir una consola
 
 >    run tests using `pest -p`
 
-### Change remote (important)
+### Cambiar remoto (importante)
 
-You must before start your proyect remove or change the git remote url
+Deberias cambiar el remoto que hace referencia a la url de github
 
 - git remote set-url origin `url-at-your-proyect-git`
 - git remote -v
@@ -80,11 +80,12 @@ You must before start your proyect remove or change the git remote url
 
 `php artisan sail:install`
 
-if you wants install `phpmyadmin` for mysql/mariadb add at your `docker-compose.yml`
-and replace mariadb or mysql
+Si quieres instalar `phpmyadmin` para mysql/mariadb agrega a tu archivo `docker-compose.yml`
+y reemplaza mysql/mariadb
 
 ```
 phpmyadmin:
+    container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin:latest
     restart: always
     links:
@@ -101,12 +102,14 @@ phpmyadmin:
         - mariadb
 ```
 
-### Create Package
+### Crear Paquete (Modulo)
 
-with command `php artisan blockpc:package` you can create your own packages folder with own service provider.
-This command create a folder structure like this:
+Con el comando `php artisan blockpc:package` tu puedes crear tu propio modulo con su ServiceProvider personal.
+El comando crea una estructura como esta:
 
-if the name for your package is course
+Pro ejemplo, si ejecutas `php artisan blockpc:package` y le asignas un nombre `course`
+Se creara la siguiente estructura dentro de la carpeta Packages
+
 ```
 Packages/
     - Package/
@@ -136,25 +139,23 @@ Packages/
 add a test 'tests/Feature/Packages/Course/CourseRouteTest.php'
 
 ```
-This command run `php artisan optimize --quiet`
+Este comando ejecuta `php artisan optimize --quiet`
 
-### Delete command
+### Eliminar un Paquete
 
-with command `php artisan blockpc:package-delete` you can delete your own packages folder
+Con el comando `php artisan blockpc:package-delete` tu puedes eliminar un paquete instalado
 
 ### Laravel Reverb
 
 Se usa laravel reverb para poder enviar mensaje entre usuarios.
 Los mensajes son enviados por medio de un `job` (`php artisan queue:listen` en local, `php artisan queue:work` en produccion)
+El job emitira un evento que envia la notificacion via _reverb_
+
 Pasos:
 - Se debe ajustar una variable de entorno `VITE_ENABLE_REVERB` a true
 - se debe ejecutar `php artisan reverb:start`
 
 Por defecto, `VITE_ENABLE_REVERB` esta en false, y no se usa reverb.
 Los mensajes se envian igual (siempre que este el worker este activo) solo que el usuario debera actualizar la pagina
-
-### Others
-
-_i try to stand this repository always to update_
 
 Enjoy!

@@ -161,6 +161,11 @@ final class SidebarNotification extends Component
         $this->reset('notification_user_id', 'response_type_id', 'response_message', 'new_notification');
     }
 
+    public function select_user($user_id)
+    {
+        dump($user_id);
+    }
+
     private function getNotifications()
     {
         $notifications = current_user()->unreadNotifications->map(function ($notification) {
@@ -174,10 +179,5 @@ final class SidebarNotification extends Component
         });
 
         return $notifications;
-    }
-
-    public function select_user($user_id)
-    {
-        dump($user_id);
     }
 }
