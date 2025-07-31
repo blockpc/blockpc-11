@@ -10,13 +10,8 @@ use Livewire\Component;
 
 final class Home extends Component
 {
-    public function mount()
-    {
-        //
-    }
-
     #[Layout('layouts.frontend')]
-    #[Title('Home')]
+    #[Title('Inicio')]
     public function render()
     {
         return view('livewire.home');

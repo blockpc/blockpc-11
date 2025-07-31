@@ -14,7 +14,10 @@
                 {{-- Navigation Links --}}
                 <div class="hidden sm:flex sm:space-x-4">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Home') }}
+                        {{ __('Inicio') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+                        {{ __('Contacto') }}
                     </x-nav-link>
                 </div>
             </div>
