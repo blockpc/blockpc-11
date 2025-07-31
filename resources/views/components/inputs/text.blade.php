@@ -3,7 +3,7 @@
 <div {{ $attributes->only('class') }}>
     @if ( $label )
     <label class="label" for="{{$name}}">
-        <span>{{title(__($label))}}</span>
+        <span>{{__($label)}}</span>
         @if ($required)
         <span class="ml-1 text-red-600 dark:text-red-400">*</span>
         @endif

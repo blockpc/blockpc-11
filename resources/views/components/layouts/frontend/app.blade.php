@@ -24,7 +24,6 @@
         <!-- Page Heading -->
         <header class="content flex flex-col space-y-2 p-2">
             <x-layouts.messages />
-            {{-- @include('layouts.frontend.messages') --}}
             {{ $header }}
         </header>
 
