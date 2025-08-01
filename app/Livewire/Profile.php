@@ -18,10 +18,12 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Throwable;
 
 final class Profile extends Component
 {
+    use WithFileUploads;
     use AlertBrowserEvent;
 
     public $firstname;
