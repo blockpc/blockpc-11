@@ -10,6 +10,7 @@ use Blockpc\App\Console\Commands\DumpAutoloadCommand;
 use Blockpc\App\Console\Commands\SyncPermissionsCommand;
 use Blockpc\App\Console\Commands\SyncRolesAndPermissionsCommand;
 use Blockpc\App\Console\Commands\SyncRolesCommand;
+use Blockpc\App\Livewire\CustomModal;
 use Blockpc\App\Livewire\MessageAlerts;
 use Blockpc\App\Mixins\QuerySearchMixin;
 use Carbon\Carbon;
@@ -89,6 +90,11 @@ final class BlockpcServiceProvider extends ServiceProvider
     protected function loadWireComponents()
     {
         Livewire::component('message-alerts', MessageAlerts::class);
+        Livewire::component('custom-modal', CustomModal::class);
+
+        // Example Components
+        Livewire::component('create-example', \Blockpc\App\Livewire\Examples\CreateExample::class);
+        // Livewire::component('edit-example', \Blockpc\App\Livewire\Examples\EditExample::class);
 
         Livewire::component('blockpc::btn-notifications', \Blockpc\App\Livewire\Notifications\ButtonShowNotifications::class);
         Livewire::component('blockpc::sidebar-notifications', \Blockpc\App\Livewire\Notifications\SidebarNotification::class);
