@@ -64,6 +64,21 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "test": [
+            "./vendor/bin/sail test"
+        ],
+        "test-fast": [
+            "./vendor/bin/sail test --exclude-group=filesystem,slow,integration -p"
+        ],
+        "test-slow": [
+            "./vendor/bin/sail test --group=filesystem"
+        ],
+        "test-all": [
+            "./scripts/test-optimized.sh"
+        ],
+        "test-filesystem": [
+            "./vendor/bin/sail test --group=filesystem"
         ]
     },
     "extra": {

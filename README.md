@@ -1,89 +1,107 @@
 # BlockPC Plantilla para Laravel
 
-Este repositorio contiene pantillas para frontend y backend para una plaicación de laravel
+Este repositorio contiene plantillas para frontend y backend para una aplicación de Laravel.
 
-Contains:
-- Laravel 12
-- Tailwind
+## Contenido:
+- Laravel 11
+- Tailwind CSS
 - Livewire
-- Alpine JS
-- Pest
+- Alpine.js
+- Pest (Testing)
 
-Paquetes instalados para laravel:
-- [barryvdh/laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) (for only dev)
+## Paquetes instalados para Laravel:
+- [barryvdh/laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) (solo para desarrollo)
 - [christophrumpel/missing-livewire-assertions](https://github.com/christophrumpel/missing-livewire-assertions)
 - [spatie/laravel-permission](https://spatie.be/index.php/docs/laravel-permission)
 - [intervention/image](http://image.intervention.io/)
 
-Iconos [blade-ui-kit/blade-icons](https://github.com/blade-ui-kit/blade-icons)
+## Iconos [blade-ui-kit/blade-icons](https://github.com/blade-ui-kit/blade-icons)
 - [Boxicons](https://github.com/mallardduck/blade-boxicons)
 - [Heroicons](https://github.com/blade-ui-kit/blade-heroicons)
 
-Laravel [Reverb](https://reverb.laravel.com/)
+## Laravel [Reverb](https://reverb.laravel.com/)
 
-_No olvidar limpiar la cache de iconos si no se ven correctamente_
+> **Nota:** No olvides limpiar la caché de iconos si no se ven correctamente
 
-Helpers: archivo `Blockpc\helpers.php`
+**Helpers:** archivo `Blockpc\helpers.php`
 
-Paquetes NPM:
-
+## Paquetes NPM:
 - [tailwind-scrollbar](https://github.com/adoxography/tailwind-scrollbar)
 
-Este repositorio incluye un modelo `Profile` (one-to-one for user) y un modelo `Image` (polimorphic model)
+Este repositorio incluye un modelo `Profile` (one-to-one para user) y un modelo `Image` (modelo polimórfico).
 
-### Instalación
+## Instalación
 
-Primero clonar el repositorio
+Primero clona el repositorio:
 
->    git clone https://github.com/blockpc/blockpc-11 _your-name-proyect_
-
-Siguiente
-
->    cd _your-name-proyect_
->    cp .env.example .env (Configure your app name, app url, database, email, etc)
->    composer install
->    php artisan key:generate
->    php artisan storage:link
->    php artisan icons:cache
-
-Si no se usa laravel SAIL
-
->	php artisan migrate --seed
->	npm install
->	npm run dev
-
-sino, con SAIL
-
->	check if not docker-compose.yml exists
->		php artisan sail:install (select your prefers apps, comma separator)
->		you must change DB_HOST in your .env
->
->	check VITE_PORT in docker-compose.yml `${VITE_PORT:-5173}:${VITE_PORT:-5173}`
->	./vendor/bin/sail up -d
->	./vendor/bin/sail php artisan migrate --seed
->	check in phpunit.xml or add `<env name="DB_CONNECTION" value="sqlite"/>`
->	./vendor/bin/sail npm install
->	./vendor/bin/sail npm run dev
-
-Abrir una consola
-
->    run tests using `pest -p`
-
-### Cambiar remoto (importante)
-
-Deberias cambiar el remoto que hace referencia a la url de github
-
-- git remote set-url origin `url-at-your-proyect-git`
-- git remote -v
-
-### Install PhpMyAdmin on Sail (optional)
-
-`php artisan sail:install`
-
-Si quieres instalar `phpmyadmin` para mysql/mariadb agrega a tu archivo `docker-compose.yml`
-y reemplaza mysql/mariadb
-
+```bash
+git clone https://github.com/blockpc/blockpc-11 _your-name-project_
 ```
+
+A continuación:
+
+```bash
+cd _your-name-project_
+cp .env.example .env  # Configura tu app name, app url, database, email, etc
+composer install
+php artisan key:generate
+php artisan storage:link
+php artisan icons:cache
+```
+
+### Si NO usas Laravel SAIL:
+
+```bash
+php artisan migrate --seed
+npm install
+npm run dev
+```
+
+### Si usas Laravel SAIL:
+
+```bash
+./vendor/bin/sail up -d
+./vendor/bin/sail php artisan migrate --seed
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
+```
+
+## Ejecutar Tests
+
+### Tests rápidos (recomendado para desarrollo):
+```bash
+./vendor/bin/sail composer run test-fast
+```
+
+### Tests completos:
+```bash
+./vendor/bin/sail composer run test-all
+```
+
+### Tests en paralelo (cuidado con tests de filesystem):
+```bash
+./vendor/bin/sail pest -p
+```
+
+## Cambiar remoto (importante)
+
+Deberías cambiar el remoto que hace referencia a la URL de tu proyecto en GitHub:
+
+```bash
+git remote set-url origin <url-de-tu-proyecto-git>
+git remote -v
+```
+
+## Instalar PhpMyAdmin en Sail (opcional)
+
+Ejecuta:
+```bash
+php artisan sail:install
+```
+
+Si quieres instalar `phpmyadmin` para MySQL/MariaDB, agrega esto a tu archivo `docker-compose.yml`:
+
+```yaml
 phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin:latest
@@ -102,60 +120,75 @@ phpmyadmin:
         - mariadb
 ```
 
-### Crear Paquete (Modulo)
+## Crear Paquete (Módulo)
 
-Con el comando `php artisan blockpc:package` tu puedes crear tu propio modulo con su ServiceProvider personal.
-El comando crea una estructura como esta:
+Con el comando `php artisan blockpc:package` puedes crear tu propio módulo con su ServiceProvider personal.
 
-Pro ejemplo, si ejecutas `php artisan blockpc:package` y le asignas un nombre `course`
-Se creara la siguiente estructura dentro de la carpeta Packages
+Por ejemplo, si ejecutas `php artisan blockpc:package` y le asignas el nombre `course`, se creará la siguiente estructura dentro de la carpeta `Packages`:
 
 ```
 Packages/
-    - Package/
-        - App/
-            - Livewire/
-                    - Course.php
-            - Models/
-                - Course.php
-            - Providers/
-                - CourseServiceProvider.php
-        - config/
-            - config.php
-        - database/
-            - factories/
-                - CourseFactory.php
-            - migrations/
-                - 2022_06_02_140645_create_courses_table.php
-        - lang/
-            - en/
-                - course.php
-        - resources/
-            - views/
-                - index.blade.php
-        - routes/
-            - web.php
+└── Course/
+    ├── App/
+    │   ├── Livewire/
+    │   │   └── Course.php
+    │   ├── Models/
+    │   │   └── Course.php (si eliges agregar modelo)
+    │   └── Providers/
+    │       └── CourseServiceProvider.php
+    ├── config/
+    │   └── config.php
+    ├── database/
+    │   ├── factories/
+    │   │   └── CourseFactory.php (si eliges agregar modelo)
+    │   └── migrations/
+    │       └── 2024_XX_XX_XXXXXX_create_courses_table.php (si eliges agregar modelo)
+    ├── lang/
+    │   └── en/
+    │       └── course.php
+    ├── resources/
+    │   └── views/
+    │       └── livewire/
+    │           └── course.blade.php
+    └── routes/
+        └── web.php
 
-add a test 'tests/Feature/Packages/Course/CourseRouteTest.php'
-
+# También se crea un test:
+tests/Feature/Packages/Course/CourseRouteTest.php
 ```
-Este comando ejecuta `php artisan optimize --quiet`
 
-### Eliminar un Paquete
+Este comando ejecuta automáticamente `php artisan optimize --quiet`.
 
-Con el comando `php artisan blockpc:package-delete` tu puedes eliminar un paquete instalado
+## Eliminar un Paquete
 
-### Laravel Reverb
+Con el comando `php artisan blockpc:delete-package` puedes eliminar un paquete instalado.
 
-Se usa laravel reverb para poder enviar mensaje entre usuarios.
-Los mensajes son enviados por medio de un `job` (`php artisan queue:listen` en local, `php artisan queue:work` en produccion)
-El job emitira un evento que envia la notificacion via _reverb_
+## Laravel Reverb
 
-Pasos:
-- Se debe ajustar una variable de entorno `VITE_ENABLE_REVERB` a true
-- se debe ejecutar `php artisan reverb:start`
+Se usa Laravel Reverb para enviar mensajes entre usuarios en tiempo real.
 
-Por defecto, `VITE_ENABLE_REVERB` esta en false, y no se usa reverb.
-Los mensajes se envian igual (siempre que este el worker este activo) solo que el usuario debera actualizar la pagina
+Los mensajes son enviados por medio de un `job`. Debes ejecutar:
+- **Local:** `php artisan queue:listen`
+- **Producción:** `php artisan queue:work`
 
-Enjoy!
+El job emitirá un evento que envía la notificación vía Reverb.
+
+### Configuración:
+1. Ajusta la variable de entorno `VITE_ENABLE_REVERB=true`
+2. Ejecuta `php artisan reverb:start`
+
+> **Por defecto:** `VITE_ENABLE_REVERB=false`. Los mensajes se envían igual (siempre que el worker esté activo), solo que el usuario deberá actualizar la página.
+
+## Testing Strategy
+
+Este proyecto incluye una estrategia optimizada de testing:
+
+- **Tests rápidos:** Se ejecutan en paralelo para feedback rápido
+- **Tests de filesystem:** Se ejecutan secuencialmente para evitar conflictos
+- **Tests de integración:** Verifican la interacción completa entre comandos
+
+Consulta `docs/testing-strategy.md` para más detalles.
+
+---
+
+¡Disfruta desarrollando! 🚀
