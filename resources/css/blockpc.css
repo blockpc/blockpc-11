@@ -136,7 +136,7 @@
     /* formularios */
 
     .label {
-        @apply block font-medium text-sm;
+        @apply block font-medium text-sm m-1;
     }
     .input-search {
         @apply block h-8 w-full pl-10 pr-12 text-sm text-dark bg-gray-100 dark:bg-gray-700 border-gray-500 focus:border-gray-400 rounded-md;
