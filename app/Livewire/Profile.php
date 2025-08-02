@@ -23,8 +23,8 @@ use Throwable;
 
 final class Profile extends Component
 {
-    use WithFileUploads;
     use AlertBrowserEvent;
+    use WithFileUploads;
 
     public $firstname;
 

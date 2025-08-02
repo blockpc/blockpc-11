@@ -15,6 +15,7 @@ final class CreateExample extends Component
     use AlertBrowserEvent;
 
     public $title;
+
     public $body;
 
     public function render()

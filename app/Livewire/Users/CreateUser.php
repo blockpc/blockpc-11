@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Throwable;
 
 final class CreateUser extends Component
 {
@@ -74,7 +75,7 @@ final class CreateUser extends Component
 
             DB::commit();
             $message = 'Usuario creado correctamente';
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al crear un nuevo usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';

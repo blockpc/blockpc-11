@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Throwable;
 
 final class DeleteUser extends Component
 {
@@ -23,6 +24,7 @@ final class DeleteUser extends Component
     public string $username = '';
 
     public $name;
+
     public $password;
 
     public function mount($user_id)
@@ -57,9 +59,8 @@ final class DeleteUser extends Component
 
             if ($user->profile->image) {
                 // delete the image from storage
-                if ($user->profile->image) {
-                    Storage::disk('public')->delete($user->profile->image);
-                }
+                Storage::disk('public')->delete($user->profile->image);
+
                 // set image to null
                 $user->profile->image = null;
                 $user->profile->save();
@@ -69,7 +70,7 @@ final class DeleteUser extends Component
 
             DB::commit();
             $message = "Usuario {$this->username} eliminado correctamente.";
-        } catch(\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al eliminar un usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';

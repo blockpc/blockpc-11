@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Throwable;
 
 final class RestoreUser extends Component
 {
@@ -22,6 +23,7 @@ final class RestoreUser extends Component
     public string $username = '';
 
     public $name;
+
     public $password;
 
     public function mount($user_id)
@@ -54,7 +56,7 @@ final class RestoreUser extends Component
 
             DB::commit();
             $message = "Usuario {$this->username} restaurado correctamente.";
-        } catch(\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error("Error al restaurar un usuario. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
