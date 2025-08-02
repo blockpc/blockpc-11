@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -56,7 +57,7 @@ expect()->extend('toBeOne', function () {
  * @throws InvalidArgumentException
  * @throws ModelNotFoundException
  */
-function new_user(array $user = [], array $profile = [], string $role = '', string $permission = ''): Model|Collection
+function new_user(array $user = [], array $profile = [], string $role = '', string $permission = ''): User
 {
     $user = App\Models\User::factory()->create($user);
     App\Models\Profile::factory()->for($user)->create($profile);
