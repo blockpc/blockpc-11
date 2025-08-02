@@ -57,7 +57,7 @@ final class DeleteUser extends Component
             $user->is_active = false;
             $user->save();
 
-            if ($user->profile->image) {
+            if ($user->profile && $user->profile->image) {
                 // delete the image from storage
                 Storage::disk('public')->delete($user->profile->image);
 
