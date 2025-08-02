@@ -29,8 +29,11 @@
             {{ $slot }}
         </main>
 
-        <footer class="text-center text-sm mt-auto p-4">
-            Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) | @ {{ now()->year }}
+        <footer class="text-center mt-auto p-4">
+            <div class="text-sm">{{ config('app.name', 'Laravel') }} @ {{ now()->year }}</div>
+            @if ( !app()->isProduction() )
+                <div class="text-xs">Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</div>
+            @endif
         </footer>
 
         <div>
