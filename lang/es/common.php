@@ -48,6 +48,7 @@ return [
     'create' => 'Crear',
     'edit' => 'Editar',
     'delete' => 'Eliminar',
+    'restore' => 'Restaurar',
     'profile' => 'Perfil',
     'photo' => 'Imagen',
     'online' => 'En Linea',

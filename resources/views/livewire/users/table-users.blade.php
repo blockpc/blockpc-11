@@ -16,7 +16,20 @@
     <section class="mt-2 mx-auto w-full">
 
         <div class="content-table">
-            <x-tables.search :search="$search" :paginate="$paginate" :clean="true" name="permissions" />
+            <x-tables.search :search="$search" :paginate="$paginate" :clean="true" name="permissions">
+                <x-slot name="actions">
+                    @if( !$soft_deletes && current_user()->can('user delete') )
+                    <x-buttons.btn class="btn-danger" wire:click="show_deleteds">
+                        <x-bx-trash class="w-4 h-4" />
+                    </x-buttons.btn>
+                    @endif
+                    @if( $soft_deletes && current_user()->can('user restore') )
+                    <x-buttons.btn class="btn-secondary" wire:click="show_deleteds">
+                        <x-bx-check class="w-4 h-4" />
+                    </x-buttons.btn>
+                    @endif
+                </x-slot>
+            </x-tables.search>
 
             <x-tables.table>
                 <x-slot name="thead">
@@ -33,16 +46,24 @@
                             <td class="td">{{ $user->email }}</td>
                             <td class="td">
                                 <div class="flex justify-end space-x-2">
-                                    @can('user update')
-                                    <x-links.href class="btn-sm btn-success" href="{{ route('users.update', ['user' => $user->id]) }}">
-                                        <x-bx-edit class="w-4 h-4" />
-                                    </x-links.href>
-                                    @endcan
-                                    @can('user delete')
-                                    <x-buttons.btn class="btn-danger">
-                                        <x-bx-trash class="w-4 h-4" />
-                                    </x-buttons.btn>
-                                    @endcan
+                                    @if ( $soft_deletes)
+                                        @can('user restore')
+                                            <x-buttons.btn class="btn-secondary" wire:click="restore_user({{ $user->id }})">
+                                                <x-bx-check class="w-4 h-4" />
+                                            </x-buttons.btn>
+                                        @endcan
+                                    @else
+                                        @can('user update')
+                                            <x-links.href class="btn-sm btn-success" href="{{ route('users.update', ['user' => $user->id]) }}">
+                                                <x-bx-edit class="w-4 h-4" />
+                                            </x-links.href>
+                                        @endcan
+                                        @can('user delete')
+                                            <x-buttons.btn class="btn-danger" wire:click="delete_user({{ $user->id }})">
+                                                <x-bx-trash class="w-4 h-4" />
+                                            </x-buttons.btn>
+                                        @endcan
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -54,9 +75,5 @@
 
             <x-pagination :model="$this->users" />
         </div>
-
     </section>
-    <div>
-        <livewire:users.create-user />
-    </div>
 </div>

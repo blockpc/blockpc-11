@@ -23,6 +23,7 @@
             class="input input-sm border-dark p-2 @error($wireModel) border-error @enderror"
             :type="show_password ? 'text' : 'password'"
             autocomplete="new-password"
+            placeholder="{{ $label }}"
         />
 
         <button
