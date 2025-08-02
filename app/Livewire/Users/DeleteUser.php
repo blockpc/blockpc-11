@@ -85,7 +85,7 @@ final class DeleteUser extends Component
     protected function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users,id'],
+            'user_id' => ['required', 'exists:users,id,deleted_at,NULL'],
             'name' => ['required', new AreEqualsRule($this->username, 'El nombre del usuario no es correcto')],
             'password' => ['required', 'current_password:web'],
         ];
