@@ -32,5 +32,7 @@ trait AuthorizesRoleOrPermissionTrait
         if (! $auth->hasAnyRole($rolesOrPermissions) && ! $auth->hasAnyPermission($rolesOrPermissions)) {
             return false;
         }
+
+        return true;
     }
 }
