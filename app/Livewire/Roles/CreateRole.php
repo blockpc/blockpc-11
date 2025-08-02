@@ -15,21 +15,15 @@ final class CreateRole extends Component
 {
     use AlertBrowserEvent;
 
-    public $show = false;
-
     public $name;
 
     public $display_name;
 
     public $description;
 
-    protected $listeners = [
-        'show',
-    ];
-
     public function mount()
     {
-        $this->hide();
+        $this->authorize('role create');
     }
 
     public function render()
@@ -39,7 +33,6 @@ final class CreateRole extends Component
 
     public function save()
     {
-        $this->authorize('role create');
         $this->validate();
 
         $role = null;
@@ -70,17 +63,6 @@ final class CreateRole extends Component
             $this->flash($message, $type);
             $this->redirectRoute('roles.table', navigate: true);
         }
-    }
-
-    public function show()
-    {
-        $this->show = true;
-    }
-
-    public function hide()
-    {
-        $this->clearValidation();
-        $this->reset();
     }
 
     protected function rules()

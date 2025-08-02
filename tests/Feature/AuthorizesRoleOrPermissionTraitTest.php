@@ -20,7 +20,7 @@ it('authorizes a user with a role', function () {
 
     expect(
         $this->authorizer->authorizeRoleOrPermission('admin')
-    )->toBeNull(); // No lanza excepción
+    )->toBeTrue(); // No lanza excepción
 });
 
 it('return false for unauthorized user with no role', function () {
@@ -49,7 +49,7 @@ it('authorizes a user with a permission', function () {
 
     expect(
         $this->authorizer->authorizeRoleOrPermission('user list')
-    )->toBeNull(); // No lanza excepción
+    )->toBeTrue(); // No lanza excepción
 });
 
 it('throws exception if user lacks role and permission', function () {

@@ -59,7 +59,7 @@ expect()->extend('toBeOne', function () {
  */
 function new_user(array $user = [], array $profile = [], string $role = '', string $permission = ''): User
 {
-    $user = App\Models\User::factory()->create($user);
+    $user = User::factory()->create($user);
     App\Models\Profile::factory()->for($user)->create($profile);
 
     if ($role) {

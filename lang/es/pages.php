@@ -35,6 +35,8 @@ return [
             'empty' => 'Sin usuarios encontrados',
             'create' => 'Crear Usuario',
             'edit' => 'Editar Usuario',
+            'delete' => 'Eliminar Usuario',
+            'restore' => 'Restaurar Usuario',
             'link' => 'Usuarios',
             'user' => 'Usuario',
             'profile' => 'Perfil Usuario',

@@ -19,7 +19,7 @@
             <div class="flex flex-col max-h-screen">
                 <div class="modal-header border-b-dark">
                     <div class="font-bold block text-lg">
-                        {{ $title ?? 'Modal' }}
+                        {{ $title ? __($title) : 'Modal' }}
                     </div>
                     <div class="">
                         <x-buttons.close wire:click="closeModal" />

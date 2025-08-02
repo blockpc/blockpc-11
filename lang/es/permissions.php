@@ -7,6 +7,12 @@ return [
         'link' => 'Permisos',
         'list' => 'Lista de Permisos',
     ],
+    'jobs' => [
+        'title' => 'Control Tareas',
+    ],
+    'settings' => [
+        'title' => 'Control Configuración',
+    ],
     'permissions' => [
         'title' => 'Permisos',
     ],

@@ -16,7 +16,20 @@
     <section class="mt-2 mx-auto w-full">
 
         <div class="content-table">
-            <x-tables.search :search="$search" :paginate="$paginate" :clean="true" name="permissions" />
+            <x-tables.search :search="$search" :paginate="$paginate" :clean="true" name="permissions">
+                <x-slot name="actions">
+                    @if( !$soft_deletes && current_user()->can('user delete') )
+                    <x-buttons.btn class="btn-danger" wire:click="show_deleteds" title="Mostrar eliminados">
+                        <x-bx-trash class="w-4 h-4" />
+                    </x-buttons.btn>
+                    @endif
+                    @if( $soft_deletes && current_user()->can('user restore') )
+                    <x-buttons.btn class="btn-secondary" wire:click="show_deleteds" title="Ocultar eliminados">
+                        <x-bx-check class="w-4 h-4" />
+                    </x-buttons.btn>
+                    @endif
+                </x-slot>
+            </x-tables.search>
 
             <x-tables.table>
                 <x-slot name="thead">
@@ -38,15 +51,23 @@
                             <td class="td">{{ $role->permissions_count }}</td>
                             <td class="td">
                                 <div class="flex justify-end space-x-2">
-                                    @can('role edit')
-                                    <x-links.href class="btn-sm btn-success" href="{{ route('roles.update', ['role' => $role->id]) }}">
-                                        <x-bx-pencil class="w-4 h-4" />
-                                    </x-links.href>
-                                    @endcan
-                                    @if ( $role->canDelete && current_user()->can('role delete') )
-                                    <x-buttons.btn class="btn-danger" wire:click="role_delete({{ $role->id }})">
-                                        <x-bx-trash class="w-4 h-4" />
-                                    </x-buttons.btn>
+                                    @if ($soft_deletes)
+                                        @can('role restore')
+                                            <x-buttons.btn class="btn-secondary" wire:click="role_restore({{ $role->id }})" title="{{ __('pages.roles.titles.restore') }}">
+                                                <x-bx-check class="w-4 h-4" />
+                                            </x-buttons.btn>
+                                        @endcan
+                                    @else
+                                        @can('role edit')
+                                        <x-links.href class="btn-sm btn-success" href="{{ route('roles.update', ['role' => $role->id]) }}" title="{{ __('pages.roles.titles.edit') }}">
+                                            <x-bx-pencil class="w-4 h-4" />
+                                        </x-links.href>
+                                        @endcan
+                                        @if ( $role->canDelete && current_user()->can('role delete') )
+                                        <x-buttons.btn class="btn-danger" wire:click="role_delete({{ $role->id }})" title="{{ __('pages.roles.titles.delete') }}">
+                                            <x-bx-trash class="w-4 h-4" />
+                                        </x-buttons.btn>
+                                        @endif
                                     @endif
                                 </div>
                             </td>
@@ -61,9 +82,4 @@
         </div>
 
     </section>
-
-    <div>
-        <livewire:roles.create-role />
-        <livewire:roles.delete-role />
-    </div>
 </div>

@@ -30,8 +30,8 @@ final class PermissionList
     {
         return [
             ['super admin', 'sudo', 'Permiso de Super Usuario. El usuario con este permiso tiene acceso total al sistema. No necesita ningún otro permiso', 'Super usuario'],
-            ['jobs control', 'jobs', 'Controla las tareas pendientes y fallidas del sistema', 'Control Tareas'],
-            ['settings control', 'settings', 'Controla el acceso a la configuración del sistema', 'Control Configuración'],
+            // ['jobs control', 'jobs', 'Controla las tareas pendientes y fallidas del sistema', 'Control Tareas'],
+            // ['settings control', 'settings', 'Controla el acceso a la configuración del sistema', 'Control Configuración'],
         ];
     }
 

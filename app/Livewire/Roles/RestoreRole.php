@@ -12,7 +12,7 @@ use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Throwable;
 
-final class DeleteRole extends Component
+final class RestoreRole extends Component
 {
     use AlertBrowserEvent;
 
@@ -28,18 +28,18 @@ final class DeleteRole extends Component
 
     public function mount()
     {
-        $this->authorize('role delete');
+        $this->authorize('role restore');
 
-        $role = Role::findOrFail($this->role_id);
+        $role = Role::onlyTrashed()->findOrFail($this->role_id);
         $this->current_name = $role->display_name;
     }
 
     public function render()
     {
-        return view('livewire.roles.delete-role');
+        return view('livewire.roles.restore-role');
     }
 
-    public function save()
+    public function restore()
     {
         $this->validate();
 
@@ -47,17 +47,16 @@ final class DeleteRole extends Component
         $message = '';
         DB::beginTransaction();
         try {
-
-            $role = Role::find($this->role_id);
-            $role->delete();
+            $role = Role::onlyTrashed()->findOrFail($this->role_id);
+            $role->restore();
 
             DB::commit();
-            $message = "Cargo {$this->current_name} fue eliminado correctamente";
+            $message = "Cargo {$this->current_name} fue restaurado correctamente";
         } catch (Throwable $th) {
-            Log::error("Error al eliminar un cargo. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
+            Log::error("Error al restaurar un cargo. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
             $type = 'error';
-            $message = 'Error al eliminar un cargo. Comuníquese con el administrador';
+            $message = 'Error al restaurar un cargo. Comuníquese con el administrador';
         }
 
         return redirect()->route('roles.table')->with($type, $message);

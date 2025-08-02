@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Roles;
 
 use App\Models\Role;
+use Blockpc\App\Livewire\CustomModal;
 use Blockpc\App\Traits\CustomPaginationTrait;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -31,17 +32,25 @@ final class TableRoles extends Component
     public function roles()
     {
         return Role::withCount('permissions')
+            ->when($this->soft_deletes, function ($query) {
+                $query->onlyTrashed();
+            })
             ->search($this->search)
             ->paginate($this->paginate);
     }
 
     public function create_role()
     {
-        $this->dispatch('show')->to(CreateRole::class);
+        $this->dispatch('openModal', 'roles.create-role', 'pages.roles.titles.create')->to(CustomModal::class);
     }
 
     public function role_delete($role_id)
     {
-        $this->dispatch('show', $role_id)->to(DeleteRole::class);
+        $this->dispatch('openModal', 'roles.delete-role', 'pages.roles.titles.delete', ['role_id' => $role_id])->to(CustomModal::class);
+    }
+
+    public function role_restore($role_id)
+    {
+        $this->dispatch('openModal', 'roles.restore-role', 'pages.roles.titles.restore', ['role_id' => $role_id])->to(CustomModal::class);
     }
 }
