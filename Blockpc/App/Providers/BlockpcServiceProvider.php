@@ -16,6 +16,7 @@ use Blockpc\App\Mixins\QuerySearchMixin;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
@@ -25,16 +26,38 @@ use Livewire\Livewire;
 
 final class BlockpcServiceProvider extends ServiceProvider
 {
-    protected $menus;
+    /**
+     * Cache key for menu hash validation
+     */
+    private const MENU_HASH_CACHE_KEY = 'menus_keys_hash';
+
+    /**
+     * Cache key for ordered menus
+     */
+    private const ORDERED_MENUS_CACHE_KEY = 'ordered_menus';
+
+    /**
+     * Base directory for Blockpc resources
+     */
+    private const BLOCKPC_DIR = 'Blockpc/';
+
+    /**
+     * Packages directory name
+     */
+    private const PACKAGES_DIR = 'Packages';
+
+    /**
+     * @var array<int, array<string, mixed>>
+     */
+    protected array $menus = [];
 
     /**
      * Register any application services.
      */
     public function register(): void
     {
-        $this->app->register(BlockpcAuthServiceProvider::class);
-
-        Builder::mixin(new QuerySearchMixin);
+        $this->registerAuthProvider();
+        $this->registerQueryMixin();
     }
 
     /**
@@ -42,12 +65,91 @@ final class BlockpcServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $blockpc_dir = base_path('Blockpc/');
+        $this->configureModels();
+        $this->configureLocalization();
+        $this->configurePasswordRules();
+        $this->registerConsoleCommands();
+        $this->loadPackageServiceProviders();
+        $this->configureBladeComponents();
+        $this->loadViews();
+        $this->loadLivewireComponents();
+        $this->registerMenuSingleton();
+    }
 
+    /**
+     * Load and register Livewire components.
+     */
+    protected function loadLivewireComponents(): void
+    {
+        // Core components
+        Livewire::component('message-alerts', MessageAlerts::class);
+        Livewire::component('custom-modal', CustomModal::class);
+
+        // Example components
+        Livewire::component('create-example', \Blockpc\App\Livewire\Examples\CreateExample::class);
+        // Livewire::component('edit-example', \Blockpc\App\Livewire\Examples\EditExample::class);
+
+        // Notification components
+        Livewire::component('blockpc::btn-notifications', \Blockpc\App\Livewire\Notifications\ButtonShowNotifications::class);
+        Livewire::component('blockpc::sidebar-notifications', \Blockpc\App\Livewire\Notifications\SidebarNotification::class);
+    }
+
+    /**
+     * Load service providers from packages and extract menu configurations.
+     */
+    protected function loadPackageServiceProviders(): void
+    {
+        $files = $this->app->make(Filesystem::class);
+        $this->menus = [];
+
+        $packagesPath = base_path(self::PACKAGES_DIR);
+
+        if (! $files->exists($packagesPath)) {
+            return;
+        }
+
+        foreach ($files->directories($packagesPath) as $directory) {
+            $this->processPackageDirectory($files, $directory);
+        }
+    }
+
+    /**
+     * Register authentication service provider.
+     */
+    private function registerAuthProvider(): void
+    {
+        $this->app->register(BlockpcAuthServiceProvider::class);
+    }
+
+    /**
+     * Register query search mixin for Eloquent Builder.
+     */
+    private function registerQueryMixin(): void
+    {
+        Builder::mixin(new QuerySearchMixin);
+    }
+
+    /**
+     * Configure model settings.
+     */
+    private function configureModels(): void
+    {
         Model::preventLazyLoading(! app()->isProduction());
+    }
 
+    /**
+     * Configure localization settings.
+     */
+    private function configureLocalization(): void
+    {
         Carbon::setLocale(config('app.locale'));
+    }
 
+    /**
+     * Configure password validation rules.
+     */
+    private function configurePasswordRules(): void
+    {
         Password::defaults(function () {
             $rule = Password::min(8);
 
@@ -55,7 +157,13 @@ final class BlockpcServiceProvider extends ServiceProvider
                         ? $rule->mixedCase()->uncompromised()
                         : $rule;
         });
+    }
 
+    /**
+     * Register console commands when running in console.
+     */
+    private function registerConsoleCommands(): void
+    {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 SyncPermissionsCommand::class,
@@ -66,119 +174,140 @@ final class BlockpcServiceProvider extends ServiceProvider
                 DeleteModuleCommand::class,
             ]);
         }
+    }
 
-        // Load Service Providers from packages
-        $this->loadServiceProviders();
+    /**
+     * Configure Blade anonymous components.
+     */
+    private function configureBladeComponents(): void
+    {
+        $blockpcDir = base_path(self::BLOCKPC_DIR);
+        Blade::anonymousComponentPath($blockpcDir.'resources/views', 'blockpc');
+    }
 
-        Blade::anonymousComponentPath($blockpc_dir.'resources/views', 'blockpc');
+    /**
+     * Load views from Blockpc directory.
+     */
+    private function loadViews(): void
+    {
+        $blockpcDir = base_path(self::BLOCKPC_DIR);
+        $this->loadViewsFrom($blockpcDir.'resources/views', 'blockpc');
+    }
 
-        // Load Views
-        $this->loadViewsFrom($blockpc_dir.'resources/views', 'blockpc');
-
-        // Load Livewire Components
-        $this->loadWireComponents();
-
+    /**
+     * Register the menu singleton service.
+     */
+    private function registerMenuSingleton(): void
+    {
         $this->app->singleton('menus', function () {
-            $this->checkHashMenus();
+            $this->validateMenuCache();
 
-            return Cache::rememberForever('ordered_menus', function () {
-                return $this->reorderMenus();
+            return Cache::rememberForever(self::ORDERED_MENUS_CACHE_KEY, function () {
+                return $this->getOrderedMenus();
             });
         });
     }
 
-    protected function loadWireComponents()
+    /**
+     * Process a single package directory.
+     */
+    private function processPackageDirectory(Filesystem $files, string $directory): void
     {
-        Livewire::component('message-alerts', MessageAlerts::class);
-        Livewire::component('custom-modal', CustomModal::class);
+        $directoryName = Str::afterLast($directory, DIRECTORY_SEPARATOR);
 
-        // Example Components
-        Livewire::component('create-example', \Blockpc\App\Livewire\Examples\CreateExample::class);
-        // Livewire::component('edit-example', \Blockpc\App\Livewire\Examples\EditExample::class);
-
-        Livewire::component('blockpc::btn-notifications', \Blockpc\App\Livewire\Notifications\ButtonShowNotifications::class);
-        Livewire::component('blockpc::sidebar-notifications', \Blockpc\App\Livewire\Notifications\SidebarNotification::class);
+        $this->registerPackageServiceProvider($directoryName);
+        $this->loadPackageMenuConfiguration($files, $directory);
     }
 
     /**
-     * Load Service Providers
+     * Register package service provider if it exists.
      */
-    protected function loadServiceProviders(): void
+    private function registerPackageServiceProvider(string $directoryName): void
     {
-        /** @var \Illuminate\Filesystem\Filesystem $files */
-        $files = $this->app->make('files');
-        $this->menus = [];
+        $serviceProviderClass = "Packages\\{$directoryName}\\App\\Providers\\{$directoryName}ServiceProvider";
 
-        $packagesPath = base_path('Packages');
-        if (! $files->exists($packagesPath)) {
+        if (class_exists($serviceProviderClass)) {
+            $this->app->register($serviceProviderClass);
+        }
+    }
+
+    /**
+     * Load menu configuration from package.
+     */
+    private function loadPackageMenuConfiguration(Filesystem $files, string $directory): void
+    {
+        $configPath = "{$directory}/config/config.php";
+
+        if (! $files->exists($configPath)) {
             return;
         }
 
-        foreach ($files->directories($packagesPath) as $directory) {
-            // $directoryName = Str::afterLast($directory, DIRECTORY_SEPARATOR);
-            // $customServiceProvider = "Packages\\{$directoryName}\\App\\Providers\\{$directoryName}ServiceProvider";
-            // $pathServiceProvider = base_path("Packages/{$directoryName}/App/Providers/{$directoryName}ServiceProvider.php");
+        $config = require $configPath;
+        $menu = $this->extractValidMenuFromConfig($config);
 
-            // if ($files->exists($pathServiceProvider)) {
-            //     $this->app->register($customServiceProvider);
-            //     $providerInstance = app($customServiceProvider);
-            //     if (property_exists($providerInstance, 'config') && isset($providerInstance->config['menu'])) {
-            //         $menu = $providerInstance->config['menu'];
-            //         // Solo agregar si existe 'id' y no es null
-            //         if (isset($menu['id']) && !is_null($menu['id'])) {
-            //             $this->menus[] = $menu;
-            //         }
-            //     }
-            // }
-
-            $directoryName = Str::afterLast($directory, DIRECTORY_SEPARATOR);
-            $customServiceProvider = "Packages\\{$directoryName}\\App\\Providers\\{$directoryName}ServiceProvider";
-            $configPath = "{$directory}/config/menu.php";
-
-            // Registrar el ServiceProvider
-            if (class_exists($customServiceProvider)) {
-                $this->app->register($customServiceProvider);
-            }
-
-            // Cargar el menú desde el archivo de configuración
-            if ($files->exists($configPath)) {
-                $menu = require $configPath;
-                if (is_array($menu) && isset($menu['id']) && ! is_null($menu['id'])) {
-                    $this->menus[] = $menu;
-                }
-            }
+        if ($menu !== null) {
+            $this->menus[] = $menu;
         }
     }
 
-    private function checkHashMenus(): void
+    /**
+     * Extract valid menu from configuration array.
+     *
+     * @param  mixed  $config
+     * @return array<string, mixed>|null
+     */
+    private function extractValidMenuFromConfig($config): ?array
     {
-        $ids = array_map(function ($menu) {
-            return $menu['id'] ?? 0;
-        }, $this->menus);
-        $currentKeysHash = md5(implode(',', $ids));
+        if (! is_array($config) || ! isset($config['menus']) || ! is_array($config['menus'])) {
+            return null;
+        }
 
-        if (Cache::get('menus_keys_hash') !== $currentKeysHash) {
-            // Si las claves han cambiado, borra la caché
-            Cache::forget('ordered_menus');
-            Cache::put('menus_keys_hash', $currentKeysHash);
+        if (empty($config['menus'])) {
+            return null;
+        }
+
+        $firstMenu = reset($config['menus']);
+
+        if (! is_array($firstMenu)) {
+            return null;
+        }
+
+        if (! array_key_exists('id', $firstMenu) || $firstMenu['id'] === null) {
+            return null;
+        }
+
+        return $firstMenu;
+    }
+
+    /**
+     * Validate menu cache by checking if menu IDs have changed.
+     */
+    private function validateMenuCache(): void
+    {
+        $menuIds = array_map(fn ($menu) => $menu['id'] ?? 0, $this->menus);
+        $currentHash = md5(implode(',', $menuIds));
+        $cachedHash = Cache::get(self::MENU_HASH_CACHE_KEY);
+
+        if ($cachedHash !== $currentHash) {
+            Cache::forget(self::ORDERED_MENUS_CACHE_KEY);
+            Cache::put(self::MENU_HASH_CACHE_KEY, $currentHash);
         }
     }
 
-    private function reorderMenus()
+    /**
+     * Get menus ordered by their ID.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function getOrderedMenus(): array
     {
         $menus = $this->menus;
 
-        // Ordenando los menus segun su id
         uasort($menus, function ($a, $b) {
-            if (isset($a['id']) && isset($b['id'])) {
-                return $a['id'] <=> $b['id'];
-            }
-            if (! isset($a['id'])) {
-                return 1;
-            }
-            if (! isset($b['id'])) {
-                return -1;
-            }
+            $aId = $a['id'] ?? PHP_INT_MAX;
+            $bId = $b['id'] ?? PHP_INT_MAX;
+
+            return $aId <=> $bId;
         });
 
         return $menus;

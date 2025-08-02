@@ -10,7 +10,7 @@ beforeEach(function () {
     // Limpia el directorio antes de cada test
     File::deleteDirectory(base_path('Packages/Example'));
     File::deleteDirectory(base_path('tests/Feature/Packages/Example'));
-})->skip('temporarily unavailable when run tests in parallel');
+});
 
 afterEach(function () {
     // Limpia el directorio después de cada test
@@ -45,7 +45,7 @@ it('crea un paquete con modelo, factory y migración si el usuario lo desea', fu
     $migrationFiles = File::files(base_path('Packages/Example/database/migrations'));
     $migration = collect($migrationFiles)->first(fn ($f) => str_contains($f->getFilename(), 'create_productos_table.php'));
     expect($migration)->not->toBeNull();
-});
+})->group('filesystem', 'slow');
 
 it('crea un paquete sin modelo, factory ni migración si el usuario no lo desea', function () {
     set_carbon();
@@ -70,4 +70,4 @@ it('crea un paquete sin modelo, factory ni migración si el usuario no lo desea'
     expect(base_path('Packages/Example/App/Models/Producto.php'))->not->toBeFile();
     expect(base_path('Packages/Example/database/factories/ProductoFactory.php'))->not->toBeFile();
     expect(File::exists(base_path('Packages/Example/database/migrations')))->toBeFalse();
-});
+})->group('filesystem', 'slow');
