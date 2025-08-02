@@ -12,12 +12,12 @@ uses()->group('sistema', 'users');
 
 beforeEach(function () {
     $this->user = new_user();
+    $this->user->givePermissionTo('user create');
 });
 
 // CreateUserTest
 
 it('checking properties on view', function () {
-    $this->user->givePermissionTo('user create');
 
     Livewire::actingAs($this->user)
         ->test(CreateUser::class)
@@ -30,19 +30,14 @@ it('checking properties on view', function () {
 });
 
 it('can not create a new user if dont have permission', function () {
-    Livewire::actingAs($this->user)
+    $user = new_user();
+
+    Livewire::actingAs($user)
         ->test(CreateUser::class)
-        ->set('name', 'new')
-        ->set('email', 'new@mail.com')
-        ->set('firstname', 'lorem')
-        ->set('lastname', 'ipsum')
-        ->call('save')
         ->assertForbidden();
 });
 
 it('can create a new user if have permission', function () {
-    $this->user->givePermissionTo('user create');
-
     $admin = Role::where('name', 'admin')->first();
 
     Livewire::actingAs($this->user)
@@ -61,7 +56,6 @@ it('can create a new user if have permission', function () {
 });
 
 it('users without role sudo cannot create new users sudo', function () {
-    $this->user->givePermissionTo('user create');
     $this->user->assignRole('admin');
 
     $role_sudo = Role::where('name', 'sudo')->first();
@@ -78,7 +72,6 @@ it('users without role sudo cannot create new users sudo', function () {
 });
 
 it('checks if photo exists in storage', function () {
-    $this->user->givePermissionTo('user create');
     $this->actingAs($this->user);
 
     // Falsa foto para la prueba
@@ -100,7 +93,6 @@ it('checks if photo exists in storage', function () {
 });
 
 it('check if user is created', function () {
-    $this->user->givePermissionTo('user create');
     $this->actingAs($this->user);
 
     // Falsa foto para la prueba

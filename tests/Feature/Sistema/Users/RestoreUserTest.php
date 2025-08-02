@@ -5,12 +5,11 @@ declare(strict_types=1);
 use App\Livewire\Users\RestoreUser;
 use App\Models\User;
 
-use function Pest\Livewire\livewire;
-
 uses()->group('sistema', 'users');
 
 beforeEach(function () {
     $this->user = new_user();
+    $this->user->givePermissionTo('user restore');
 });
 
 // RestoreUserTest
@@ -18,7 +17,8 @@ beforeEach(function () {
 it('checking properties on view', function () {
     $user = User::factory()->trashed()->create();
 
-    livewire(RestoreUser::class, ['user_id' => $user->id])
+    $this->actingAs($this->user)
+        ->livewire(RestoreUser::class, ['user_id' => $user->id])
         ->assertPropertyWired('name')
         ->assertPropertyWired('password')
         ->assertMethodWiredToForm('restore');
@@ -27,19 +27,20 @@ it('checking properties on view', function () {
 it('can not restore a user if dont have permission', function () {
     $user = User::factory()->trashed()->create();
 
-    livewire(RestoreUser::class, ['user_id' => $user->id])
-        ->set('name', $user->fullname)
-        ->set('password', 'password')
-        ->call('restore')
+    $this->user->revokePermissionTo('user restore');
+
+    $this->actingAs($this->user)
+        ->livewire(RestoreUser::class, ['user_id' => $user->id])
         ->assertForbidden();
 });
 
 it('can restore a user if have permission', function () {
-    $this->user->givePermissionTo('user restore');
+    $user = new_user();
 
-    $user = User::factory()->trashed()->create();
+    $user->delete(); // Soft delete the user
 
-    livewire(RestoreUser::class, ['user_id' => $user->id])
+    $this->actingAs($this->user)
+        ->livewire(RestoreUser::class, ['user_id' => $user->id])
         ->set('name', $user->fullname)
         ->set('password', 'password')
         ->call('restore')

@@ -10,6 +10,7 @@ uses()->group('sistema', 'users');
 
 beforeEach(function () {
     $this->user = new_user();
+    $this->user->givePermissionTo('user delete');
 });
 
 // DeleteUserTest
@@ -27,9 +28,10 @@ it('checking properties on view', function () {
 it('can not delete a user if dont have permission', function () {
     $user = User::factory()->create();
 
+    $this->user->revokePermissionTo('user delete');
+
     Livewire::actingAs($this->user)
         ->test(DeleteUser::class, ['user_id' => $user->id])
-        ->call('delete')
         ->assertForbidden();
 });
 

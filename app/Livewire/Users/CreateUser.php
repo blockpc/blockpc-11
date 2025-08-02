@@ -38,7 +38,7 @@ final class CreateUser extends Component
 
     public function mount()
     {
-        //
+        $this->authorize('user create');
     }
 
     public function render()
@@ -48,7 +48,6 @@ final class CreateUser extends Component
 
     public function save()
     {
-        $this->authorize('user create');
         $this->validate();
 
         $type = 'success';

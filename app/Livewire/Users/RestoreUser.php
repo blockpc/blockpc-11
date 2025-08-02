@@ -26,9 +26,9 @@ final class RestoreUser extends Component
 
     public $password;
 
-    public function mount($user_id)
+    public function mount()
     {
-        $this->user_id = $user_id;
+        $this->authorize('user restore');
 
         $user = User::onlyTrashed()->findOrFail($this->user_id);
         $this->username = $user->fullname;
@@ -41,8 +41,6 @@ final class RestoreUser extends Component
 
     public function restore()
     {
-        $this->authorize('user restore');
-
         $this->validate();
 
         $type = 'success';

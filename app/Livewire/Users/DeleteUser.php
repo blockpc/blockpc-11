@@ -29,6 +29,8 @@ final class DeleteUser extends Component
 
     public function mount()
     {
+        $this->authorize('user delete');
+
         $user = User::findOrFail($this->user_id);
         $this->username = $user->fullname;
     }
@@ -40,8 +42,6 @@ final class DeleteUser extends Component
 
     public function delete()
     {
-        $this->authorize('user restore');
-
         $this->validate();
 
         $type = 'success';
