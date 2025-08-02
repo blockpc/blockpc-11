@@ -3,7 +3,7 @@
         <div class="grid gap-4">
             <div class="">
                 <p class="text-sm">¿Deseas eliminar este usuario?</p>
-                <p class="text-sm">El usuario será eliminado logicamente. Esta acción se puede deshacer.</p>
+                <p class="text-sm">El usuario será eliminado lógicamente. Esta acción se puede deshacer.</p>
                 <p class="text-sm">Escriba el nombre del usuario a eliminar <span class="text-warning">{{ $username }}</span>.</p>
             </div>
             <x-inputs.text name="delete_user_name" label="{{ __('Nombre del Usuario') }}" wire:model="name" />
