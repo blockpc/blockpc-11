@@ -56,13 +56,19 @@ expect()->extend('toBeOne', function () {
  * @throws InvalidArgumentException
  * @throws ModelNotFoundException
  */
-function new_user(array $user = [], array $profile = [], string $role = '')
+function new_user(array $user = [], array $profile = [], string $role = '', string $permission = ''): Model|Collection
 {
     $user = App\Models\User::factory()->create($user);
     App\Models\Profile::factory()->for($user)->create($profile);
+
     if ($role) {
         $user->assignRole($role);
     }
+
+    if ($permission) {
+        $user->givePermissionTo($permission);
+    }
+
     $user->refresh();
 
     return $user;
