@@ -1,19 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Users\DeleteUser;
 use App\Models\User;
 use Livewire\Livewire;
 
 uses()->group('sistema', 'users');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 
 // DeleteUserTest
 
-it('checking properties on view', function ()
-{
+it('checking properties on view', function () {
     $user = User::factory()->create();
 
     Livewire::actingAs($this->user)

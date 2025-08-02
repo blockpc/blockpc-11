@@ -9,10 +9,9 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
 
 trait AuthorizesRoleOrPermissionTrait
 {
-
     public function authorizeRoleOrPermission($roleOrPermission, $guard = null)
     {
-        if ( Auth::guard($guard)->guest() ) {
+        if (Auth::guard($guard)->guest()) {
             throw UnauthorizedException::notLoggedIn();
         }
 
@@ -20,19 +19,18 @@ trait AuthorizesRoleOrPermissionTrait
             ? $roleOrPermission
             : explode('|', $roleOrPermission);
 
-        if ( !$rolesOrPermissions ) {
+        if (! $rolesOrPermissions) {
             return false;
         }
 
         $auth = Auth::guard($guard)->user();
 
-        if( $auth->hasRole('sudo') ) {
+        if ($auth->hasRole('sudo')) {
             return true;
         }
 
-        if( ! $auth->hasAnyRole($rolesOrPermissions) && ! $auth->hasAnyPermission($rolesOrPermissions)) {
+        if (! $auth->hasAnyRole($rolesOrPermissions) && ! $auth->hasAnyPermission($rolesOrPermissions)) {
             return false;
         }
     }
-
 }
