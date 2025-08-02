@@ -12,6 +12,8 @@ beforeEach(function () {
     $this->user = new_user();
 });
 
+// PasswordUpdateTest
+
 test('password can be updated', function () {
 
     $this->actingAs($this->user);
