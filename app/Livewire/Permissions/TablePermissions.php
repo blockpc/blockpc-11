@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Permissions;
 
 use App\Models\Permission;
+use Blockpc\App\Livewire\CustomModal;
 use Blockpc\App\Traits\CustomPaginationTrait;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -60,6 +61,6 @@ final class TablePermissions extends Component
 
     public function update_permission($id)
     {
-        $this->dispatch('show', $id)->to(UpdatePermission::class);
+        $this->dispatch('openModal', 'permissions.update-permission', 'pages.permissions.titles.edit', ['permission_id' => $id])->to(CustomModal::class);
     }
 }

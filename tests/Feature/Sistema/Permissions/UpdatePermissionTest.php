@@ -10,6 +10,7 @@ uses()->group('permissions');
 
 beforeEach(function () {
     $this->user = new_user();
+    $this->user->givePermissionTo('permission update');
 });
 
 // UpdatePermissionTest
@@ -17,34 +18,27 @@ beforeEach(function () {
 it('can not update permission if not authorized', function () {
     $permission = Permission::factory()->create();
 
-    Livewire::actingAs($this->user)
-        ->test(UpdatePermission::class)
-        ->call('show', $permission->id)
-        ->call('update', ['display_name' => 'Update Permission', 'description' => 'Update Permission Description'])
+    $this->user->revokePermissionTo('permission update');
+
+    $this->actingAs($this->user)
+        ->livewire(UpdatePermission::class, ['permission_id' => $permission->id])
         ->assertForbidden();
 });
 
 it('can update permission if authorized', function () {
-    $this->user->givePermissionTo('permission update');
-
     $permission = Permission::factory()->create();
 
-    Livewire::actingAs($this->user)
-        ->test(UpdatePermission::class)
-        ->call('show', $permission->id)
+    $this->actingAs($this->user)
+        ->livewire(UpdatePermission::class, ['permission_id' => $permission->id])
         ->call('update', ['display_name' => 'Update Permission', 'description' => 'Update Permission Description'])
-        ->assertHasNoErrors()
-        ->assertDispatched('permissionsUpdated');
+        ->assertHasNoErrors();
 });
 
 it('can not update permission if validation fails', function () {
-    $this->user->givePermissionTo('permission update');
-
     $permission = Permission::factory()->create();
 
     Livewire::actingAs($this->user)
-        ->test(UpdatePermission::class)
-        ->call('show', $permission->id)
+        ->test(UpdatePermission::class, ['permission_id' => $permission->id])
         ->set('display_name', '')
         ->set('description', '')
         ->call('update')
@@ -52,15 +46,12 @@ it('can not update permission if validation fails', function () {
 });
 
 it('can not update permission if display name exists', function () {
-    $this->user->givePermissionTo('permission update');
-
     Permission::factory()->create(['display_name' => 'Permiso']);
 
     $permission = Permission::factory()->create();
 
     Livewire::actingAs($this->user)
-        ->test(UpdatePermission::class)
-        ->call('show', $permission->id)
+        ->test(UpdatePermission::class, ['permission_id' => $permission->id])
         ->set('display_name', 'permiso')
         ->call('update')
         ->assertHasErrors(['display_name' => 'unique']);

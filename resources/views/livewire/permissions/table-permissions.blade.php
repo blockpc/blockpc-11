@@ -60,8 +60,4 @@
             <x-pagination :model="$this->permissions" />
         </div>
     </section>
-
-    <div>
-        <livewire:permissions.update-permission key="update-permission" />
-    </div>
 </div>

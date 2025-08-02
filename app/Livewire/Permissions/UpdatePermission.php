@@ -9,7 +9,6 @@ use Blockpc\App\Traits\AlertBrowserEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Locked;
-use Livewire\Attributes\On;
 use Livewire\Component;
 use Throwable;
 
@@ -20,8 +19,6 @@ final class UpdatePermission extends Component
 {
     use AlertBrowserEvent;
 
-    public $show = false;
-
     #[Locked]
     public $permission_id;
 
@@ -31,7 +28,13 @@ final class UpdatePermission extends Component
 
     public function mount()
     {
-        $this->hide();
+        $this->authorize('permission update');
+
+        if ($this->permission_id) {
+            $permission = Permission::find($this->permission_id);
+            $this->display_name = $permission->display_name;
+            $this->description = $permission->description;
+        }
     }
 
     public function render()
@@ -41,7 +44,6 @@ final class UpdatePermission extends Component
 
     public function update()
     {
-        $this->authorize('permission update');
         $this->validate();
 
         $type = 'success';
@@ -56,9 +58,7 @@ final class UpdatePermission extends Component
             ]);
 
             DB::commit();
-            $message = 'Un permiso fue actualizado correctamente';
-            $this->hide();
-            $this->dispatch('permissionsUpdated');
+            $message = "El permiso, {$this->display_name}, ha sido actualizado correctamente";
         } catch (Throwable $th) {
             Log::error("Error al actualizar un permiso. {$th->getMessage()} | {$th->getFile()} | {$th->getLine()}");
             DB::rollback();
@@ -66,24 +66,8 @@ final class UpdatePermission extends Component
             $message = 'Error al actualizar un permiso. Comuníquese con el administrador';
         }
 
-        $this->alert($message, $type, 'Actualizar Permiso');
-    }
-
-    #[On('show')]
-    public function show($permission_id)
-    {
-        $this->show = true;
-        $this->permission_id = $permission_id;
-
-        $permission = Permission::find($permission_id);
-        $this->display_name = $permission->display_name;
-        $this->description = $permission->description;
-    }
-
-    public function hide()
-    {
-        $this->clearValidation();
-        $this->reset();
+        $this->flash($message, $type);
+        $this->redirectRoute('permissions.table', navigate: true);
     }
 
     protected function rules()
