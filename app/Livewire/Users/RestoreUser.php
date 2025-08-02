@@ -71,7 +71,7 @@ final class RestoreUser extends Component
     protected function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users,id'],
+            'user_id' => ['required', 'exists:users,id,deleted_at,NOT_NULL'],
             'name' => ['required', new AreEqualsRule($this->username, 'El nombre del usuario no es correcto')],
             'password' => ['required', 'current_password:web'],
         ];
