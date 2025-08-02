@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Models\User;
 use Livewire\Volt\Volt;
 
+// AuthenticationTest
+
 test('login screen can be rendered', function () {
     $response = $this->get('/login');
 
