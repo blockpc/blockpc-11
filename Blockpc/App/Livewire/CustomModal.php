@@ -12,8 +12,11 @@ use Livewire\Component;
 final class CustomModal extends Component
 {
     public $show = false;
+
     public $view = null; // vista que se renderiza dentro del modal
+
     public $title = null; // título del modal
+
     public $params = []; // parámetros que se le pasan a la vista
 
     protected $listeners = ['openModal', 'closeModal'];

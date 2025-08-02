@@ -1,11 +1,12 @@
 <?php
 
-use Spatie\Permission\Exceptions\UnauthorizedException;
+declare(strict_types=1);
+
 use Tests\Helpers\DummyAuthorizer;
 
 uses()->group('sistema');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
     $this->authorizer = new DummyAuthorizer();
 });

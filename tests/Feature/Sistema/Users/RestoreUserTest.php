@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Users\RestoreUser;
 use App\Models\User;
 
@@ -7,14 +9,13 @@ use function Pest\Livewire\livewire;
 
 uses()->group('sistema', 'users');
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = new_user();
 });
 
 // RestoreUserTest
 
-it('checking properties on view', function ()
-{
+it('checking properties on view', function () {
     $user = User::factory()->trashed()->create();
 
     livewire(RestoreUser::class, ['user_id' => $user->id])
