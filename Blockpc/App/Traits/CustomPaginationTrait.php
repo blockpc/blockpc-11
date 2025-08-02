@@ -21,4 +21,10 @@ trait CustomPaginationTrait
         $this->search = '';
         $this->resetPage();
     }
+
+    public function show_deleteds()
+    {
+        $this->soft_deletes = ! $this->soft_deletes;
+        $this->resetPage();
+    }
 }

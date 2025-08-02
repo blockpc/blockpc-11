@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Users;
 
 use App\Models\User;
+use Blockpc\App\Livewire\CustomModal;
 use Blockpc\App\Traits\CustomPaginationTrait;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -37,6 +38,9 @@ final class TableUsers extends Component
                     $query->where('name', 'sudo');
                 });
             })
+            ->when($this->soft_deletes, function ($query) {
+                $query->onlyTrashed();
+            })
             ->search($this->search)
             ->orderBy('profiles.firstname')
             ->paginate($this->paginate);
@@ -44,6 +48,16 @@ final class TableUsers extends Component
 
     public function create_user()
     {
-        $this->dispatch('show')->to(CreateUser::class);
+        $this->dispatch('openModal', 'users.create-user', 'Crear Usuario')->to(CustomModal::class);
+    }
+
+    public function delete_user($user_id)
+    {
+        $this->dispatch('openModal', 'users.delete-user', 'Eliminar Usuario', ['user_id' => $user_id])->to(CustomModal::class);
+    }
+
+    public function restore_user($user_id)
+    {
+        $this->dispatch('openModal', 'users.restore-user', 'Restaurar Usuario', ['user_id' => $user_id])->to(CustomModal::class);
     }
 }
