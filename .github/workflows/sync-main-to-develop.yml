@@ -33,5 +33,5 @@ jobs:
           body: "Automated PR to keep develop up-to-date with main"
           draft: false
           labels: automatic
-          auto-merge: true   # Si quieres que se merge automáticamente tras la aprobación
-          delete-branch: true # Elimina la rama de sincronización después del merge
+          # auto-merge: true   # Si quieres que se merge automáticamente tras la aprobación
+          # delete-branch: true # Elimina la rama de sincronización después del merge
