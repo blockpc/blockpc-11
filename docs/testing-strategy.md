@@ -117,3 +117,15 @@ it('integrates multiple components', function () {
     // Test code
 })->group('integration', 'slow');
 ```
+
+## Nuevo Cambio General.
+
+Durante el desarrollo de nuevos proyectos note que es muy complicado recordar en un inicio como funciona esta estrategia.
+
+Pues decidi cambiar a la forma antigua, renombrando los archivos mas `conflictivos`
+Asi:
+- CreateModuleCommandTest.php paso a ser CreateModuleCommandTestOld.php
+- DeleteModuleCommandTest.php paso a ser DeleteModuleCommandTestOld.php
+- DeleteModuleCommandTest.php paso a ser ModuleCommandsIntegrationTestOld.php
+
+Con estos cambios, no se ejecutaran los tests en esos archivos y se puedee usar `sail pest -p` de forma normal

@@ -21,7 +21,7 @@ final class $PACKAGE$ServiceProvider extends ServiceProvider
     {
         $package_dir = $this->getPath();
         $this->mergeConfigFrom($package_dir.'config/config.php', '$NAME$');
-        $this->menus = $this->app->config->get('$NAME$.menus', []);
+        $this->menus = $this->app->make('config')->get('$NAME$.menus', []);
     }
 
     /**

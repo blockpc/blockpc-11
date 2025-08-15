@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Support\Facades\DB;
+
+uses()->group('$NAME$');
+
+// $PACKAGE$SchemaTest
+
+it('$NAME$ table database has expected columns', function () {
+    $columns = collect(DB::select('describe $NAME$'))->pluck('Field')->toArray();
+    expect($columns)->toBe([
+        'id',
+        'deleted_at',
+        'created_at',
+        'updated_at',
+    ]);
+});
