@@ -128,4 +128,4 @@ Asi:
 - DeleteModuleCommandTest.php paso a ser DeleteModuleCommandTestOld.php
 - ModuleCommandsIntegrationTest.php paso a ser ModuleCommandsIntegrationTestOld.php
 
-Con estos cambios, no se ejecutaran los tests en esos archivos y se puedee usar `sail pest -p` de forma normal
+Con estos cambios, no se ejecutaran los tests en esos archivos y se puede usar `sail pest -p` de forma normal
