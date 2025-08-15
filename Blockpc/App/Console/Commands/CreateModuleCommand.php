@@ -195,7 +195,8 @@ final class CreateModuleCommand extends Command
             'migration' => base_path('Blockpc/stubs/migration.stub'),
             'model' => base_path('Blockpc/stubs/model.stub'),
             'factory' => base_path('Blockpc/stubs/factory.stub'),
-            'test' => base_path('Blockpc/stubs/test.stub'),
+            'route_test' => base_path('Blockpc/stubs/route_test.stub'),
+            'schema_test' => base_path('Blockpc/stubs/schema_test.stub'),
         ];
 
         if (! isset($stubs[$key])) {
@@ -369,13 +370,14 @@ final class CreateModuleCommand extends Command
             'lang' => "{$base}/lang/en/{$this->packageName}.php",
             'livewire' => "{$base}/App/Livewire/{$this->package}.php",
             'view' => "{$base}/resources/views/livewire/{$this->packageName}.blade.php",
-            'test' => "tests/Feature/Packages/{$this->package}/{$this->package}RouteTest.php",
+            'route_test' => "tests/Feature/Packages/{$this->package}/{$this->package}RouteTest.php",
         ];
 
         if ($addModel) {
             $paths['model'] = "{$base}/App/Models/{$this->model_name}.php";
             $paths['factory'] = "{$base}/database/factories/{$this->factory_name}.php";
             $paths['migration'] = "{$base}/database/migrations/{$this->date}_{$this->migration_name}.php";
+            $paths['schema_test'] = "tests/Feature/Packages/{$this->package}/{$this->package}SchemaTest.php";
         }
 
         return $paths;

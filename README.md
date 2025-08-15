@@ -44,14 +44,14 @@ A continuación:
 cd _your-name-project_
 cp .env.example .env  # Configura tu app name, app url, database, email, etc
 composer install
-php artisan key:generate
-php artisan storage:link
-php artisan icons:cache
 ```
 
 ### Si NO usas Laravel SAIL:
 
 ```bash
+php artisan key:generate
+php artisan storage:link
+php artisan icons:cache
 php artisan migrate --seed
 npm install
 npm run dev
@@ -59,28 +59,28 @@ npm run dev
 
 ### Si usas Laravel SAIL:
 
+Recomendamos crear un alias en el bash:
 ```bash
-./vendor/bin/sail up -d
-./vendor/bin/sail php artisan migrate --seed
-./vendor/bin/sail npm install
-./vendor/bin/sail npm run dev
+nano ~/.bashrc
+
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+
+source ~/.bashrc
 ```
 
-## Ejecutar Tests
-
-### Tests rápidos (recomendado para desarrollo):
 ```bash
-./vendor/bin/sail composer run test-fast
+sail up -d
+sail php artisan key:generate
+sail php artisan storage:link
+sail php artisan icons:cache
+sail php artisan migrate --seed
+sail npm install
+sail npm run dev
 ```
 
-### Tests completos:
+### Tests en paralelo
 ```bash
-./vendor/bin/sail composer run test-all
-```
-
-### Tests en paralelo (cuidado con tests de filesystem):
-```bash
-./vendor/bin/sail pest -p
+sail pest -p
 ```
 
 ## Cambiar remoto (importante)
@@ -178,16 +178,6 @@ El job emitirá un evento que envía la notificación vía Reverb.
 2. Ejecuta `php artisan reverb:start`
 
 > **Por defecto:** `VITE_ENABLE_REVERB=false`. Los mensajes se envían igual (siempre que el worker esté activo), solo que el usuario deberá actualizar la página.
-
-## Testing Strategy
-
-Este proyecto incluye una estrategia optimizada de testing:
-
-- **Tests rápidos:** Se ejecutan en paralelo para feedback rápido
-- **Tests de filesystem:** Se ejecutan secuencialmente para evitar conflictos
-- **Tests de integración:** Verifican la interacción completa entre comandos
-
-Consulta `docs/testing-strategy.md` para más detalles.
 
 ---
 
