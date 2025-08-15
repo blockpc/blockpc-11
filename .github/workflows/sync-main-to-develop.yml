@@ -1,29 +1,37 @@
 # .github/workflows/sync-main-to-develop.yml
 name: Sync main to develop
 
+permissions:
+  contents: write   # Permite push, merge y creación de PRs
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  sync:
+  create-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Set date variable
+        run: echo "PR_DATE=$(date +%F)" >> $GITHUB_ENV
 
-      - name: Merge main into develop
-        run: |
-          git fetch origin develop
-          git checkout develop
-          git merge origin/main --no-edit
-          git push origin develop
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Sync main → develop"
+          branch: sync/main-to-develop
+          base: develop
+          title: "Sync main → develop - ${{ env.PR_DATE }}"
+          body: "Automated PR to keep develop up-to-date with main"
+          draft: false
+          labels: automatic
+          auto-merge: true   # Si quieres que se merge automáticamente tras la aprobación
+          delete-branch: true # Elimina la rama de sincronización después del merge
