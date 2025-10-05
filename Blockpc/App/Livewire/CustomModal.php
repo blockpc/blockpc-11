@@ -17,21 +17,24 @@ final class CustomModal extends Component
 
     public $title = null; // título del modal
 
+    public $color = 'default'; // color borde del modal
+
     public $params = []; // parámetros que se le pasan a la vista
 
     protected $listeners = ['openModal', 'closeModal'];
 
-    public function openModal(?string $view = null, ?string $title = null, array $params = [])
+    public function openModal(?string $view = null, ?string $title = null, string $color = 'default', array $params = [])
     {
         $this->view = $view;
         $this->title = $title;
+        $this->color = $color;
         $this->params = $params;
         $this->show = true;
     }
 
     public function closeModal()
     {
-        $this->reset(['show', 'view', 'title', 'params']);
+        $this->reset(['show', 'view', 'title', 'color', 'params']);
     }
 
     public function render()

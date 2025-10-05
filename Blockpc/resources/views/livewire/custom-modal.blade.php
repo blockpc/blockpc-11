@@ -8,7 +8,7 @@
         x-transition:leave-end="opacity-0"
         x-cloak>
         <!-- Modal -->
-        <div class="modal-content scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700 min-h-[50vh] min-w-[50vw]"
+        <div class="modal-content scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700 min-h-[50vh] min-w-[50vw] border-2 border-{{ $color }}"
             x-transition:enter="transition ease duration-100 transform"
             x-transition:enter-start="opacity-0 scale-90 translate-y-1"
             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
@@ -17,7 +17,7 @@
             x-transition:leave-end="opacity-0 scale-90 translate-y-1">
 
             <div class="flex flex-col max-h-screen">
-                <div class="modal-header border-b-dark">
+                <div class="modal-header border-b-{{ $color }}">
                     <div class="font-bold block text-lg">
                         {{ $title ? __($title) : 'Modal' }}
                     </div>
