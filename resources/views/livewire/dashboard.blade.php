@@ -14,7 +14,8 @@
                 <div>
                     <button wire:click="$dispatch('openModal', {
                         view: 'create-example',
-                        title: 'Crear Ejemplo'
+                        title: 'Crear Ejemplo',
+                        color: 'success',
                     })" class="btn-sm btn-info">
                         Crear Ejemplo
                     </button>

@@ -38,3 +38,5 @@
     </label>
 </div>
 
+<div class="border-info border-b-info border-success border-b-success border-danger border-b-danger border-warning border-b-warning border-default border-b-default border-secondary border-b-secondary"></div>
+
