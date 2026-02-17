@@ -6,22 +6,21 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Tests\Traits\IsolateViewStorage;
 use Tests\Traits\ProtectTestEnvironment;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplicationTrait;
-    use IsolateViewStorage;
     use ProtectTestEnvironment;
     use RefreshDatabase;
 
     /**
      * Indicates whether the default seeder should run before each test.
+     * Se desactiva en tests paralelos porque ya se hace en ParallelTesting.php
      *
      * @var bool
      */
-    protected $seed = true;
+    protected $seed = false;
 
     protected function setUp(): void
     {
@@ -31,8 +30,14 @@ abstract class TestCase extends BaseTestCase
 
         $this->withoutVite();
 
-        // $this->isolateViewStorage();
-
-        $this->seed();
+        // Crear directorio de vistas compiladas si no existe (para tests normales)
+        if (!env('PEST_PARALLEL_WORKER_ID')) {
+            $viewPath = storage_path('framework/testing/views');
+            if (!is_dir($viewPath)) {
+                mkdir($viewPath, 0755, true);
+            }
+            config(['view.compiled' => $viewPath]);
+            $this->seed();
+        }
     }
 }

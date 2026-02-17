@@ -34,10 +34,13 @@
         <env name="DB_USERNAME" value="root"/>
         <env name="DB_PASSWORD" value=""/>
 
+        <!-- Configuración para tests paralelos -->
+        <env name="PARALLEL_TESTING" value="true"/>
+
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
-        <env name="VIEW_COMPILED_PATH" value="storage/framework/testing/views"/>
+        <!-- VIEW_COMPILED_PATH se configura dinámicamente en ParallelTesting.php -->
 
         <!-- Limpieza de vistas Blade compiladas por proceso -->
         <env name="PEST_PARALLEL_PROCESS_FINISHED" value="tests/CleanupBladeViews.php"/>

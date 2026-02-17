@@ -47,7 +47,11 @@ trait RefreshTestDatabase
             ->ignoreVCS(true)
             ->getIterator();
 
-        $files = array_keys(iterator_to_array($files));
+        // Opción 1: Usar array_values()
+        $files = array_values(iterator_to_array($files));
+
+        // Opción 2: O directamente convertir a array (recomendado)
+        // $files = iterator_to_array($files);
 
         $checksum = collect($files)->map(fn ($file) => md5_file($file))->implode('');
 
@@ -56,7 +60,9 @@ trait RefreshTestDatabase
 
     protected function checksumFilePath(): string
     {
-        return base_path('.phpunit.database.checkum');
+        // Archivo de checksum único por worker en tests paralelos
+        $workerId = getenv('PEST_PARALLEL_WORKER_ID') ?: 'main';
+        return base_path(".phpunit.database.checksum.{$workerId}");
     }
 
     protected function createChecksum(): void

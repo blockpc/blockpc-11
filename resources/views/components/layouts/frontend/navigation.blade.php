@@ -16,9 +16,9 @@
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Inicio') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+                    {{-- <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
                         {{ __('Contacto') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
                 </div>
             </div>
 
@@ -30,9 +30,9 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @else
-                        <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
+                        {{-- <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
                             {{ __('Log in') }}
-                        </x-nav-link>
+                        </x-nav-link> --}}
 
                         {{-- @if (Route::has('register'))
                             <x-nav-link :href="route('register')" :active="request()->routeIs('register')">
