@@ -8,40 +8,37 @@ use Illuminate\Support\Facades\File;
 
 use function Laravel\ParallelTesting\parallel;
 
-uses()
-    ->beforeEach(function () {
-        // Limpieza general antes de cada test individual si fuera necesario
-        Artisan::call('icons:cache');
-        Artisan::call('view:cache');
-    });
+// Configuración para tests paralelos
 
 parallel()
     ->setUp(function ($worker) {
-        // Crear una carpeta de vistas compiladas única por worker
-        $customViewPath = storage_path("framework/views/worker_{$worker->id}");
+        // Configurar variables de entorno para el worker
+        putenv("PEST_PARALLEL_WORKER_ID={$worker->id}");
+
+        // Crear carpeta de vistas compiladas única por worker
+        $customViewPath = storage_path("framework/testing/views/worker_{$worker->id}");
         if (! File::exists($customViewPath)) {
             File::makeDirectory($customViewPath, 0755, true);
         }
 
-        // Redefinir el path de vistas compiladas solo para este worker
+        // Configurar path de vistas compiladas para este worker
         config(['view.compiled' => $customViewPath]);
+        putenv("VIEW_COMPILED_PATH={$customViewPath}");
 
-        // Limpiar y recompilar vistas para evitar conflictos
-
-        Artisan::call('view:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-
+        // Configurar base de datos única por worker
         $databaseName = 'testing_test_'.$worker->id;
-
         config(['database.connections.mysql.database' => $databaseName]);
 
-        DB::purge('mysql'); // Limpia la conexión anterior
-        DB::reconnect('mysql'); // Reconecta con la nueva configuración
+        // Limpiar conexión y reconectar
+        DB::purge('mysql');
+        DB::reconnect('mysql');
+
+        // Limpiar cachés una vez por worker
+        \Illuminate\Support\Facades\Cache::flush();
     })
     ->tearDown(function ($worker) {
-        // Eliminar vistas compiladas del worker al final si querés dejar limpio
-        $customViewPath = storage_path("framework/views/worker_{$worker->id}");
+        // Eliminar vistas compiladas del worker al final
+        $customViewPath = storage_path("framework/testing/views/worker_{$worker->id}");
         if (File::exists($customViewPath)) {
             File::deleteDirectory($customViewPath);
         }

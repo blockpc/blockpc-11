@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Blockpc\App\Providers;
 
-use Blockpc\App\Services\BladeCompiler;
 use Illuminate\View\DynamicComponent;
 
 final class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
 {
+    // BladeCompiler personalizado removido - usando el de Laravel por defecto
+    // para evitar conflictos en tests paralelos
+
+    /*
     public function registerBladeCompiler()
     {
         $this->app->singleton('blade.compiler', function ($app) {
@@ -24,4 +27,5 @@ final class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
             });
         });
     }
+    */
 }

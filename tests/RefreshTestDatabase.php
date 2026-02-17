@@ -56,7 +56,9 @@ trait RefreshTestDatabase
 
     protected function checksumFilePath(): string
     {
-        return base_path('.phpunit.database.checkum');
+        // Archivo de checksum único por worker en tests paralelos
+        $workerId = getenv('PEST_PARALLEL_WORKER_ID') ?: 'main';
+        return base_path(".phpunit.database.checksum.{$workerId}");
     }
 
     protected function createChecksum(): void

@@ -10,8 +10,9 @@ trait IsolateViewStorage
 {
     protected function isolateViewStorage(): void
     {
-        $pid = getmypid();
-        $path = storage_path("framework/testing/views/{$pid}");
+        // Usar worker ID si está disponible, sino usar PID
+        $workerId = env('PEST_PARALLEL_WORKER_ID', getmypid());
+        $path = storage_path("framework/testing/views/{$workerId}");
 
         if (! is_dir($path)) {
             mkdir($path, 0755, true);
