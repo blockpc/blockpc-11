@@ -47,7 +47,11 @@ trait RefreshTestDatabase
             ->ignoreVCS(true)
             ->getIterator();
 
-        $files = array_keys(iterator_to_array($files));
+        // Opción 1: Usar array_values()
+        $files = array_values(iterator_to_array($files));
+
+        // Opción 2: O directamente convertir a array (recomendado)
+        // $files = iterator_to_array($files);
 
         $checksum = collect($files)->map(fn ($file) => md5_file($file))->implode('');
 
