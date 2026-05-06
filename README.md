@@ -3,9 +3,9 @@
 Este repositorio contiene plantillas para frontend y backend para una aplicación de Laravel.
 
 ## Contenido:
-- Laravel 11
+- Laravel 13
 - Tailwind CSS
-- Livewire
+- Livewire 3
 - Alpine.js
 - Pest (Testing)
 
@@ -179,6 +179,18 @@ El job emitirá un evento que envía la notificación vía Reverb.
 
 > **Por defecto:** `VITE_ENABLE_REVERB=false`. Los mensajes se envían igual (siempre que el worker esté activo), solo que el usuario deberá actualizar la página.
 
----
+## Permisos y Roles
+
+Se usa el paquete `spatie/laravel-permission` para manejar los permisos y roles del sistema.
+Existen 3 comandos y dos archivos asociados a permisos y roles que podrian ser de ayuda.
+
+- `blockpc:permissions-sync`: Sincroniza, valida y limpia los permisos definidos en el sistema
+    - Hace referencia a la clase `PermissionList`, que es una clase que lista permisos del sistema
+- `blockpc:roles-sync`: Sincroniza, valida y limpia los roles definidos en el sistema
+    - Hace referencia a la clase `RoleList`, que es una clase que lista roles del sistema
+- `blockpc:sync-all`: Sincroniza roles y permisos definidos en código
+    - hace las dos tareas y es muy util en produccion con su opcion `ci`
+
+----
 
 ¡Disfruta desarrollando! 🚀
