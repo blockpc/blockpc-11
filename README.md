@@ -3,7 +3,7 @@
 Este repositorio contiene plantillas para frontend y backend para una aplicación de Laravel.
 
 ## Contenido:
-- Laravel 12
+- Laravel 13
 - Tailwind CSS
 - Livewire 3
 - Alpine.js

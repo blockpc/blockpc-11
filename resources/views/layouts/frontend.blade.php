@@ -26,7 +26,11 @@
                 {{ $slot }}
             </main>
             <footer class="bg-slate text-center text-sm mt-auto p-4">
-                Blockpc | Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                @if ( !app()->isProduction() )
+                <div class="text-xs">Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</div>
+                @else
+                <div class="text-xs">Copyright &copy; {{ date('Y') }} Blockpc. All rights reserved.</div>
+                @endif
             </footer>
         </div>
         @livewireScripts
